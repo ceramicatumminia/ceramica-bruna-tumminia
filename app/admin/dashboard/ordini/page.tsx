@@ -11,6 +11,8 @@ type Ordine = {
   nome: string
   cognome: string
   email: string
+  codice_fiscale: string | null
+  piva: string | null
   telefono: string
   indirizzo_fattura: string
   citta_fattura: string

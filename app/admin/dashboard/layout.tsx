@@ -7,8 +7,10 @@ import styles from '../admin.module.css'
 
 const navItems = [
   { href: '/admin/dashboard/galleria', label: 'Galleria' },
+  { href: '/admin/dashboard/ordini', label: 'Ordini' },
   { href: '/admin/dashboard/categorie', label: 'Categorie' },
   { href: '/admin/dashboard/testi', label: 'Testi del sito' },
+  { href: '/admin/dashboard/impostazioni', label: 'Impostazioni' },
 ]
 
 export default function AdminDashboardLayout({ children }: { children: React.ReactNode }) {

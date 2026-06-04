@@ -1,0 +1,137 @@
+.empty {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 60px;
+  font-size: 16px;
+}
+
+.list { display: flex; flex-direction: column; gap: 12px; }
+
+.card {
+  background: white;
+  padding: 20px 24px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(90,45,15,0.06);
+  transition: box-shadow 0.2s;
+}
+.card:hover { box-shadow: 0 4px 16px rgba(90,45,15,0.12); }
+
+.cardHeader { display: flex; align-items: center; justify-content: space-between; }
+
+.cardTitle { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--terra-dark); margin-bottom: 4px; }
+.cardOpera { font-family: 'Lora', serif; font-size: 14px; color: var(--text-muted); margin-bottom: 4px; }
+.cardDate { font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.2em; color: var(--text-pale); }
+
+.stato {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 2px;
+}
+
+.overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(26,14,8,0.7);
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: var(--warm-white);
+  max-width: 720px; width: 92%;
+  max-height: 90vh; overflow-y: auto;
+  padding: 48px;
+  position: relative;
+}
+
+.closeBtn {
+  position: absolute; top: 16px; right: 16px;
+  background: none; border: none; cursor: pointer;
+  font-size: 18px; color: var(--text-muted);
+  transition: transform 0.3s;
+}
+.closeBtn:hover { transform: rotate(90deg); }
+
+.modalTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px; color: var(--terra-dark);
+  margin-bottom: 28px;
+}
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+.section { margin-bottom: 24px; }
+
+.sectionLabel {
+  font-family: 'Cinzel', serif;
+  font-size: 8px; letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-bottom: 8px;
+}
+
+.value {
+  font-family: 'Lora', serif;
+  font-size: 14px; line-height: 1.7;
+  color: var(--text-body);
+}
+
+.note {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: rgba(160,104,56,0.06);
+  border-left: 2px solid var(--bronze);
+}
+
+.statoRow { display: flex; align-items: center; gap: 16px; }
+
+.statoSelect {
+  font-family: 'Cinzel', serif;
+  font-size: 9px; letter-spacing: 0.2em;
+  border: 0.5px solid rgba(160,104,56,0.3);
+  padding: 6px 12px;
+  background: none;
+  color: var(--text-body);
+  cursor: pointer;
+}
+
+.btnSpedito {
+  width: 100%;
+  font-family: 'Cinzel', serif;
+  font-size: 9px; letter-spacing: 0.25em;
+  text-transform: uppercase;
+  background: #4a90d9;
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  cursor: pointer;
+  margin-top: 24px;
+  transition: background 0.3s;
+}
+.btnSpedito:hover { background: #3a7bc8; }
+
+.speditoInfo {
+  font-family: 'Cinzel', serif;
+  font-size: 8px; letter-spacing: 0.2em;
+  color: #4a90d9;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.toast {
+  position: fixed; bottom: 32px; right: 32px;
+  background: var(--ink); color: #e8ddd0;
+  font-family: 'Cinzel', serif;
+  font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 14px 24px; z-index: 9999;
+}

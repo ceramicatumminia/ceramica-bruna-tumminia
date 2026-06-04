@@ -152,3 +152,31 @@
 @media (max-width: 600px) {
   .grid { grid-template-columns: 1fr; }
 }
+
+.modalShop {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 0.5px solid rgba(160,104,56,0.2);
+}
+
+.modalPrice {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  color: var(--terra);
+  margin-bottom: 16px;
+}
+
+.btnAcquista {
+  width: 100%;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  background: var(--terra);
+  color: var(--cream);
+  border: none;
+  padding: 14px 24px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.btnAcquista:hover { background: var(--terra-dark); }

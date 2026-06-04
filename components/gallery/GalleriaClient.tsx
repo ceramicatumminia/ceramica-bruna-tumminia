@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { supabase, Opera, Categoria } from '@/lib/supabase'
 import styles from './galleria.module.css'
 
@@ -13,15 +14,20 @@ const categorieDefault = [
 ]
 
 export default function GalleriaClient() {
+  const router = useRouter()
   const [opere, setOpere] = useState<Opera[]>([])
   const [categorie, setCategorie] = useState<Categoria[]>(categorieDefault)
   const [cat, setCat] = useState('all')
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState<Opera | null>(null)
+  const [shopAttivo, setShopAttivo] = useState(false)
 
   useEffect(() => {
     supabase.from('categorie').select('*').order('ordine').then(({ data }) => {
       if (data && data.length) setCategorie(data)
+    })
+    supabase.from('impostazioni').select('valore').eq('chiave', 'shop_attivo').single().then(({ data }) => {
+      if (data) setShopAttivo(data.valore === 'true')
     })
     loadOpere('all')
   }, [])
@@ -38,6 +44,11 @@ export default function GalleriaClient() {
   const handleFilter = (slug: string) => {
     setCat(slug)
     loadOpere(slug)
+  }
+
+  const handleAcquista = (opera: Opera) => {
+    setSelected(null)
+    router.push(`/checkout?opera=${opera.id}`)
   }
 
   return (
@@ -91,6 +102,14 @@ export default function GalleriaClient() {
                 <span>Tecnica: {selected.tecnica}</span>
                 <span>Dimensioni: {selected.dimensioni}</span>
               </div>
+              {shopAttivo && (
+                <div className={styles.modalShop}>
+                  <div className={styles.modalPrice}>€ {selected.prezzo.toFixed(2)}</div>
+                  <button className={styles.btnAcquista} onClick={() => handleAcquista(selected)}>
+                    Acquista questa opera
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

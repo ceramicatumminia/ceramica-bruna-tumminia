@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Parisienne&display=swap');
+
+:root {
+  --cream: #f5f0e8;
+  --cream2: #ede8de;
+  --warm-white: #faf8f4;
+  --terra: #8a4a20;
+  --terra-light: #b5682e;
+  --terra-dark: #5c2d0e;
+  --bronze: #a06838;
+  --bronze-light: #c4935a;
+  --ink: #1a1410;
+  --ink-soft: #2e2219;
+  --text-body: #3a2e22;
+  --text-muted: #7a6a58;
+  --text-pale: #b0a090;
+  --shadow: rgba(90, 45, 15, 0.18);
+  --shadow-deep: rgba(26, 14, 8, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background: var(--cream);
+  color: var(--text-body);
+  font-family: 'Lora', serif;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--cream2); }
+::-webkit-scrollbar-thumb { background: var(--bronze); border-radius: 2px; }
+
+/* Typography */
+.font-display { font-family: 'Parisienne', cursive; }
+.font-heading { font-family: 'Cormorant Garamond', serif; }
+.font-label { font-family: 'Cinzel', serif; }
+.font-body { font-family: 'Lora', serif; }
+
+/* Section label */
+.section-label {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-bottom: 16px;
+}
+
+/* Loading */
+.loading-msg {
+  text-align: center;
+  padding: 60px;
+  font-family: 'Lora', serif;
+  font-style: italic;
+  color: var(--text-muted);
+}

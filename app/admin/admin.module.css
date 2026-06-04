@@ -1,0 +1,112 @@
+.dashboard {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+}
+
+.sidebar {
+  background: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.brand {
+  font-family: 'Parisienne', cursive;
+  font-size: 22px;
+  color: rgba(232, 221, 208, 0.9);
+  padding: 28px 24px 20px;
+  border-bottom: 0.5px solid rgba(160, 104, 56, 0.25);
+  line-height: 1.2;
+  display: flex;
+  flex-direction: column;
+}
+
+.brandSub {
+  font-family: 'Cinzel', serif;
+  font-size: 7px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-top: 4px;
+}
+
+.navBtn {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(232, 221, 208, 0.75);
+  background: none;
+  border: none;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  padding: 14px 24px;
+  text-align: left;
+  width: 100%;
+  transition: all 0.25s;
+  display: block;
+  text-decoration: none;
+}
+
+.navBtn:hover {
+  color: #e8ddd0;
+  background: rgba(160, 104, 56, 0.08);
+}
+
+.navBtn.active {
+  color: var(--bronze-light);
+  border-left-color: var(--bronze-light);
+  background: rgba(160, 104, 56, 0.1);
+}
+
+.logout {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(192, 80, 74, 0.65);
+  background: none;
+  border: none;
+  border-top: 0.5px solid rgba(160, 104, 56, 0.2);
+  cursor: pointer;
+  padding: 14px 24px;
+  text-align: left;
+  width: 100%;
+  transition: all 0.25s;
+  margin-top: auto;
+  display: block;
+}
+
+.logout:hover {
+  color: #c0504a;
+  background: rgba(192, 80, 74, 0.05);
+}
+
+.content {
+  padding: 40px 48px 60px;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+.sectionTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  color: var(--terra-dark);
+  margin-bottom: 32px;
+  padding-bottom: 14px;
+  border-bottom: 0.5px solid rgba(160, 104, 56, 0.2);
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: 'Lora', serif;
+  font-style: italic;
+  color: var(--text-muted);
+}

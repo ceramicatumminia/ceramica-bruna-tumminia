@@ -21,7 +21,7 @@ export default function AdminLoginPage() {
       setLoading(false)
       return
     }
-    router.push('/admin/galleria')
+    router.push('/admin/dashboard/galleria')
   }
 
   return (
@@ -30,25 +30,9 @@ export default function AdminLoginPage() {
       <div className={styles.label}>Pannello Amministrazione</div>
       <form className={styles.form} onSubmit={handleLogin}>
         <div className={styles.formTitle}>Accesso riservato</div>
-        <input
-          type="email"
-          className={styles.input}
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          className={styles.input}
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          placeholder="Password"
-          required
-        />
-        <button type="submit" className={styles.btn} disabled={loading}>
-          Accedi
-        </button>
+        <input type="email" className={styles.input} value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" required />
+        <input type="password" className={styles.input} value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" required />
+        <button type="submit" className={styles.btn} disabled={loading}>Accedi</button>
         {error && <div className={styles.error}>{error}</div>}
       </form>
     </div>

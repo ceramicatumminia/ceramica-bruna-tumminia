@@ -12,19 +12,27 @@ type Filters = {
   brightness: number
   contrast: number
   saturation: number
-  vignette: number
-  blur: number
 }
 
 const defaultFilters: Filters = {
   brightness: 100,
   contrast: 100,
   saturation: 100,
-  vignette: 0,
-  blur: 0,
 }
 
-type AspectRatio = 'free' | '1:1' | '4:3' | '3:2' | '16:9'
+type BlurSide = 'radiale' | 'sinistra' | 'destra' | 'alto' | 'basso'
+
+type BlurSettings = {
+  intensita: number
+  ampiezza: number
+  lato: BlurSide
+}
+
+const defaultBlur: BlurSettings = {
+  intensita: 0,
+  ampiezza: 30,
+  lato: 'radiale',
+}
 
 export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -32,113 +40,142 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
   const imgRef = useRef<HTMLImageElement | null>(null)
 
   const [filters, setFilters] = useState<Filters>(defaultFilters)
-  const [aspect, setAspect] = useState<AspectRatio>('free')
+  const [blur, setBlur] = useState<BlurSettings>(defaultBlur)
   const [tab, setTab] = useState<'crop' | 'filters'>('crop')
 
   // Crop state
   const [cropBox, setCropBox] = useState({ x: 0, y: 0, w: 0, h: 0 })
   const [dragging, setDragging] = useState(false)
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
-  const [dragMode, setDragMode] = useState<'move' | 'resize' | 'new'>('new')
+  const [dragMode, setDragMode] = useState<'move' | 'nw' | 'ne' | 'sw' | 'se' | 'new'>('new')
   const [imgSize, setImgSize] = useState({ w: 0, h: 0, scale: 1 })
 
-  // Load image
   useEffect(() => {
     const url = URL.createObjectURL(file)
     const img = new window.Image()
     img.onload = () => {
       imgRef.current = img
-      const maxW = 700
-      const maxH = 480
+      const maxW = 680
+      const maxH = 460
       const scale = Math.min(maxW / img.width, maxH / img.height, 1)
       const w = Math.round(img.width * scale)
       const h = Math.round(img.height * scale)
       setImgSize({ w, h, scale })
       setCropBox({ x: 0, y: 0, w, h })
-      drawPreview(img, { x: 0, y: 0, w, h }, scale, defaultFilters)
     }
     img.src = url
     return () => URL.revokeObjectURL(url)
   }, [file])
 
+  // Draw preview with filters and blur
   const drawPreview = useCallback((
     img: HTMLImageElement,
     crop: { x: number; y: number; w: number; h: number },
     scale: number,
-    f: Filters
+    f: Filters,
+    b: BlurSettings
   ) => {
     const canvas = previewRef.current
-    if (!canvas) return
+    if (!canvas || crop.w < 1 || crop.h < 1) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
     canvas.width = crop.w
     canvas.height = crop.h
 
-    // Apply CSS filters
+    // Draw base image with CSS filters
     ctx.filter = `brightness(${f.brightness}%) contrast(${f.contrast}%) saturate(${f.saturation}%)`
-
-    // Draw cropped portion
     ctx.drawImage(
       img,
       crop.x / scale, crop.y / scale, crop.w / scale, crop.h / scale,
       0, 0, crop.w, crop.h
     )
+    ctx.filter = 'none'
 
-    // Apply blur on edges
-    if (f.blur > 0) {
+    // Apply edge blur if needed
+    if (b.intensita > 0) {
+      const blurPx = b.intensita * 0.5
+
+      // Create blurred version
       const blurCanvas = document.createElement('canvas')
       blurCanvas.width = crop.w
       blurCanvas.height = crop.h
       const bCtx = blurCanvas.getContext('2d')!
-      bCtx.filter = `blur(${f.blur * 3}px)`
-      bCtx.drawImage(canvas, 0, 0)
+      bCtx.filter = `blur(${blurPx}px) brightness(${f.brightness}%) contrast(${f.contrast}%) saturate(${f.saturation}%)`
+      bCtx.drawImage(img, crop.x / scale, crop.y / scale, crop.w / scale, crop.h / scale, 0, 0, crop.w, crop.h)
+      bCtx.filter = 'none'
 
-      // Blend: original center + blurred edges via radial gradient mask
+      // Create mask based on side
       const maskCanvas = document.createElement('canvas')
       maskCanvas.width = crop.w
       maskCanvas.height = crop.h
       const mCtx = maskCanvas.getContext('2d')!
 
-      const grd = mCtx.createRadialGradient(
-        crop.w / 2, crop.h / 2, Math.min(crop.w, crop.h) * 0.25,
-        crop.w / 2, crop.h / 2, Math.max(crop.w, crop.h) * 0.7
-      )
-      grd.addColorStop(0, 'rgba(0,0,0,1)')
-      grd.addColorStop(1, 'rgba(0,0,0,0)')
-      mCtx.fillStyle = grd
+      const fadeSize = (b.ampiezza / 100) * Math.min(crop.w, crop.h)
+      let grad: CanvasGradient
+
+      if (b.lato === 'radiale') {
+        // Radial: center clear, edges blurred
+        const innerR = Math.min(crop.w, crop.h) * ((100 - b.ampiezza) / 100) * 0.5
+        const outerR = Math.max(crop.w, crop.h) * 0.75
+        grad = mCtx.createRadialGradient(crop.w/2, crop.h/2, innerR, crop.w/2, crop.h/2, outerR)
+        grad.addColorStop(0, 'rgba(0,0,0,0)')
+        grad.addColorStop(1, 'rgba(0,0,0,1)')
+      } else if (b.lato === 'sinistra') {
+        grad = mCtx.createLinearGradient(0, 0, fadeSize, 0)
+        grad.addColorStop(0, 'rgba(0,0,0,1)')
+        grad.addColorStop(1, 'rgba(0,0,0,0)')
+      } else if (b.lato === 'destra') {
+        grad = mCtx.createLinearGradient(crop.w - fadeSize, 0, crop.w, 0)
+        grad.addColorStop(0, 'rgba(0,0,0,0)')
+        grad.addColorStop(1, 'rgba(0,0,0,1)')
+      } else if (b.lato === 'alto') {
+        grad = mCtx.createLinearGradient(0, 0, 0, fadeSize)
+        grad.addColorStop(0, 'rgba(0,0,0,1)')
+        grad.addColorStop(1, 'rgba(0,0,0,0)')
+      } else { // basso
+        grad = mCtx.createLinearGradient(0, crop.h - fadeSize, 0, crop.h)
+        grad.addColorStop(0, 'rgba(0,0,0,0)')
+        grad.addColorStop(1, 'rgba(0,0,0,1)')
+      }
+
+      mCtx.fillStyle = grad
       mCtx.fillRect(0, 0, crop.w, crop.h)
 
-      // Draw blurred base
-      ctx.drawImage(blurCanvas, 0, 0)
-      // Composite original on top using mask
-      ctx.globalCompositeOperation = 'destination-over'
-      ctx.drawImage(canvas, 0, 0)
-      ctx.globalCompositeOperation = 'source-over'
-    }
+      // Composite: use mask to blend blurred on top of sharp
+      // Draw blurred as base
+      const compositeCanvas = document.createElement('canvas')
+      compositeCanvas.width = crop.w
+      compositeCanvas.height = crop.h
+      const cCtx = compositeCanvas.getContext('2d')!
+      cCtx.drawImage(canvas, 0, 0) // sharp base
+      
+      // Draw blurred where mask is white
+      cCtx.save()
+      cCtx.globalCompositeOperation = 'source-over'
+      // Use mask as alpha
+      const tempCanvas = document.createElement('canvas')
+      tempCanvas.width = crop.w
+      tempCanvas.height = crop.h
+      const tCtx = tempCanvas.getContext('2d')!
+      tCtx.drawImage(blurCanvas, 0, 0)
+      tCtx.globalCompositeOperation = 'destination-in'
+      tCtx.drawImage(maskCanvas, 0, 0)
+      cCtx.drawImage(tempCanvas, 0, 0)
+      cCtx.restore()
 
-    ctx.filter = 'none'
-
-    // Vignette
-    if (f.vignette > 0) {
-      const vgrd = ctx.createRadialGradient(
-        crop.w / 2, crop.h / 2, Math.min(crop.w, crop.h) * 0.3,
-        crop.w / 2, crop.h / 2, Math.max(crop.w, crop.h) * 0.8
-      )
-      vgrd.addColorStop(0, 'rgba(0,0,0,0)')
-      vgrd.addColorStop(1, `rgba(0,0,0,${f.vignette / 100})`)
-      ctx.fillStyle = vgrd
-      ctx.fillRect(0, 0, crop.w, crop.h)
+      ctx.clearRect(0, 0, crop.w, crop.h)
+      ctx.drawImage(compositeCanvas, 0, 0)
     }
   }, [])
 
   useEffect(() => {
     if (imgRef.current && imgSize.w > 0) {
-      drawPreview(imgRef.current, cropBox, imgSize.scale, filters)
+      drawPreview(imgRef.current, cropBox, imgSize.scale, filters, blur)
     }
-  }, [filters, cropBox, imgSize, drawPreview])
+  }, [filters, blur, cropBox, imgSize, drawPreview])
 
-  // Draw crop overlay on main canvas
+  // Draw crop overlay
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas || !imgRef.current || imgSize.w === 0) return
@@ -148,11 +185,10 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
     canvas.width = imgSize.w
     canvas.height = imgSize.h
 
-    // Draw image
     ctx.drawImage(imgRef.current, 0, 0, imgSize.w, imgSize.h)
 
     // Dim outside crop
-    ctx.fillStyle = 'rgba(0,0,0,0.5)'
+    ctx.fillStyle = 'rgba(0,0,0,0.55)'
     ctx.fillRect(0, 0, imgSize.w, imgSize.h)
 
     // Clear crop area
@@ -164,12 +200,12 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
     )
 
     // Crop border
-    ctx.strokeStyle = 'rgba(255,255,255,0.9)'
+    ctx.strokeStyle = 'rgba(255,255,255,0.85)'
     ctx.lineWidth = 1.5
-    ctx.strokeRect(cropBox.x, cropBox.y, cropBox.w, cropBox.h)
+    ctx.strokeRect(cropBox.x + 0.5, cropBox.y + 0.5, cropBox.w - 1, cropBox.h - 1)
 
-    // Rule of thirds
-    ctx.strokeStyle = 'rgba(255,255,255,0.3)'
+    // Rule of thirds lines
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)'
     ctx.lineWidth = 0.5
     for (let i = 1; i <= 2; i++) {
       ctx.beginPath()
@@ -182,41 +218,52 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
       ctx.stroke()
     }
 
-    // Handles
-    const handles = [
-      [cropBox.x, cropBox.y],
-      [cropBox.x + cropBox.w, cropBox.y],
-      [cropBox.x, cropBox.y + cropBox.h],
-      [cropBox.x + cropBox.w, cropBox.y + cropBox.h],
+    // Corner handles — L-shaped
+    const hs = 14 // handle size
+    const hw = 2.5 // line width
+    const corners = [
+      { x: cropBox.x, y: cropBox.y, dx: 1, dy: 1 },
+      { x: cropBox.x + cropBox.w, y: cropBox.y, dx: -1, dy: 1 },
+      { x: cropBox.x, y: cropBox.y + cropBox.h, dx: 1, dy: -1 },
+      { x: cropBox.x + cropBox.w, y: cropBox.y + cropBox.h, dx: -1, dy: -1 },
     ]
-    handles.forEach(([hx, hy]) => {
-      ctx.fillStyle = 'white'
+    ctx.strokeStyle = 'white'
+    ctx.lineWidth = hw
+    corners.forEach(({ x, y, dx, dy }) => {
       ctx.beginPath()
-      ctx.arc(hx, hy, 5, 0, Math.PI * 2)
-      ctx.fill()
+      ctx.moveTo(x + dx * hs, y)
+      ctx.lineTo(x, y)
+      ctx.lineTo(x, y + dy * hs)
+      ctx.stroke()
     })
   }, [cropBox, imgSize])
 
-  const getAspectCrop = (x: number, y: number, w: number, h: number): { w: number; h: number } => {
-    if (aspect === 'free') return { w, h }
-    const ratios: Record<string, number> = { '1:1': 1, '4:3': 4/3, '3:2': 3/2, '16:9': 16/9 }
-    const r = ratios[aspect]
-    if (w / h > r) return { w: Math.round(h * r), h }
-    return { w, h: Math.round(w / r) }
+  const HANDLE_SIZE = 16
+
+  const getHandle = (mx: number, my: number) => {
+    const { x, y, w, h } = cropBox
+    const near = (ax: number, ay: number) =>
+      Math.abs(mx - ax) < HANDLE_SIZE && Math.abs(my - ay) < HANDLE_SIZE
+    if (near(x, y)) return 'nw'
+    if (near(x + w, y)) return 'ne'
+    if (near(x, y + h)) return 'sw'
+    if (near(x + w, y + h)) return 'se'
+    return null
+  }
+
+  const inCrop = (mx: number, my: number) => {
+    const { x, y, w, h } = cropBox
+    return mx >= x && mx <= x + w && my >= y && my <= y + h
   }
 
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const rect = canvasRef.current!.getBoundingClientRect()
     const mx = e.clientX - rect.left
     const my = e.clientY - rect.top
-
-    const inCrop = mx >= cropBox.x && mx <= cropBox.x + cropBox.w &&
-                   my >= cropBox.y && my <= cropBox.y + cropBox.h
-    const nearEdge = (v: number, edge: number) => Math.abs(v - edge) < 12
-
-    if (nearEdge(mx, cropBox.x + cropBox.w) && nearEdge(my, cropBox.y + cropBox.h)) {
-      setDragMode('resize')
-    } else if (inCrop) {
+    const handle = getHandle(mx, my)
+    if (handle) {
+      setDragMode(handle as any)
+    } else if (inCrop(mx, my)) {
       setDragMode('move')
     } else {
       setDragMode('new')
@@ -226,44 +273,52 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
     setDragging(true)
   }
 
+  const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v))
+
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!dragging) return
     const rect = canvasRef.current!.getBoundingClientRect()
-    const mx = Math.max(0, Math.min(e.clientX - rect.left, imgSize.w))
-    const my = Math.max(0, Math.min(e.clientY - rect.top, imgSize.h))
+    const mx = clamp(e.clientX - rect.left, 0, imgSize.w)
+    const my = clamp(e.clientY - rect.top, 0, imgSize.h)
     const dx = mx - dragStart.x
     const dy = my - dragStart.y
 
     if (dragMode === 'new') {
-      const rawW = Math.abs(dx)
-      const rawH = Math.abs(dy)
-      const { w, h } = getAspectCrop(0, 0, rawW, rawH)
-      const x = dx >= 0 ? dragStart.x : dragStart.x - w
-      const y = dy >= 0 ? dragStart.y : dragStart.y - h
-      setCropBox({
-        x: Math.max(0, x),
-        y: Math.max(0, y),
-        w: Math.min(w, imgSize.w - Math.max(0, x)),
-        h: Math.min(h, imgSize.h - Math.max(0, y))
-      })
+      const x = dx >= 0 ? dragStart.x : mx
+      const y = dy >= 0 ? dragStart.y : my
+      setCropBox({ x: clamp(x,0,imgSize.w), y: clamp(y,0,imgSize.h), w: Math.abs(dx), h: Math.abs(dy) })
     } else if (dragMode === 'move') {
       setCropBox(prev => ({
         ...prev,
-        x: Math.max(0, Math.min(prev.x + dx, imgSize.w - prev.w)),
-        y: Math.max(0, Math.min(prev.y + dy, imgSize.h - prev.h)),
+        x: clamp(prev.x + dx, 0, imgSize.w - prev.w),
+        y: clamp(prev.y + dy, 0, imgSize.h - prev.h),
       }))
       setDragStart({ x: mx, y: my })
-    } else if (dragMode === 'resize') {
-      const newW = Math.max(20, cropBox.x + dx > 0 ? mx - cropBox.x : 20)
-      const newH = Math.max(20, my - cropBox.y)
-      const { w, h } = getAspectCrop(0, 0, newW, newH)
-      setCropBox(prev => ({
-        ...prev,
-        w: Math.min(w, imgSize.w - prev.x),
-        h: Math.min(h, imgSize.h - prev.y)
-      }))
+    } else {
+      setCropBox(prev => {
+        let { x, y, w, h } = prev
+        if (dragMode === 'se') { w = clamp(mx - x, 20, imgSize.w - x); h = clamp(my - y, 20, imgSize.h - y) }
+        if (dragMode === 'sw') { const nx = clamp(mx, 0, x + w - 20); w = x + w - nx; x = nx; h = clamp(my - y, 20, imgSize.h - y) }
+        if (dragMode === 'ne') { w = clamp(mx - x, 20, imgSize.w - x); const ny = clamp(my, 0, y + h - 20); h = y + h - ny; y = ny }
+        if (dragMode === 'nw') { const nx = clamp(mx, 0, x + w - 20); w = x + w - nx; x = nx; const ny = clamp(my, 0, y + h - 20); h = y + h - ny; y = ny }
+        return { x, y, w, h }
+      })
     }
   }
+
+  const getCursor = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (dragging) return dragMode === 'move' ? 'grabbing' : 'crosshair'
+    const rect = canvasRef.current!.getBoundingClientRect()
+    const mx = e.clientX - rect.left
+    const my = e.clientY - rect.top
+    const handle = getHandle(mx, my)
+    if (handle === 'nw' || handle === 'se') return 'nwse-resize'
+    if (handle === 'ne' || handle === 'sw') return 'nesw-resize'
+    if (inCrop(mx, my)) return 'grab'
+    return 'crosshair'
+  }
+
+  const [cursor, setCursor] = useState('crosshair')
 
   const handleMouseUp = () => setDragging(false)
 
@@ -280,11 +335,17 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
   }
 
   const filterConfig = [
-    { key: 'brightness', label: 'Luminosità', min: 50, max: 150, default: 100 },
-    { key: 'contrast', label: 'Contrasto', min: 50, max: 150, default: 100 },
-    { key: 'saturation', label: 'Saturazione', min: 0, max: 200, default: 100 },
-    { key: 'vignette', label: 'Vignette (bordi scuri)', min: 0, max: 80, default: 0 },
-    { key: 'blur', label: 'Sfocatura bordi', min: 0, max: 20, default: 0 },
+    { key: 'brightness', label: 'Luminosità', min: 50, max: 150 },
+    { key: 'contrast', label: 'Contrasto', min: 50, max: 150 },
+    { key: 'saturation', label: 'Saturazione', min: 0, max: 200 },
+  ]
+
+  const blurSides: { key: BlurSide; label: string }[] = [
+    { key: 'radiale', label: 'Radiale' },
+    { key: 'sinistra', label: 'Sinistra' },
+    { key: 'destra', label: 'Destra' },
+    { key: 'alto', label: 'Alto' },
+    { key: 'basso', label: 'Basso' },
   ]
 
   return (
@@ -299,26 +360,22 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
         </div>
 
         <div className={styles.body}>
-          {/* Left: canvas */}
           <div className={styles.canvasWrap}>
             {tab === 'crop' && (
               <>
-                <div className={styles.aspectBtns}>
-                  {(['free','1:1','4:3','3:2','16:9'] as AspectRatio[]).map(r => (
-                    <button key={r} className={`${styles.aspectBtn} ${aspect === r ? styles.activeAspect : ''}`} onClick={() => setAspect(r)}>{r}</button>
-                  ))}
-                  <button className={styles.resetBtn} onClick={resetCrop}>Reset</button>
-                </div>
                 <canvas
                   ref={canvasRef}
                   className={styles.mainCanvas}
                   onMouseDown={handleMouseDown}
-                  onMouseMove={handleMouseMove}
+                  onMouseMove={e => { handleMouseMove(e); setCursor(getCursor(e)) }}
                   onMouseUp={handleMouseUp}
                   onMouseLeave={handleMouseUp}
-                  style={{ cursor: dragging ? 'crosshair' : 'default' }}
+                  style={{ cursor }}
                 />
-                <p className={styles.hint}>Trascina per ritagliare · Trascina l&apos;angolo per ridimensionare</p>
+                <div className={styles.cropActions}>
+                  <button className={styles.resetBtn} onClick={resetCrop}>Reset crop</button>
+                  <span className={styles.hint}>Trascina gli angoli per ritagliare · Trascina al centro per spostare</span>
+                </div>
               </>
             )}
             {tab === 'filters' && (
@@ -330,27 +387,75 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
                       <span className={styles.filterVal}>{filters[fc.key as keyof Filters]}</span>
                     </div>
                     <input
-                      type="range"
-                      min={fc.min}
-                      max={fc.max}
+                      type="range" min={fc.min} max={fc.max}
                       value={filters[fc.key as keyof Filters]}
                       onChange={e => setFilters(f => ({ ...f, [fc.key]: parseInt(e.target.value) }))}
                       className={styles.slider}
                     />
                   </div>
                 ))}
-                <button className={styles.resetBtn} onClick={() => setFilters(defaultFilters)}>
-                  Ripristina effetti
+
+                <div className={styles.divider} />
+
+                <div className={styles.blurSection}>
+                  <div className={styles.blurTitle}>Sfocatura bordi</div>
+
+                  <div className={styles.filterRow}>
+                    <div className={styles.filterLabel}>
+                      <span>Intensità</span>
+                      <span className={styles.filterVal}>{blur.intensita}</span>
+                    </div>
+                    <input type="range" min={0} max={40} value={blur.intensita}
+                      onChange={e => setBlur(b => ({ ...b, intensita: parseInt(e.target.value) }))}
+                      className={styles.slider} />
+                  </div>
+
+                  {blur.intensita > 0 && (
+                    <>
+                      <div className={styles.filterRow}>
+                        <div className={styles.filterLabel}>
+                          <span>Ampiezza sfumatura</span>
+                          <span className={styles.filterVal}>{blur.ampiezza}%</span>
+                        </div>
+                        <input type="range" min={10} max={70} value={blur.ampiezza}
+                          onChange={e => setBlur(b => ({ ...b, ampiezza: parseInt(e.target.value) }))}
+                          className={styles.slider} />
+                      </div>
+
+                      <div className={styles.blurSides}>
+                        <div className={styles.blurSidesLabel}>Direzione</div>
+                        <div className={styles.blurSideBtns}>
+                          {blurSides.map(s => (
+                            <button
+                              key={s.key}
+                              className={`${styles.blurSideBtn} ${blur.lato === s.key ? styles.activeSide : ''}`}
+                              onClick={() => setBlur(b => ({ ...b, lato: s.key }))}
+                            >
+                              {s.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                <button className={styles.resetBtn} style={{marginTop: '20px'}} onClick={() => { setFilters(defaultFilters); setBlur(defaultBlur) }}>
+                  Ripristina tutto
                 </button>
               </div>
             )}
           </div>
 
-          {/* Right: preview */}
           <div className={styles.previewWrap}>
             <div className={styles.previewLabel}>Anteprima</div>
             <div className={styles.previewBox}>
               <canvas ref={previewRef} className={styles.previewCanvas} />
+            </div>
+            <div className={styles.previewHint}>
+              {cropBox.w > 0 && cropBox.h > 0 && (
+                <span>{Math.round(cropBox.w / imgSize.scale)} × {Math.round(cropBox.h / imgSize.scale)} px</span>
+              )}
             </div>
           </div>
         </div>

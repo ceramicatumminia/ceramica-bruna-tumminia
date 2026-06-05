@@ -405,7 +405,7 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
                       <span>Intensità</span>
                       <span className={styles.filterVal}>{blur.intensita}</span>
                     </div>
-                    <input type="range" min={0} max={40} value={blur.intensita}
+                    <input type="range" min={0} max={100} value={blur.intensita}
                       onChange={e => setBlur(b => ({ ...b, intensita: parseInt(e.target.value) }))}
                       className={styles.slider} />
                   </div>

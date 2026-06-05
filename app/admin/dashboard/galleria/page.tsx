@@ -1,17 +1,11 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { supabase, Opera } from '@/lib/supabase'
+import ImageEditor from '@/components/admin/ImageEditor'
 import styles from '../../admin.module.css'
 import gStyles from './galleria.module.css'
 
-const categorieDefault = [
-  { slug: 'piatti', nome: 'Piatti' },
-  { slug: 'sculture', nome: 'Sculture' },
-  { slug: 'lampade', nome: 'Lampade' },
-  { slug: 'vasi', nome: 'Vasi' },
-  { slug: 'animaletti', nome: 'Altre opere' },
-  { slug: 'collezioni', nome: 'Collezioni' },
-]
+type Categoria = { id: string; nome: string; slug: string; ordine: number }
 
 const emptyForm = {
   titolo: '', categoria: 'piatti', descrizione: '',
@@ -21,7 +15,7 @@ const emptyForm = {
 
 export default function AdminGalleriaPage() {
   const [opere, setOpere] = useState<Opera[]>([])
-  const [categorie, setCategorie] = useState(categorieDefault)
+  const [categorie, setCategorie] = useState<Categoria[]>([])
   const [loading, setLoading] = useState(true)
   const [editing, setEditing] = useState<string | null>(null)
   const [showForm, setShowForm] = useState(false)
@@ -29,15 +23,13 @@ export default function AdminGalleriaPage() {
   const [uploading, setUploading] = useState(false)
   const [toast, setToast] = useState('')
 
-  const showToast = (msg: string) => {
-    setToast(msg)
-    setTimeout(() => setToast(''), 3000)
-  }
+  // Image editor
+  const [editorFile, setEditorFile] = useState<File | null>(null)
+  const [editorPreview, setEditorPreview] = useState<string>('')
 
-  useEffect(() => {
-    loadOpere()
-    loadCategorie()
-  }, [])
+  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 3000) }
+
+  useEffect(() => { loadOpere(); loadCategorie() }, [])
 
   const loadOpere = async () => {
     const { data } = await supabase.from('opere').select('*').order('ordine')
@@ -48,32 +40,55 @@ export default function AdminGalleriaPage() {
   const loadCategorie = async () => {
     const { data } = await supabase.from('categorie').select('*').order('ordine')
     if (data && data.length > 0) setCategorie(data)
+    else setCategorie([
+      { id:'1', slug: 'piatti', nome: 'Piatti', ordine: 1 },
+      { id:'2', slug: 'sculture', nome: 'Sculture', ordine: 2 },
+      { id:'3', slug: 'lampade', nome: 'Lampade', ordine: 3 },
+      { id:'4', slug: 'vasi', nome: 'Vasi', ordine: 4 },
+      { id:'5', slug: 'animaletti', nome: 'Altre opere', ordine: 5 },
+      { id:'6', slug: 'collezioni', nome: 'Collezioni', ordine: 6 },
+    ])
+  }
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setEditorFile(file)
+  }
+
+  const handleEditorConfirm = async (blob: Blob) => {
+    setEditorFile(null)
+    setUploading(true)
+    const ext = 'jpg'
+    const filename = `${(form.titolo || 'opera').toLowerCase().replace(/[^a-z0-9]/g,'_')}_${Date.now()}.${ext}`
+    const file = new File([blob], filename, { type: 'image/jpeg' })
+    const { error } = await supabase.storage.from('opere-immagini').upload(filename, file, { upsert: true })
+    if (error) { showToast('Errore upload: ' + error.message); setUploading(false); return }
+    const { data } = supabase.storage.from('opere-immagini').getPublicUrl(filename)
+    const url = data.publicUrl
+    setForm(f => ({ ...f, immagine_url: url }))
+    setEditorPreview(url)
+    setUploading(false)
+    showToast('Foto caricata!')
   }
 
   const handleEdit = (o: Opera) => {
     setEditing(o.id)
-    setForm({ titolo: o.titolo, categoria: o.categoria, descrizione: o.descrizione,
-      tecnica: o.tecnica, dimensioni: o.dimensioni, prezzo: o.prezzo,
-      visibile: o.visibile, immagine_url: o.immagine_url || '' })
+    setForm({
+      titolo: o.titolo, categoria: o.categoria,
+      descrizione: o.descrizione, tecnica: o.tecnica,
+      dimensioni: o.dimensioni, prezzo: o.prezzo,
+      visibile: o.visibile, immagine_url: o.immagine_url || ''
+    })
+    setEditorPreview(o.immagine_url || '')
     setShowForm(true)
   }
 
   const handleNew = () => {
     setEditing(null)
     setForm(emptyForm)
+    setEditorPreview('')
     setShowForm(true)
-  }
-
-  const handleUpload = async (file: File) => {
-    setUploading(true)
-    const ext = file.name.split('.').pop()
-    const filename = `${form.titolo.toLowerCase().replace(/[^a-z0-9]/g,'_')}_${Date.now()}.${ext}`
-    const { error } = await supabase.storage.from('opere-immagini').upload(filename, file, { upsert: true })
-    if (error) { showToast('Errore upload: ' + error.message); setUploading(false); return }
-    const { data } = supabase.storage.from('opere-immagini').getPublicUrl(filename)
-    setForm(f => ({ ...f, immagine_url: data.publicUrl }))
-    setUploading(false)
-    showToast('Foto caricata!')
   }
 
   const handleSave = async () => {
@@ -86,6 +101,7 @@ export default function AdminGalleriaPage() {
     showToast(editing ? 'Opera aggiornata!' : 'Opera aggiunta!')
     setShowForm(false)
     setEditing(null)
+    setEditorPreview('')
     loadOpere()
   }
 
@@ -104,6 +120,15 @@ export default function AdminGalleriaPage() {
 
   return (
     <div>
+      {/* Image Editor Modal */}
+      {editorFile && (
+        <ImageEditor
+          file={editorFile}
+          onConfirm={handleEditorConfirm}
+          onCancel={() => setEditorFile(null)}
+        />
+      )}
+
       <div className={gStyles.header}>
         <h1 className={styles.sectionTitle} style={{marginBottom:0,borderBottom:'none'}}>Gestione Galleria</h1>
         <button className={gStyles.btnNew} onClick={handleNew}>+ Nuova opera</button>
@@ -151,19 +176,43 @@ export default function AdminGalleriaPage() {
               </select>
             </div>
           </div>
+
+          {/* Image upload with editor */}
           <div className={gStyles.field}>
-            <label>Carica foto</label>
-            <input type="file" accept="image/*" onChange={e => e.target.files?.[0] && handleUpload(e.target.files[0])} />
-            {uploading && <span className={gStyles.uploading}>Caricamento...</span>}
-            {form.immagine_url && <img src={form.immagine_url} alt="" className={gStyles.preview} />}
+            <label>Foto opera</label>
+            <div className={gStyles.imgUploadArea}>
+              {editorPreview ? (
+                <div className={gStyles.imgPreviewWrap}>
+                  <img src={editorPreview} alt="" className={gStyles.imgPreview} />
+                  <div className={gStyles.imgActions}>
+                    <label className={gStyles.btnChangeImg}>
+                      Cambia foto
+                      <input type="file" accept="image/*" onChange={handleFileSelect} style={{display:'none'}} />
+                    </label>
+                    <button className={gStyles.btnRemoveImg} onClick={() => { setEditorPreview(''); setForm(f=>({...f,immagine_url:''})) }}>
+                      Rimuovi
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <label className={gStyles.uploadPlaceholder}>
+                  <div className={gStyles.uploadIcon}>+</div>
+                  <div className={gStyles.uploadText}>Clicca per caricare una foto</div>
+                  <div className={gStyles.uploadHint}>JPG, PNG, WEBP · Si aprirà l&apos;editor</div>
+                  <input type="file" accept="image/*" onChange={handleFileSelect} style={{display:'none'}} />
+                </label>
+              )}
+              {uploading && <div className={gStyles.uploading}>Caricamento in corso...</div>}
+            </div>
           </div>
-          <div className={gStyles.field}>
-            <label>Oppure URL immagine</label>
-            <input value={form.immagine_url} onChange={e => setForm(f=>({...f,immagine_url:e.target.value}))} placeholder="https://..." />
-          </div>
+
           <div className={gStyles.formActions}>
-            <button className={gStyles.btnSave} onClick={handleSave}>{editing ? 'Salva modifiche' : 'Aggiungi opera'}</button>
-            <button className={gStyles.btnCancel} onClick={() => { setShowForm(false); setEditing(null) }}>Annulla</button>
+            <button className={gStyles.btnSave} onClick={handleSave}>
+              {editing ? 'Salva modifiche' : 'Aggiungi opera'}
+            </button>
+            <button className={gStyles.btnCancel} onClick={() => { setShowForm(false); setEditing(null); setEditorPreview('') }}>
+              Annulla
+            </button>
           </div>
         </div>
       )}

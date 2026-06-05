@@ -43,12 +43,12 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
   const [blur, setBlur] = useState<BlurSettings>(defaultBlur)
   const [tab, setTab] = useState<'crop' | 'filters'>('crop')
 
-  // Crop state
   const [cropBox, setCropBox] = useState({ x: 0, y: 0, w: 0, h: 0 })
   const [dragging, setDragging] = useState(false)
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const [dragMode, setDragMode] = useState<'move' | 'nw' | 'ne' | 'sw' | 'se' | 'new'>('new')
   const [imgSize, setImgSize] = useState({ w: 0, h: 0, scale: 1 })
+  const [cursor, setCursor] = useState('crosshair')
 
   useEffect(() => {
     const url = URL.createObjectURL(file)
@@ -67,7 +67,6 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
     return () => URL.revokeObjectURL(url)
   }, [file])
 
-  // Draw preview with filters and blur
   const drawPreview = useCallback((
     img: HTMLImageElement,
     crop: { x: number; y: number; w: number; h: number },
@@ -83,89 +82,111 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
     canvas.width = crop.w
     canvas.height = crop.h
 
-    // Draw base image with CSS filters
+    // Draw base image with filters
     ctx.filter = `brightness(${f.brightness}%) contrast(${f.contrast}%) saturate(${f.saturation}%)`
-    ctx.drawImage(
-      img,
-      crop.x / scale, crop.y / scale, crop.w / scale, crop.h / scale,
-      0, 0, crop.w, crop.h
-    )
+    ctx.drawImage(img, crop.x / scale, crop.y / scale, crop.w / scale, crop.h / scale, 0, 0, crop.w, crop.h)
     ctx.filter = 'none'
 
-    // Apply edge blur if needed
+    // Apply fade-to-transparent effect
     if (b.intensita > 0) {
-      const blurPx = b.intensita * 0.5
+      // How much of the edge fades to transparent (0-1)
+      const fadeStrength = b.intensita / 100
+      const fadeSize = (b.ampiezza / 100) * Math.min(crop.w, crop.h)
 
-      // Create blurred version
-      const blurCanvas = document.createElement('canvas')
-      blurCanvas.width = crop.w
-      blurCanvas.height = crop.h
-      const bCtx = blurCanvas.getContext('2d')!
-      bCtx.filter = `blur(${blurPx}px) brightness(${f.brightness}%) contrast(${f.contrast}%) saturate(${f.saturation}%)`
-      bCtx.drawImage(img, crop.x / scale, crop.y / scale, crop.w / scale, crop.h / scale, 0, 0, crop.w, crop.h)
-      bCtx.filter = 'none'
-
-      // Create mask based on side
+      // Create gradient mask — white = keep, black = transparent
       const maskCanvas = document.createElement('canvas')
       maskCanvas.width = crop.w
       maskCanvas.height = crop.h
       const mCtx = maskCanvas.getContext('2d')!
 
-      const fadeSize = (b.ampiezza / 100) * Math.min(crop.w, crop.h)
+      // Fill white first
+      mCtx.fillStyle = 'white'
+      mCtx.fillRect(0, 0, crop.w, crop.h)
+
       let grad: CanvasGradient
 
       if (b.lato === 'radiale') {
-        // Radial: center clear, edges blurred
-        const innerR = Math.min(crop.w, crop.h) * ((100 - b.ampiezza) / 100) * 0.5
-        const outerR = Math.max(crop.w, crop.h) * 0.75
+        const innerR = Math.min(crop.w, crop.h) * ((100 - b.ampiezza) / 100) * 0.45
+        const outerR = Math.max(crop.w, crop.h) * 0.72
         grad = mCtx.createRadialGradient(crop.w/2, crop.h/2, innerR, crop.w/2, crop.h/2, outerR)
-        grad.addColorStop(0, 'rgba(0,0,0,0)')
-        grad.addColorStop(1, 'rgba(0,0,0,1)')
+        grad.addColorStop(0, `rgba(0,0,0,0)`)
+        grad.addColorStop(1, `rgba(0,0,0,${fadeStrength})`)
       } else if (b.lato === 'sinistra') {
         grad = mCtx.createLinearGradient(0, 0, fadeSize, 0)
-        grad.addColorStop(0, 'rgba(0,0,0,1)')
+        grad.addColorStop(0, `rgba(0,0,0,${fadeStrength})`)
         grad.addColorStop(1, 'rgba(0,0,0,0)')
       } else if (b.lato === 'destra') {
         grad = mCtx.createLinearGradient(crop.w - fadeSize, 0, crop.w, 0)
         grad.addColorStop(0, 'rgba(0,0,0,0)')
-        grad.addColorStop(1, 'rgba(0,0,0,1)')
+        grad.addColorStop(1, `rgba(0,0,0,${fadeStrength})`)
       } else if (b.lato === 'alto') {
         grad = mCtx.createLinearGradient(0, 0, 0, fadeSize)
-        grad.addColorStop(0, 'rgba(0,0,0,1)')
+        grad.addColorStop(0, `rgba(0,0,0,${fadeStrength})`)
         grad.addColorStop(1, 'rgba(0,0,0,0)')
       } else { // basso
         grad = mCtx.createLinearGradient(0, crop.h - fadeSize, 0, crop.h)
         grad.addColorStop(0, 'rgba(0,0,0,0)')
-        grad.addColorStop(1, 'rgba(0,0,0,1)')
+        grad.addColorStop(1, `rgba(0,0,0,${fadeStrength})`)
       }
 
+      // Draw the gradient as a "subtract alpha" layer
+      mCtx.globalCompositeOperation = 'source-over'
       mCtx.fillStyle = grad
       mCtx.fillRect(0, 0, crop.w, crop.h)
 
-      // Composite: use mask to blend blurred on top of sharp
-      // Draw blurred as base
-      const compositeCanvas = document.createElement('canvas')
-      compositeCanvas.width = crop.w
-      compositeCanvas.height = crop.h
-      const cCtx = compositeCanvas.getContext('2d')!
-      cCtx.drawImage(canvas, 0, 0) // sharp base
-      
-      // Draw blurred where mask is white
-      cCtx.save()
-      cCtx.globalCompositeOperation = 'source-over'
-      // Use mask as alpha
-      const tempCanvas = document.createElement('canvas')
-      tempCanvas.width = crop.w
-      tempCanvas.height = crop.h
-      const tCtx = tempCanvas.getContext('2d')!
-      tCtx.drawImage(blurCanvas, 0, 0)
-      tCtx.globalCompositeOperation = 'destination-in'
-      tCtx.drawImage(maskCanvas, 0, 0)
-      cCtx.drawImage(tempCanvas, 0, 0)
-      cCtx.restore()
+      // Apply mask to canvas: use destination-in with the inverted mask
+      // First apply optional blur for softness
+      if (b.intensita > 30) {
+        const blurPx = (b.intensita / 100) * 8
+        ctx.filter = `blur(${blurPx}px)`
+        const tempC = document.createElement('canvas')
+        tempC.width = crop.w; tempC.height = crop.h
+        const tCtx = tempC.getContext('2d')!
+        tCtx.drawImage(canvas, 0, 0)
+        ctx.filter = 'none'
+        ctx.clearRect(0, 0, crop.w, crop.h)
+        ctx.filter = `blur(${blurPx}px)`
+        ctx.drawImage(tempC, 0, 0)
+        ctx.filter = 'none'
+      }
 
-      ctx.clearRect(0, 0, crop.w, crop.h)
-      ctx.drawImage(compositeCanvas, 0, 0)
+      // Apply alpha fade using destination-out
+      const alphaCanvas = document.createElement('canvas')
+      alphaCanvas.width = crop.w
+      alphaCanvas.height = crop.h
+      const aCtx = alphaCanvas.getContext('2d')!
+
+      let alphaGrad: CanvasGradient
+      if (b.lato === 'radiale') {
+        const innerR = Math.min(crop.w, crop.h) * ((100 - b.ampiezza) / 100) * 0.45
+        const outerR = Math.max(crop.w, crop.h) * 0.72
+        alphaGrad = aCtx.createRadialGradient(crop.w/2, crop.h/2, innerR, crop.w/2, crop.h/2, outerR)
+        alphaGrad.addColorStop(0, 'rgba(0,0,0,0)')
+        alphaGrad.addColorStop(1, `rgba(0,0,0,${fadeStrength})`)
+      } else if (b.lato === 'sinistra') {
+        alphaGrad = aCtx.createLinearGradient(0, 0, fadeSize, 0)
+        alphaGrad.addColorStop(0, `rgba(0,0,0,${fadeStrength})`)
+        alphaGrad.addColorStop(1, 'rgba(0,0,0,0)')
+      } else if (b.lato === 'destra') {
+        alphaGrad = aCtx.createLinearGradient(crop.w - fadeSize, 0, crop.w, 0)
+        alphaGrad.addColorStop(0, 'rgba(0,0,0,0)')
+        alphaGrad.addColorStop(1, `rgba(0,0,0,${fadeStrength})`)
+      } else if (b.lato === 'alto') {
+        alphaGrad = aCtx.createLinearGradient(0, 0, 0, fadeSize)
+        alphaGrad.addColorStop(0, `rgba(0,0,0,${fadeStrength})`)
+        alphaGrad.addColorStop(1, 'rgba(0,0,0,0)')
+      } else {
+        alphaGrad = aCtx.createLinearGradient(0, crop.h - fadeSize, 0, crop.h)
+        alphaGrad.addColorStop(0, 'rgba(0,0,0,0)')
+        alphaGrad.addColorStop(1, `rgba(0,0,0,${fadeStrength})`)
+      }
+
+      aCtx.fillStyle = alphaGrad
+      aCtx.fillRect(0, 0, crop.w, crop.h)
+
+      ctx.globalCompositeOperation = 'destination-out'
+      ctx.drawImage(alphaCanvas, 0, 0)
+      ctx.globalCompositeOperation = 'source-over'
     }
   }, [])
 
@@ -191,7 +212,7 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
     ctx.fillStyle = 'rgba(0,0,0,0.55)'
     ctx.fillRect(0, 0, imgSize.w, imgSize.h)
 
-    // Clear crop area
+    // Clear crop area and redraw
     ctx.clearRect(cropBox.x, cropBox.y, cropBox.w, cropBox.h)
     ctx.drawImage(imgRef.current,
       cropBox.x / imgSize.scale, cropBox.y / imgSize.scale,
@@ -199,13 +220,13 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
       cropBox.x, cropBox.y, cropBox.w, cropBox.h
     )
 
-    // Crop border
-    ctx.strokeStyle = 'rgba(255,255,255,0.85)'
-    ctx.lineWidth = 1.5
+    // Crop border — white thin
+    ctx.strokeStyle = 'rgba(255,255,255,0.6)'
+    ctx.lineWidth = 1
     ctx.strokeRect(cropBox.x + 0.5, cropBox.y + 0.5, cropBox.w - 1, cropBox.h - 1)
 
-    // Rule of thirds lines
-    ctx.strokeStyle = 'rgba(255,255,255,0.25)'
+    // Rule of thirds
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)'
     ctx.lineWidth = 0.5
     for (let i = 1; i <= 2; i++) {
       ctx.beginPath()
@@ -218,16 +239,16 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
       ctx.stroke()
     }
 
-    // Corner handles — L-shaped
-    const hs = 14 // handle size
-    const hw = 2.5 // line width
+    // Corner handles — L-shaped BRONZE/ORANGE color
+    const hs = 16
+    const hw = 3
     const corners = [
       { x: cropBox.x, y: cropBox.y, dx: 1, dy: 1 },
       { x: cropBox.x + cropBox.w, y: cropBox.y, dx: -1, dy: 1 },
       { x: cropBox.x, y: cropBox.y + cropBox.h, dx: 1, dy: -1 },
       { x: cropBox.x + cropBox.w, y: cropBox.y + cropBox.h, dx: -1, dy: -1 },
     ]
-    ctx.strokeStyle = 'white'
+    ctx.strokeStyle = '#e8945a'  // bronze/orange — visible on any background
     ctx.lineWidth = hw
     corners.forEach(({ x, y, dx, dy }) => {
       ctx.beginPath()
@@ -318,8 +339,6 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
     return 'crosshair'
   }
 
-  const [cursor, setCursor] = useState('crosshair')
-
   const handleMouseUp = () => setDragging(false)
 
   const resetCrop = () => {
@@ -331,7 +350,7 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
     if (!canvas) return
     canvas.toBlob(blob => {
       if (blob) onConfirm(blob)
-    }, 'image/jpeg', 0.92)
+    }, 'image/png', 1.0)  // PNG to preserve transparency
   }
 
   const filterConfig = [
@@ -374,7 +393,7 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
                 />
                 <div className={styles.cropActions}>
                   <button className={styles.resetBtn} onClick={resetCrop}>Reset crop</button>
-                  <span className={styles.hint}>Trascina gli angoli per ritagliare · Trascina al centro per spostare</span>
+                  <span className={styles.hint}>Trascina gli angoli arancioni per ritagliare · Al centro per spostare</span>
                 </div>
               </>
             )}
@@ -398,12 +417,12 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
                 <div className={styles.divider} />
 
                 <div className={styles.blurSection}>
-                  <div className={styles.blurTitle}>Sfocatura bordi</div>
+                  <div className={styles.blurTitle}>Sfumatura bordi (trasparenza)</div>
 
                   <div className={styles.filterRow}>
                     <div className={styles.filterLabel}>
                       <span>Intensità</span>
-                      <span className={styles.filterVal}>{blur.intensita}</span>
+                      <span className={styles.filterVal}>{blur.intensita}%</span>
                     </div>
                     <input type="range" min={0} max={100} value={blur.intensita}
                       onChange={e => setBlur(b => ({ ...b, intensita: parseInt(e.target.value) }))}
@@ -417,7 +436,7 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
                           <span>Ampiezza sfumatura</span>
                           <span className={styles.filterVal}>{blur.ampiezza}%</span>
                         </div>
-                        <input type="range" min={10} max={70} value={blur.ampiezza}
+                        <input type="range" min={10} max={80} value={blur.ampiezza}
                           onChange={e => setBlur(b => ({ ...b, ampiezza: parseInt(e.target.value) }))}
                           className={styles.slider} />
                       </div>

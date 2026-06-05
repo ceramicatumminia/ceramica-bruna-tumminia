@@ -304,3 +304,23 @@
   color: var(--bronze);
   padding: 8px 0;
 }
+
+/* 2-column form layout */
+.formLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.formLeft { display: flex; flex-direction: column; }
+.formRight { display: flex; flex-direction: column; }
+
+.imgPreviewFull {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: contain;
+  background: var(--cream2);
+  display: block;
+}

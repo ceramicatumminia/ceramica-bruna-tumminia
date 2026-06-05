@@ -1,284 +1,180 @@
 .overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
+  position: fixed; inset: 0; z-index: 1000;
   background: rgba(26,14,8,0.88);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(6px);
-  padding: 20px;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(6px); padding: 20px;
 }
 
 .editor {
   background: var(--warm-white);
-  width: 100%;
-  max-width: 1100px;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  width: 100%; max-width: 1100px; max-height: 90vh;
+  display: flex; flex-direction: column; overflow: hidden;
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 24px;
   border-bottom: 0.5px solid rgba(160,104,56,0.2);
-  background: white;
-  flex-shrink: 0;
+  background: white; flex-shrink: 0;
 }
 
 .title {
-  font-family: 'Cinzel', serif;
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--terra-dark);
+  font-family: 'Cinzel', serif; font-size: 11px;
+  letter-spacing: 0.3em; text-transform: uppercase; color: var(--terra-dark);
 }
 
 .tabs { display: flex; gap: 4px; }
 
 .tab {
-  font-family: 'Cinzel', serif;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  background: none;
-  border: 0.5px solid rgba(160,104,56,0.25);
-  color: var(--text-muted);
-  padding: 7px 18px;
-  cursor: pointer;
-  transition: all 0.25s;
+  font-family: 'Cinzel', serif; font-size: 9px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  background: none; border: 0.5px solid rgba(160,104,56,0.25);
+  color: var(--text-muted); padding: 6px 16px; cursor: pointer; transition: all 0.25s;
 }
 .tab:hover { color: var(--terra); border-color: var(--terra); }
 .activeTab { background: var(--terra) !important; color: var(--cream) !important; border-color: var(--terra) !important; }
 
 .body {
-  display: grid;
-  grid-template-columns: 1fr 280px;
-  overflow: hidden;
-  flex: 1;
+  display: grid; grid-template-columns: 1fr 260px;
+  overflow: hidden; flex: 1;
 }
 
 .canvasWrap {
-  padding: 20px;
-  overflow: auto;
-  background: #1a1410;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
+  padding: 20px; overflow: auto; background: #1a1410;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
 }
 
 .mainCanvas {
-  max-width: 100%;
-  display: block;
-  user-select: none;
+  max-width: 100%; display: block; user-select: none;
 }
 
 .cropActions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: center;
 }
 
 .hint {
-  font-family: 'Lora', serif;
-  font-style: italic;
-  font-size: 11px;
-  color: rgba(255,255,255,0.35);
-  text-align: center;
+  font-family: 'Lora', serif; font-style: italic; font-size: 11px;
+  color: rgba(255,255,255,0.35); text-align: center;
 }
 
 .resetBtn {
-  font-family: 'Cinzel', serif;
-  font-size: 8px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  background: none;
-  border: 0.5px solid rgba(192,80,74,0.5);
-  color: rgba(192,80,74,0.8);
-  padding: 6px 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
+  font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.2em;
+  text-transform: uppercase; background: none;
+  border: 0.5px solid rgba(192,80,74,0.5); color: rgba(192,80,74,0.8);
+  padding: 6px 14px; cursor: pointer; transition: all 0.2s; white-space: nowrap;
 }
 .resetBtn:hover { background: rgba(192,80,74,0.1); }
 
-/* Filters */
-.filterControls {
-  padding: 16px 8px;
-  width: 100%;
-  max-width: 600px;
-  overflow-y: auto;
-  max-height: 100%;
+/* Right panel */
+.previewWrap {
+  padding: 16px; background: var(--cream2);
+  border-left: 0.5px solid rgba(160,104,56,0.15);
+  display: flex; flex-direction: column; gap: 10px; overflow-y: auto;
 }
 
-.filterRow { margin-bottom: 20px; }
+.previewLabel {
+  font-family: 'Cinzel', serif; font-size: 8px;
+  letter-spacing: 0.3em; text-transform: uppercase; color: var(--bronze);
+}
+
+.previewBox {
+  background: white; box-shadow: 0 2px 8px rgba(90,45,15,0.12);
+  display: flex; align-items: center; justify-content: center;
+  min-height: 140px; overflow: hidden;
+}
+
+.previewCanvas { max-width: 100%; max-height: 260px; display: block; }
+
+.previewHint {
+  font-family: 'Cinzel', serif; font-size: 8px;
+  letter-spacing: 0.15em; color: var(--text-pale); text-align: center;
+}
+
+/* Controls */
+.filterControls {
+  padding: 8px 4px; width: 100%; overflow-y: auto;
+}
+
+.groupTitle {
+  font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.25em;
+  text-transform: uppercase; color: rgba(255,255,255,0.85);
+  margin-bottom: 14px; margin-top: 4px;
+}
+
+.groupDesc {
+  font-family: 'Lora', serif; font-style: italic; font-size: 11px;
+  color: rgba(255,255,255,0.4); margin-bottom: 12px; line-height: 1.5;
+}
+
+.filterRow { margin-bottom: 16px; }
 
 .filterLabel {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  font-family: 'Cinzel', serif;
-  font-size: 8.5px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.7);
+  display: flex; justify-content: space-between; margin-bottom: 7px;
+  font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: rgba(255,255,255,0.65);
 }
 
 .filterVal { color: #c4935a; }
 
 .slider {
-  width: 100%;
-  height: 2px;
-  -webkit-appearance: none;
-  appearance: none;
-  background: rgba(255,255,255,0.2);
-  outline: none;
-  border-radius: 1px;
-  cursor: pointer;
+  width: 100%; height: 2px; -webkit-appearance: none; appearance: none;
+  background: rgba(255,255,255,0.2); outline: none; border-radius: 1px; cursor: pointer;
 }
 .slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #c4935a;
-  cursor: pointer;
+  -webkit-appearance: none; width: 13px; height: 13px;
+  border-radius: 50%; background: #c4935a; cursor: pointer;
 }
 
-.divider {
-  height: 0.5px;
-  background: rgba(255,255,255,0.1);
-  margin: 16px 0;
+.divider { height: 0.5px; background: rgba(255,255,255,0.1); margin: 14px 0; }
+
+.toggleRow {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
 }
-
-.blurSection {}
-
-.blurTitle {
-  font-family: 'Cinzel', serif;
-  font-size: 9px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.85);
-  margin-bottom: 16px;
+.toggleLabel {
+  font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: rgba(255,255,255,0.6);
 }
-
-.blurSides { margin-top: 12px; }
+.toggleBtn {
+  font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.15em;
+  text-transform: uppercase; background: rgba(255,255,255,0.07);
+  border: 0.5px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.5);
+  padding: 4px 12px; cursor: pointer; transition: all 0.2s;
+}
+.toggleOn { background: #a06838 !important; border-color: #a06838 !important; color: white !important; }
 
 .blurSidesLabel {
-  font-family: 'Cinzel', serif;
-  font-size: 8px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
-  margin-bottom: 8px;
+  font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 8px;
 }
-
-.blurSideBtns {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
+.blurSideBtns { display: flex; gap: 5px; flex-wrap: wrap; }
 .blurSideBtn {
-  font-family: 'Cinzel', serif;
-  font-size: 8px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  background: rgba(255,255,255,0.07);
-  border: 0.5px solid rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.55);
-  padding: 5px 12px;
-  cursor: pointer;
-  transition: all 0.2s;
+  font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.12em;
+  text-transform: uppercase; background: rgba(255,255,255,0.07);
+  border: 0.5px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.5);
+  padding: 5px 10px; cursor: pointer; transition: all 0.2s;
 }
 .blurSideBtn:hover { background: rgba(255,255,255,0.13); color: white; }
 .activeSide { background: #a06838 !important; border-color: #a06838 !important; color: white !important; }
 
-/* Preview */
-.previewWrap {
-  padding: 20px 16px;
-  background: var(--cream2);
-  border-left: 0.5px solid rgba(160,104,56,0.15);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  overflow: auto;
-}
-
-.previewLabel {
-  font-family: 'Cinzel', serif;
-  font-size: 8px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--bronze);
-}
-
-.previewBox {
-  background: white;
-  box-shadow: 0 2px 8px rgba(90,45,15,0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 160px;
-  overflow: hidden;
-}
-
-.previewCanvas {
-  max-width: 100%;
-  max-height: 280px;
-  display: block;
-}
-
-.previewHint {
-  font-family: 'Cinzel', serif;
-  font-size: 8px;
-  letter-spacing: 0.15em;
-  color: var(--text-pale);
-  text-align: center;
-}
-
 /* Footer */
 .footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  padding: 16px 24px;
-  border-top: 0.5px solid rgba(160,104,56,0.2);
-  background: white;
-  flex-shrink: 0;
+  display: flex; justify-content: flex-end; gap: 12px;
+  padding: 14px 24px; border-top: 0.5px solid rgba(160,104,56,0.2);
+  background: white; flex-shrink: 0;
 }
 
 .btnCancel {
-  font-family: 'Cinzel', serif;
-  font-size: 9px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  background: none;
-  border: 0.5px solid rgba(160,104,56,0.3);
-  color: var(--text-muted);
-  padding: 12px 24px;
-  cursor: pointer;
-  transition: all 0.3s;
+  font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.25em;
+  text-transform: uppercase; background: none;
+  border: 0.5px solid rgba(160,104,56,0.3); color: var(--text-muted);
+  padding: 11px 22px; cursor: pointer; transition: all 0.3s;
 }
 .btnCancel:hover { color: var(--terra); border-color: var(--terra); }
 
 .btnConfirm {
-  font-family: 'Cinzel', serif;
-  font-size: 9px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  background: var(--terra);
-  color: var(--cream);
-  border: none;
-  padding: 12px 28px;
-  cursor: pointer;
-  transition: background 0.3s;
+  font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.25em;
+  text-transform: uppercase; background: var(--terra); color: var(--cream);
+  border: none; padding: 11px 26px; cursor: pointer; transition: background 0.3s;
 }
 .btnConfirm:hover { background: var(--terra-dark); }

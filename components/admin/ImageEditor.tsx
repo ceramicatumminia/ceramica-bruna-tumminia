@@ -30,7 +30,7 @@ type BlurSettings = {
 
 const defaultBlur: BlurSettings = {
   intensita: 0,
-  ampiezza: 30,
+  ampiezza: 10,
   lato: 'radiale',
 }
 
@@ -106,7 +106,7 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
       let grad: CanvasGradient
 
       if (b.lato === 'radiale') {
-        const innerR = Math.min(crop.w, crop.h) * ((100 - b.ampiezza) / 100) * 0.45
+        const innerR = Math.min(crop.w, crop.h) * ((100 - b.ampiezza) / 100) * 0.5
         const outerR = Math.max(crop.w, crop.h) * 0.72
         grad = mCtx.createRadialGradient(crop.w/2, crop.h/2, innerR, crop.w/2, crop.h/2, outerR)
         grad.addColorStop(0, `rgba(0,0,0,0)`)
@@ -158,7 +158,7 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
 
       let alphaGrad: CanvasGradient
       if (b.lato === 'radiale') {
-        const innerR = Math.min(crop.w, crop.h) * ((100 - b.ampiezza) / 100) * 0.45
+        const innerR = Math.min(crop.w, crop.h) * ((100 - b.ampiezza) / 100) * 0.5
         const outerR = Math.max(crop.w, crop.h) * 0.72
         alphaGrad = aCtx.createRadialGradient(crop.w/2, crop.h/2, innerR, crop.w/2, crop.h/2, outerR)
         alphaGrad.addColorStop(0, 'rgba(0,0,0,0)')
@@ -436,7 +436,7 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
                           <span>Ampiezza sfumatura</span>
                           <span className={styles.filterVal}>{blur.ampiezza}%</span>
                         </div>
-                        <input type="range" min={10} max={80} value={blur.ampiezza}
+                        <input type="range" min={2} max={40} value={blur.ampiezza}
                           onChange={e => setBlur(b => ({ ...b, ampiezza: parseInt(e.target.value) }))}
                           className={styles.slider} />
                       </div>

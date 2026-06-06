@@ -176,9 +176,18 @@ export default function AdminGalleriaPage() {
                       <img src={editorPreview} alt="" className={gStyles.imgPreviewFull} />
                       <div className={gStyles.imgActions}>
                         <label className={gStyles.btnChangeImg}>
-                          Cambia foto
+                          Sostituisci foto
                           <input type="file" accept="image/*" onChange={handleFileSelect} style={{display:'none'}} />
                         </label>
+                        <button className={gStyles.btnChangeImg} onClick={async () => {
+                          // Fetch current image as file and reopen editor
+                          const res = await fetch(editorPreview)
+                          const blob = await res.blob()
+                          const f = new File([blob], 'opera.jpg', { type: blob.type })
+                          setEditorFile(f)
+                        }}>
+                          Modifica con editor
+                        </button>
                         <button className={gStyles.btnRemoveImg} onClick={() => { setEditorPreview(''); setForm(f=>({...f,immagine_url:''})) }}>
                           Rimuovi
                         </button>

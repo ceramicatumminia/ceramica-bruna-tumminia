@@ -172,6 +172,7 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
   const [dragMode, setDragMode] = useState<'move'|'nw'|'ne'|'sw'|'se'|'new'>('new')
   const [cursor, setCursor]     = useState('crosshair')
   const [isPainting, setIsPainting] = useState(false)
+  const [outputSize, setOutputSize] = useState(100) // percentage 10-100
 
   // Load image
   useEffect(() => {
@@ -404,7 +405,14 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
   const handleConfirm = () => {
     const canvas = previewRef.current
     if (!canvas) return
-    canvas.toBlob(blob => { if (blob) onConfirm(blob) }, 'image/png', 1.0)
+    const scale = outputSize / 100
+    const finalW = Math.round(canvas.width * scale)
+    const finalH = Math.round(canvas.height * scale)
+    const out = document.createElement('canvas')
+    out.width = finalW; out.height = finalH
+    const ctx = out.getContext('2d')!
+    ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, finalW, finalH)
+    out.toBlob(blob => { if (blob) onConfirm(blob) }, 'image/jpeg', 0.92)
   }
 
   const resetAll = () => {
@@ -498,6 +506,22 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
                 <canvas ref={previewRef} className={styles.previewCanvas} />
               </div>
               {cropBox.w>0&&cropBox.h>0&&<div className={styles.previewHint}>{Math.round(cropBox.w/imgSize.scale)}×{Math.round(cropBox.h/imgSize.scale)} px</div>}
+              <div className={styles.divider}/>
+              <div className={styles.groupTitle}>Dimensione output</div>
+              <div className={styles.filterRow}>
+                <div className={styles.filterLabel}>
+                  <span>Ridimensiona</span>
+                  <span className={styles.filterVal}>{outputSize}%</span>
+                </div>
+                <input type="range" min={10} max={100} step={5} value={outputSize}
+                  onChange={e => setOutputSize(parseInt(e.target.value))}
+                  className={styles.slider} />
+              </div>
+              {cropBox.w>0&&cropBox.h>0&&(
+                <div className={styles.previewHint}>
+                  Output: {Math.round(cropBox.w/imgSize.scale*outputSize/100)}×{Math.round(cropBox.h/imgSize.scale*outputSize/100)} px
+                </div>
+              )}
             </>}
 
             {/* EFFECTS controls */}

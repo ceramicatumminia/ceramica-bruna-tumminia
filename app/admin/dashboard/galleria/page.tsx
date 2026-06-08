@@ -8,7 +8,7 @@ import gStyles from './galleria.module.css'
 type Categoria = { id: string; nome: string; slug: string; ordine: number }
 
 const emptyForm = {
-  titolo: '', categoria: 'piatti', descrizione: '',
+  titolo: '', categoria: '', descrizione: '',
   tecnica: '', dimensioni: '', prezzo: 0,
   visibile: true, immagine_url: ''
 }
@@ -100,6 +100,16 @@ export default function AdminGalleriaPage() {
     loadOpere(); showToast('Stato aggiornato')
   }
 
+  const handleToggleHome = async (o: Opera) => {
+    const isInHome = (o as any).in_home
+    if (!isInHome) {
+      const count = opere.filter(x => (x as any).in_home).length
+      if (count >= 6) { showToast('Massimo 6 opere in vetrina'); return }
+    }
+    await supabase.from('opere').update({ in_home: !isInHome }).eq('id', o.id)
+    loadOpere(); showToast(isInHome ? 'Rimossa dalla vetrina' : 'Aggiunta in vetrina!')
+  }
+
   const handleDelete = async (id: string) => {
     if (!confirm('Eliminare questa opera?')) return
     await supabase.from('opere').delete().eq('id', id)
@@ -133,6 +143,7 @@ export default function AdminGalleriaPage() {
                 <div className={gStyles.field}>
                   <label>Categoria</label>
                   <select value={form.categoria} onChange={e => setForm(f=>({...f,categoria:e.target.value}))}>
+                    <option value="">— Seleziona categoria —</option>
                     {categorie.map(c => <option key={c.slug} value={c.slug}>{c.nome}</option>)}
                   </select>
                 </div>
@@ -217,6 +228,9 @@ export default function AdminGalleriaPage() {
                 <span className={`${gStyles.badge} ${o.visibile ? gStyles.pub : gStyles.hid}`}>
                   {o.visibile ? 'Pubblico' : 'Nascosto'}
                 </span>
+                {(o as any).in_home && (
+                  <span className={gStyles.badgeHome}>★ Home</span>
+                )}
               </div>
               <div className={gStyles.cardBody}>
                 <div className={gStyles.cardTitle}>{o.titolo}</div>
@@ -224,6 +238,11 @@ export default function AdminGalleriaPage() {
                 <div className={gStyles.cardActions}>
                   <button className={gStyles.btnEdit} onClick={() => handleEdit(o)}>Modifica</button>
                   <button className={gStyles.btnToggle} onClick={() => handleToggle(o)}>{o.visibile ? 'Nascondi' : 'Pubblica'}</button>
+                  <button
+                    className={(o as any).in_home ? gStyles.btnHomeOn : gStyles.btnHomeOff}
+                    onClick={() => handleToggleHome(o)}
+                    title="Mostra/nascondi in homepage"
+                  >{(o as any).in_home ? '★ In home' : '☆ Home'}</button>
                   <button className={gStyles.btnDel} onClick={() => handleDelete(o.id)}>Elimina</button>
                 </div>
               </div>

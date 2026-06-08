@@ -589,7 +589,7 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
         {/* Footer */}
         <div className={styles.footer}>
           <button className={styles.btnCancel} onClick={onCancel}>Annulla</button>
-          <button className={styles.btnConfirm} onClick={handleConfirm}>Usa questa foto →</button>
+          <button className={styles.btnConfirm} onClick={handleConfirm}>Salva modifiche →</button>
         </div>
       </div>
     </div>

@@ -1,12 +1,18 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { supabase } from '@/lib/supabase'
 
 export default function Hero() {
   const [mobile, setMobile] = useState(false)
+  const [heroImg, setHeroImg] = useState('')
+
   useEffect(() => {
     const check = () => setMobile(window.innerWidth < 768)
     check()
     window.addEventListener('resize', check)
+    supabase.from('impostazioni').select('valore').eq('chiave', 'hero_immagine').single().then(({ data }) => {
+      if (data?.valore) setHeroImg(data.valore)
+    })
     return () => window.removeEventListener('resize', check)
   }, [])
 
@@ -25,9 +31,13 @@ export default function Hero() {
       </div>
       {!mobile && (
         <div style={{background:'var(--cream2)',overflow:'hidden',position:'relative'}}>
-          <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center'}}>
-            <p style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'18px',color:'var(--text-muted)'}}>Cer&apos;Amica</p>
-          </div>
+          {heroImg ? (
+            <img src={heroImg} alt="Ceramica" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+          ) : (
+            <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center'}}>
+              <p style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'18px',color:'var(--text-muted)'}}>Cer&apos;Amica</p>
+            </div>
+          )}
         </div>
       )}
     </section>

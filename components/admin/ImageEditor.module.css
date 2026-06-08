@@ -115,7 +115,7 @@
 .filterLabel {
   display: flex; justify-content: space-between; margin-bottom: 7px;
   font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: rgba(255,255,255,0.65);
+  text-transform: uppercase; color: var(--text-muted);
 }
 
 .filterVal { color: #c4935a; }
@@ -141,8 +141,8 @@
 }
 .toggleBtn {
   font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.15em;
-  text-transform: uppercase; background: rgba(255,255,255,0.07);
-  border: 0.5px solid rgba(255,255,255,0.2); color: var(--bronze);
+  text-transform: uppercase; background: rgba(160,104,56,0.07);
+  border: 0.5px solid rgba(160,104,56,0.3); color: var(--bronze);
   padding: 4px 12px; cursor: pointer; transition: all 0.2s;
 }
 .toggleOn { background: #a06838 !important; border-color: #a06838 !important; color: white !important; }
@@ -154,11 +154,11 @@
 .blurSideBtns { display: flex; gap: 5px; flex-wrap: wrap; }
 .blurSideBtn {
   font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.12em;
-  text-transform: uppercase; background: rgba(255,255,255,0.07);
-  border: 0.5px solid rgba(255,255,255,0.15); color: var(--bronze);
+  text-transform: uppercase; background: rgba(160,104,56,0.06);
+  border: 0.5px solid rgba(160,104,56,0.25); color: var(--bronze);
   padding: 5px 10px; cursor: pointer; transition: all 0.2s;
 }
-.blurSideBtn:hover { background: rgba(255,255,255,0.13); color: var(--terra); }
+.blurSideBtn:hover { background: rgba(160,104,56,0.14); color: var(--terra); }
 .activeSide { background: #a06838 !important; border-color: #a06838 !important; color: white !important; }
 
 /* Footer */

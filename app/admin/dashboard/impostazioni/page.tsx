@@ -134,9 +134,11 @@ export default function ImpostazioniPage() {
       <input ref={inputRef} type="file" accept="image/*" style={{display:'none'}}
         onChange={e => handleFileSelect(e, target)} />
       <div style={{display:'flex', gap:'10px', alignItems:'center', flexWrap:'wrap'}}>
-        <button style={btnOutlineStyle} onClick={() => inputRef.current?.click()}>
-          {uploading ? 'Caricamento...' : img ? 'Sostituisci' : 'Carica foto'}
-        </button>
+        {!img && (
+          <button style={btnOutlineStyle} onClick={() => inputRef.current?.click()}>
+            {uploading ? 'Caricamento...' : 'Carica foto'}
+          </button>
+        )}
         {img && (
           <button style={btnOutlineStyle} onClick={() => openEditorFromUrl(img, target)}>
             Modifica con editor

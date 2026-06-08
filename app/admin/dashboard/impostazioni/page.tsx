@@ -204,9 +204,17 @@ export default function ImpostazioniPage() {
         <div style={sectionTitleStyle}>Tempi di consegna</div>
         <div style={labelStyle}>Testo tempi consegna (mostrato nel checkout)</div>
         <input style={inputStyle} value={tempiConsegna} onChange={e => setTempiConsegna(e.target.value)} />
-        <div style={{marginTop:'12px'}}>
-          <button style={btnStyle} onClick={async () => { await salvaImpostazione('tempi_consegna', tempiConsegna); showToast('Salvato!') }}>Salva</button>
-        </div>
+      </div>
+
+      {/* Salva tutto */}
+      <div style={{textAlign:'center', padding:'16px 0 40px'}}>
+        <button style={{...btnStyle, padding:'14px 48px', fontSize:'10px', letterSpacing:'0.3em'}}
+          onClick={async () => {
+            await salvaImpostazione('tempi_consegna', tempiConsegna)
+            showToast('Modifiche salvate!')
+          }}>
+          Salva modifiche
+        </button>
       </div>
 
       {toast && (

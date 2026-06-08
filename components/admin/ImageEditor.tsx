@@ -502,10 +502,15 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
             {/* CROP: mini preview */}
             {tab==='crop' && <>
               <div className={styles.previewLabel}>Anteprima</div>
-              <div className={styles.previewBox}>
-                <canvas ref={previewRef} className={styles.previewCanvas} />
+              <div className={styles.previewBox} style={{padding:'8px'}}>
+                <canvas ref={previewRef} className={styles.previewCanvas}
+                  style={{
+                    maxWidth: `${outputSize}%`,
+                    maxHeight: `${outputSize}%`,
+                    transition: 'max-width 0.15s, max-height 0.15s'
+                  }} />
               </div>
-              {cropBox.w>0&&cropBox.h>0&&<div className={styles.previewHint}>{Math.round(cropBox.w/imgSize.scale)}×{Math.round(cropBox.h/imgSize.scale)} px</div>}
+              {cropBox.w>0&&cropBox.h>0&&<div className={styles.previewHint}>{Math.round(cropBox.w/imgSize.scale)}×{Math.round(cropBox.h/imgSize.scale)} px originale</div>}
               <div className={styles.divider}/>
               <div className={styles.groupTitle}>Dimensione output</div>
               <div className={styles.filterRow}>
@@ -519,7 +524,7 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
               </div>
               {cropBox.w>0&&cropBox.h>0&&(
                 <div className={styles.previewHint}>
-                  Output: {Math.round(cropBox.w/imgSize.scale*outputSize/100)}×{Math.round(cropBox.h/imgSize.scale*outputSize/100)} px
+                  Salva a: {Math.round(cropBox.w/imgSize.scale*outputSize/100)}×{Math.round(cropBox.h/imgSize.scale*outputSize/100)} px
                 </div>
               )}
             </>}

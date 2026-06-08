@@ -12,7 +12,7 @@ export default function ArtistaPage() {
             <p style={{fontFamily:'Lora,serif',fontSize:'16px',lineHeight:'1.85',color:'rgba(232,221,208,0.75)',fontStyle:'italic'}}>La ceramica come dialogo intimo tra le mie mani, la mente e la materia. Ogni opera è un racconto silenzioso di tempo, pazienza e meraviglia.</p>
           </div>
         </div>
-        <div style={{padding:'100px 80px',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'80px'}}>
+        <div style={{padding:'clamp(40px,8vw,100px) clamp(24px,6vw,80px)',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:'clamp(32px,5vw,80px)'}}>
           <div>
             <h2 style={{fontFamily:'Cormorant Garamond,serif',fontSize:'32px',color:'var(--terra-dark)',marginBottom:'24px'}}>Una vita plasmata dall&apos;argilla</h2>
             <p style={{fontFamily:'Lora,serif',fontSize:'15px',lineHeight:'1.85',color:'var(--text-muted)',marginBottom:'20px'}}>Ho scelto la ceramica come linguaggio dell&apos;anima. Nel mio laboratorio di San Sperate, in Sardegna, ogni giornata inizia con il contatto diretto con la terra: un gesto ancestrale che si rinnova in ogni opera.</p>

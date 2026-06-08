@@ -1,6 +1,24 @@
+'use client'
+import { useEffect, useState } from 'react'
+
 export default function LabPreview() {
+  const [mobile, setMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
   return (
-    <section style={{padding:'70px 80px',background:'var(--cream2)',display:'grid',gridTemplateColumns:'1.2fr 1fr',gap:'60px',alignItems:'center'}}>
+    <section style={{
+      padding: mobile ? '48px 24px' : '70px 80px',
+      background:'var(--cream2)',
+      display:'grid',
+      gridTemplateColumns: mobile ? '1fr' : '1.2fr 1fr',
+      gap: mobile ? '32px' : '60px',
+      alignItems:'center'
+    }}>
       <div>
         <div style={{fontFamily:'Cinzel,serif',fontSize:'9px',letterSpacing:'0.38em',textTransform:'uppercase',color:'var(--bronze)',marginBottom:'16px'}}>— Il laboratorio</div>
         <h2 style={{fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(26px,3vw,40px)',fontWeight:300,color:'var(--terra-dark)',marginBottom:'20px',lineHeight:'1.2'}}>Lo spazio<br/>della creazione</h2>

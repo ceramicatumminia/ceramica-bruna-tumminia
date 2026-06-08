@@ -54,7 +54,7 @@
 
 .hint {
   font-family: 'Lora', serif; font-style: italic; font-size: 11px;
-  color: rgba(255,255,255,0.35); text-align: center;
+  color: rgba(160,104,56,0.6); text-align: center;
 }
 
 .resetBtn {
@@ -101,13 +101,13 @@
 
 .groupTitle {
   font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.25em;
-  text-transform: uppercase; color: rgba(255,255,255,0.85);
+  text-transform: uppercase; color: var(--terra-dark);
   margin-bottom: 14px; margin-top: 4px;
 }
 
 .groupDesc {
   font-family: 'Lora', serif; font-style: italic; font-size: 11px;
-  color: rgba(255,255,255,0.4); margin-bottom: 12px; line-height: 1.5;
+  color: var(--text-muted); margin-bottom: 12px; line-height: 1.5;
 }
 
 .filterRow { margin-bottom: 16px; }
@@ -122,14 +122,14 @@
 
 .slider {
   width: 100%; height: 2px; -webkit-appearance: none; appearance: none;
-  background: rgba(255,255,255,0.2); outline: none; border-radius: 1px; cursor: pointer;
+  background: rgba(160,104,56,0.2); outline: none; border-radius: 1px; cursor: pointer;
 }
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none; width: 13px; height: 13px;
   border-radius: 50%; background: #c4935a; cursor: pointer;
 }
 
-.divider { height: 0.5px; background: rgba(255,255,255,0.1); margin: 14px 0; }
+.divider { height: 0.5px; background: rgba(160,104,56,0.15); margin: 14px 0; }
 
 .toggleRow {
   display: flex; align-items: center; justify-content: space-between;
@@ -137,28 +137,28 @@
 }
 .toggleLabel {
   font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.2em;
-  text-transform: uppercase; color: rgba(255,255,255,0.6);
+  text-transform: uppercase; color: var(--text-muted);
 }
 .toggleBtn {
   font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.15em;
   text-transform: uppercase; background: rgba(255,255,255,0.07);
-  border: 0.5px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.5);
+  border: 0.5px solid rgba(255,255,255,0.2); color: var(--bronze);
   padding: 4px 12px; cursor: pointer; transition: all 0.2s;
 }
 .toggleOn { background: #a06838 !important; border-color: #a06838 !important; color: white !important; }
 
 .blurSidesLabel {
   font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 8px;
+  text-transform: uppercase; color: var(--bronze); margin-bottom: 8px;
 }
 .blurSideBtns { display: flex; gap: 5px; flex-wrap: wrap; }
 .blurSideBtn {
   font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.12em;
   text-transform: uppercase; background: rgba(255,255,255,0.07);
-  border: 0.5px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.5);
+  border: 0.5px solid rgba(255,255,255,0.15); color: var(--bronze);
   padding: 5px 10px; cursor: pointer; transition: all 0.2s;
 }
-.blurSideBtn:hover { background: rgba(255,255,255,0.13); color: white; }
+.blurSideBtn:hover { background: rgba(255,255,255,0.13); color: var(--terra); }
 .activeSide { background: #a06838 !important; border-color: #a06838 !important; color: white !important; }
 
 /* Footer */
@@ -186,7 +186,7 @@
 /* Controls panel (left) for effects/brush/mask tabs */
 .controlsWrap {
   padding: 20px 18px;
-  background: #1a1410;
+  background: var(--cream);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -195,10 +195,10 @@
 }
 
 /* Override text colors inside controlsWrap - dark background */
-.controlsWrap .groupTitle { color: rgba(232,221,208,0.9) !important; }
-.controlsWrap .filterLabel { color: rgba(232,221,208,0.7) !important; }
+.controlsWrap .groupTitle { color: var(--terra-dark) !important; }
+.controlsWrap .filterLabel { color: var(--text-muted) !important; }
 .controlsWrap .filterVal { color: #c4935a !important; }
-.controlsWrap .toggleLabel { color: rgba(232,221,208,0.7) !important; }
-.controlsWrap .blurSidesLabel { color: rgba(232,221,208,0.6) !important; }
-.controlsWrap .groupDesc { color: rgba(232,221,208,0.45) !important; }
-.controlsWrap .slider { background: rgba(255,255,255,0.2) !important; }
+.controlsWrap .toggleLabel { color: var(--text-muted) !important; }
+.controlsWrap .blurSidesLabel { color: var(--bronze) !important; }
+.controlsWrap .groupDesc { color: var(--text-muted) !important; }
+.controlsWrap .slider { background: rgba(160,104,56,0.2) !important; }

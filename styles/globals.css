@@ -64,3 +64,19 @@ body {
   font-style: italic;
   color: var(--text-muted);
 }
+
+/* ── MOBILE RESPONSIVE ────────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* Galleria card grid */
+  .grid {
+    grid-template-columns: 1fr !important;
+    padding: 24px 16px !important;
+  }
+
+  /* Checkout */
+  .container {
+    grid-template-columns: 1fr !important;
+    padding: 24px 16px !important;
+  }
+}

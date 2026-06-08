@@ -8,7 +8,6 @@ export default function AdminCategoriePage() {
   const [categorie, setCategorie] = useState<Categoria[]>([])
   const [loading, setLoading] = useState(true)
   const [nuovoNome, setNuovoNome] = useState('')
-  const [nuovoSlug, setNuovoSlug] = useState('')
   const [toast, setToast] = useState('')
 
   const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 3000) }
@@ -22,7 +21,8 @@ export default function AdminCategoriePage() {
   }
 
   const saveNome = async (id: string, nome: string) => {
-    const { error } = await supabase.from('categorie').update({ nome }).eq('id', id)
+    const slug = nome.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+    const { error } = await supabase.from('categorie').update({ nome, slug }).eq('id', id)
     if (error) { showToast('Errore: ' + error.message); return }
     showToast('Categoria aggiornata!')
     loadCategorie()
@@ -36,10 +36,11 @@ export default function AdminCategoriePage() {
   }
 
   const addCategoria = async () => {
-    if (!nuovoNome || !nuovoSlug) { showToast('Inserisci nome e slug'); return }
-    const { error } = await supabase.from('categorie').insert([{ nome: nuovoNome, slug: nuovoSlug.toLowerCase().replace(/[^a-z0-9]/g,'_'), ordine: 99 }])
+    if (!nuovoNome.trim()) { showToast('Inserisci il nome'); return }
+    const slug = nuovoNome.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+    const { error } = await supabase.from('categorie').insert([{ nome: nuovoNome.trim(), slug, ordine: 99 }])
     if (error) { showToast('Errore: ' + error.message); return }
-    setNuovoNome(''); setNuovoSlug('')
+    setNuovoNome('')
     loadCategorie()
     showToast('Categoria aggiunta!')
   }
@@ -61,12 +62,13 @@ export default function AdminCategoriePage() {
         <h3 className={cStyles.addTitle}>Aggiungi categoria</h3>
         <div className={cStyles.addRow}>
           <div className={cStyles.field}>
-            <label>Nome</label>
-            <input value={nuovoNome} onChange={e => setNuovoNome(e.target.value)} placeholder="es. Ceramiche Raku" />
-          </div>
-          <div className={cStyles.field}>
-            <label>Slug (identificativo)</label>
-            <input value={nuovoSlug} onChange={e => setNuovoSlug(e.target.value)} placeholder="es. raku" />
+            <label>Nome categoria</label>
+            <input
+              value={nuovoNome}
+              onChange={e => setNuovoNome(e.target.value)}
+              placeholder="es. Ceramiche Raku"
+              onKeyDown={e => e.key === 'Enter' && addCategoria()}
+            />
           </div>
         </div>
         <button className={cStyles.btnAdd} onClick={addCategoria}>Aggiungi categoria</button>
@@ -81,7 +83,6 @@ function CategoriaRow({ cat, onSave, onDelete }: { cat: Categoria, onSave: (id:s
   const [nome, setNome] = useState(cat.nome)
   return (
     <div className={cStyles.row}>
-      <span className={cStyles.slug}>{cat.slug}</span>
       <input className={cStyles.nomeInput} value={nome} onChange={e => setNome(e.target.value)} />
       <button className={cStyles.btnSave} onClick={() => onSave(cat.id, nome)}>Salva</button>
       <button className={cStyles.btnDel} onClick={() => onDelete(cat.id)}>Elimina</button>

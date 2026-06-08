@@ -213,7 +213,7 @@ export default function AdminGalleriaPage() {
         <div className="loading-msg">Caricamento...</div>
       ) : (
         <div className={gStyles.grid}>
-          {opere.map(o => (
+          {opere.filter(o => o.immagine_url).map(o => (
             <div key={o.id} className={gStyles.card}>
               <div className={gStyles.cardImg}>
                 {o.immagine_url ? <img src={o.immagine_url} alt={o.titolo} /> : <div className={gStyles.noImg}>NESSUNA FOTO</div>}

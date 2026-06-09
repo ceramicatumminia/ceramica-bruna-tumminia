@@ -3,13 +3,11 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import styles from './Header.module.css'
-import CartIcon from '@/components/shop/CartIcon'
 
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/artista', label: 'Chi sono' },
   { href: '/galleria', label: 'Galleria' },
-  { href: '/shop', label: 'Shop' },
   { href: '/contatti', label: 'Contatti' },
 ]
 
@@ -17,20 +15,14 @@ export default function Header() {
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [shopAttivo, setShopAttivo] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll)
-    // Controlla se lo shop è attivo
-    import('@/lib/supabase').then(({ supabase }) => {
-      supabase.from('impostazioni').select('valore').eq('chiave', 'shop_attivo').single()
-        .then(({ data }) => setShopAttivo(data?.valore === 'true'))
-    })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const visibleLinks = navLinks.filter(l => l.href !== '/shop' || shopAttivo)
+  const isGalleria = pathname === '/galleria'
 
   return (
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
@@ -45,11 +37,18 @@ export default function Header() {
       </div>
 
       <div className={styles.headerUtils}>
-        {shopAttivo && <CartIcon />}
+        {isGalleria && (
+          <button className={styles.cartBtn} aria-label="Carrello">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+            </svg>
+          </button>
+        )}
       </div>
 
       <nav className={styles.nav}>
-        {visibleLinks.map(link => (
+        {navLinks.map(link => (
           <Link
             key={link.href}
             href={link.href}
@@ -76,7 +75,7 @@ export default function Header() {
 
       {mobileOpen && (
         <div className={styles.mobileNav}>
-          {visibleLinks.map(link => (
+          {navLinks.map(link => (
             <Link key={link.href} href={link.href} className={styles.navLink} onClick={() => setMobileOpen(false)}>
               {link.label}
             </Link>
@@ -84,11 +83,6 @@ export default function Header() {
           <Link href="/admin" className={styles.navLink} onClick={() => setMobileOpen(false)}>
             Area riservata
           </Link>
-          {shopAttivo && (
-            <Link href="/carrello" className={styles.navLink} onClick={() => setMobileOpen(false)}>
-              Carrello
-            </Link>
-          )}
         </div>
       )}
     </header>

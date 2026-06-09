@@ -105,6 +105,10 @@
   overflow-y: auto;
 }
 
+@media (max-width: 768px) {
+  .modalOverlay { padding-top: 100px; }
+}
+
 .modalClose {
   position: absolute;
   top: 16px;

@@ -13,17 +13,22 @@ type Opera = {
 
 export default function OperePreview() {
   const [opere, setOpere] = useState<Opera[]>([])
+  const [mobile, setMobile] = useState(false)
 
   useEffect(() => {
+    const check = () => setMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
     supabase.from('opere').select('id,titolo,categoria,tecnica,immagine_url')
       .eq('visibile', true).eq('in_home', true).not('immagine_url','is',null)
       .order('ordine').limit(6)
       .then(({ data }) => setOpere(data || []))
+    return () => window.removeEventListener('resize', check)
   }, [])
 
   return (
-    <section style={{padding:'80px 80px 100px',background:'var(--cream)'}}>
-      <div style={{display:'flex',alignItems:'flex-end',justifyContent:'space-between',marginBottom:'48px'}}>
+    <section style={{padding: mobile ? '48px 20px 60px' : '80px 80px 100px', background:'var(--cream)'}}>
+      <div style={{display:'flex',alignItems: mobile ? 'flex-start' : 'flex-end',flexDirection: mobile ? 'column' : 'row',justifyContent:'space-between',marginBottom: mobile ? '32px' : '48px',gap:'12px'}}>
         <div>
           <div style={{fontFamily:'Cinzel,serif',fontSize:'9px',letterSpacing:'0.38em',textTransform:'uppercase',color:'var(--bronze)',marginBottom:'8px'}}>— Galleria</div>
           <h2 style={{fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(28px,3.5vw,48px)',fontWeight:300,color:'var(--terra-dark)'}}>Opere in vetrina</h2>
@@ -31,7 +36,7 @@ export default function OperePreview() {
         <Link href="/galleria" style={{fontFamily:'Cinzel,serif',fontSize:'10px',letterSpacing:'0.25em',textTransform:'uppercase',color:'var(--bronze)',textDecoration:'none',borderBottom:'0.5px solid var(--bronze)',paddingBottom:'4px'}}>Vedi tutte →</Link>
       </div>
       {opere.length > 0 ? (
-        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'20px'}}>
+        <div style={{display:'grid',gridTemplateColumns: mobile ? '1fr' : 'repeat(3,1fr)',gap:'20px'}}>
           {opere.map(o => (
             <Link key={o.id} href="/galleria" style={{textDecoration:'none',background:'var(--cream2)',overflow:'hidden',display:'block'}}>
               <div style={{aspectRatio:'4/3',overflow:'hidden',background:'var(--cream2)'}}>

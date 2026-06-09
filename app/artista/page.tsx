@@ -5,11 +5,11 @@ export default function ArtistaPage() {
     <>
       <Header />
       <main>
-        <div style={{minHeight:'60vh',background:'var(--ink-soft)',display:'flex',alignItems:'center',padding:'80px'}}>
+        <div style={{minHeight:'60vh',background:'var(--ink-soft)',display:'flex',alignItems:'center',padding:'clamp(40px,8vw,80px)'}}>
           <div style={{maxWidth:'700px'}}>
             <div style={{fontFamily:'Cinzel,serif',fontSize:'9px',letterSpacing:'0.4em',textTransform:'uppercase',color:'#c4935a',marginBottom:'20px'}}>— Bruna Tumminia</div>
             <h1 style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'clamp(36px,5vw,72px)',color:'#e8ddd0',lineHeight:'1.1',marginBottom:'24px'}}>L&apos;anima<br/>dell&apos;argilla</h1>
-            <p style={{fontFamily:'Lora,serif',fontSize:'16px',lineHeight:'1.85',color:'rgba(232,221,208,0.75)',fontStyle:'italic'}}>La ceramica come dialogo intimo tra le mie mani, la mente e la materia. Ogni opera è un racconto silenzioso di tempo, pazienza e meraviglia.</p>
+            <p style={{fontFamily:'Lora,serif',fontSize:'clamp(14px,2vw,16px)',lineHeight:'1.85',color:'rgba(232,221,208,0.75)',fontStyle:'italic'}}>La ceramica come dialogo intimo tra le mie mani, la mente e la materia. Ogni opera è un racconto silenzioso di tempo, pazienza e meraviglia.</p>
           </div>
         </div>
         <div style={{padding:'clamp(40px,8vw,100px) clamp(24px,6vw,80px)',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:'clamp(32px,5vw,80px)'}}>

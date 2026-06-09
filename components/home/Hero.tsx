@@ -30,9 +30,9 @@ export default function Hero() {
         <a href="/galleria" style={{display:'inline-flex',alignItems:'center',gap:'10px',fontFamily:'Cinzel,serif',fontSize:'10px',letterSpacing:'0.3em',textTransform:'uppercase',color:'var(--terra)',textDecoration:'none',borderBottom:'0.5px solid var(--terra)',paddingBottom:'6px',width:'fit-content'}}>Scopri le opere →</a>
       </div>
       {!mobile && (
-        <div style={{display:'flex',alignItems:'center',justifyContent:'center',padding:'30px 20px 30px 10px'}}>
+        <div style={{overflow:'hidden',height:'100%'}}>
           {heroImg ? (
-            <img src={heroImg} alt="Ceramica" style={{maxWidth:'100%',maxHeight:'540px',objectFit:'contain',display:'block'}} />
+            <img src={heroImg} alt="Ceramica" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} />
           ) : (
             <div style={{width:'100%',height:'100%',display:'flex',alignItems:'center',justifyContent:'center',background:'var(--cream2)'}}>
               <p style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'18px',color:'var(--text-muted)'}}>Cer&apos;Amica</p>

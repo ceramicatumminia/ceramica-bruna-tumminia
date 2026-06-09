@@ -32,7 +32,7 @@ export default function Hero() {
       {!mobile && (
         <div style={{display:'flex',alignItems:'center',justifyContent:'center',padding:'30px 40px 30px 20px'}}>
           {heroImg ? (
-            <img src={heroImg} alt="Ceramica" style={{maxWidth:'100%',maxHeight:'460px',objectFit:'contain',display:'block'}} />
+            <img src={heroImg} alt="Ceramica" style={{maxWidth:'100%',maxHeight:'506px',objectFit:'contain',display:'block'}} />
           ) : (
             <div style={{width:'100%',height:'100%',display:'flex',alignItems:'center',justifyContent:'center',background:'var(--cream2)'}}>
               <p style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'18px',color:'var(--text-muted)'}}>Cer&apos;Amica</p>

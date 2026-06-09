@@ -57,10 +57,7 @@ export async function POST(req: NextRequest) {
       stripe_payment_id: session.payment_intent as string,
     }])
 
-    // Segna opera come non disponibile
-    if (m.opera_id) {
-      await supabase.from('opere').update({ visibile: false }).eq('id', m.opera_id)
-    }
+    // Opera rimane visibile in galleria dopo la vendita
   }
 
   return NextResponse.json({ received: true })

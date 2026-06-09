@@ -30,7 +30,7 @@ export default function Hero() {
         <a href="/galleria" style={{display:'inline-flex',alignItems:'center',gap:'10px',fontFamily:'Cinzel,serif',fontSize:'10px',letterSpacing:'0.3em',textTransform:'uppercase',color:'var(--terra)',textDecoration:'none',borderBottom:'0.5px solid var(--terra)',paddingBottom:'6px',width:'fit-content'}}>Scopri le opere →</a>
       </div>
       {!mobile && (
-        <div style={{overflow:'hidden',height:'100%',margin:'20px 40px 20px 0'}}>
+        <div style={{overflow:'hidden', height:'calc(90% - 60px)', width:'calc(90% - 50px)', margin:'30px 50px 30px auto'}}>
           {heroImg ? (
             <img src={heroImg} alt="Ceramica" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} />
           ) : (

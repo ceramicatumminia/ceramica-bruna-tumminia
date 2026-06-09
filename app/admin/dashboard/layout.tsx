@@ -25,6 +25,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const navLinks = [
     { href: '/admin/dashboard/galleria', label: 'Galleria' },
+    { href: '/admin/dashboard/prodotti', label: 'Shop' },
     { href: '/admin/dashboard/ordini', label: 'Ordini' },
     { href: '/admin/dashboard/categorie', label: 'Categorie' },
     { href: '/admin/dashboard/testi', label: 'Testi del sito' },

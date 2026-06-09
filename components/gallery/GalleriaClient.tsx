@@ -102,14 +102,7 @@ export default function GalleriaClient() {
                 <span>Tecnica: {selected.tecnica}</span>
                 <span>Dimensioni: {selected.dimensioni}</span>
               </div>
-              {shopAttivo && (
-                <div className={styles.modalShop}>
-                  <div className={styles.modalPrice}>€ {selected.prezzo.toFixed(2)}</div>
-                  <button className={styles.btnAcquista} onClick={() => handleAcquista(selected)}>
-                    Acquista questa opera
-                  </button>
-                </div>
-              )}
+              {/* Nessun prezzo né bottone acquista in galleria */}
               <button
                 onClick={() => setSelected(null)}
                 style={{

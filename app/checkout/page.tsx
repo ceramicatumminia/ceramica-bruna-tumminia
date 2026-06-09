@@ -135,9 +135,14 @@ function CheckoutContent() {
                   <input value={form.provincia_fattura} onChange={e => set('provincia_fattura', e.target.value)} maxLength={2} placeholder="es. CA" required />
                 </div>
               </div>
-              <button type="button" className={styles.btnNext} onClick={() => setStep(2)}>
-                Continua →
-              </button>
+              <div style={{display:'flex', gap:'12px', alignItems:'center'}}>
+                <button type="button" className={styles.btnNext} onClick={() => setStep(2)}>
+                  Continua →
+                </button>
+                <button type="button" className={styles.btnBack} onClick={() => router.back()}>
+                  Annulla
+                </button>
+              </div>
             </>
           )}
 

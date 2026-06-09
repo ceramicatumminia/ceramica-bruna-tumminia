@@ -110,6 +110,18 @@ export default function GalleriaClient() {
                   </button>
                 </div>
               )}
+              <button
+                onClick={() => setSelected(null)}
+                style={{
+                  marginTop: '24px', fontFamily: 'Cinzel, serif', fontSize: '8px',
+                  letterSpacing: '0.25em', textTransform: 'uppercase',
+                  background: 'none', border: '0.5px solid rgba(160,104,56,0.3)',
+                  color: 'var(--bronze)', padding: '8px 20px', cursor: 'pointer',
+                  alignSelf: 'flex-start'
+                }}
+              >
+                ← Torna alla galleria
+              </button>
             </div>
           </div>
         </div>

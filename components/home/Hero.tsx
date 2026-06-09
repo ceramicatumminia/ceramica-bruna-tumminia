@@ -23,10 +23,10 @@ export default function Hero() {
       gridTemplateColumns: mobile ? '1fr' : '1fr 1fr',
       overflow: 'hidden'
     }}>
-      <div style={{padding: mobile ? '40px 24px' : '60px 60px 40px', display:'flex', flexDirection:'column', justifyContent:'center'}}>
+      <div style={{padding: mobile ? '48px 24px' : '60px 60px 40px', display:'flex', flexDirection:'column', justifyContent:'center', alignItems: mobile ? 'center' : 'flex-start', textAlign: mobile ? 'center' : 'left'}}>
         <div style={{fontFamily:'Cinzel,serif',fontSize:'9px',letterSpacing:'0.35em',textTransform:'uppercase',color:'var(--bronze)',marginBottom:'20px'}}>— ceramiche artistiche · San Sperate, Sardegna</div>
         <div style={{width:'50px',height:'0.5px',background:'var(--bronze)',marginBottom:'20px'}}></div>
-        <p style={{fontFamily:'Lora,serif',fontSize:'15px',lineHeight:'1.75',color:'var(--text-muted)',maxWidth:'400px',marginBottom:'36px'}}>Ceramiche artistiche interamente realizzate e decorate a mano. Ogni pezzo nasce da un dialogo silenzioso tra le mani e l&apos;argilla.</p>
+        <p style={{fontFamily:'Lora,serif',fontSize:'15px',lineHeight:'1.75',color:'var(--text-muted)',maxWidth: mobile ? '100%' : '400px',marginBottom:'36px'}}>Ceramiche artistiche interamente realizzate e decorate a mano. Ogni pezzo nasce da un dialogo silenzioso tra le mani e l&apos;argilla.</p>
         <a href="/galleria" style={{display:'inline-flex',alignItems:'center',gap:'10px',fontFamily:'Cinzel,serif',fontSize:'10px',letterSpacing:'0.3em',textTransform:'uppercase',color:'var(--terra)',textDecoration:'none',borderBottom:'0.5px solid var(--terra)',paddingBottom:'6px',width:'fit-content'}}>Scopri le opere →</a>
       </div>
       {!mobile && (

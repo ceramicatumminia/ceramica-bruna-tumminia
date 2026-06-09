@@ -20,7 +20,7 @@ export default function Hero() {
     <section style={{
       height: mobile ? 'auto' : '520px',
       display: 'grid',
-      gridTemplateColumns: mobile ? '1fr' : '1.25fr 0.75fr',
+      gridTemplateColumns: mobile ? '1fr' : '1fr 1fr',
       overflow: 'hidden'
     }}>
       <div style={{padding: mobile ? '40px 24px' : '60px 60px 40px', display:'flex', flexDirection:'column', justifyContent:'center'}}>

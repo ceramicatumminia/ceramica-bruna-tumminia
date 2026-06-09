@@ -20,7 +20,7 @@ export default function Hero() {
     <section style={{
       height: mobile ? 'auto' : '520px',
       display: 'grid',
-      gridTemplateColumns: mobile ? '1fr' : '1.4fr 0.6fr',
+      gridTemplateColumns: mobile ? '1fr' : '1.25fr 0.75fr',
       overflow: 'hidden'
     }}>
       <div style={{padding: mobile ? '40px 24px' : '60px 60px 40px', display:'flex', flexDirection:'column', justifyContent:'center'}}>
@@ -30,9 +30,9 @@ export default function Hero() {
         <a href="/galleria" style={{display:'inline-flex',alignItems:'center',gap:'10px',fontFamily:'Cinzel,serif',fontSize:'10px',letterSpacing:'0.3em',textTransform:'uppercase',color:'var(--terra)',textDecoration:'none',borderBottom:'0.5px solid var(--terra)',paddingBottom:'6px',width:'fit-content'}}>Scopri le opere →</a>
       </div>
       {!mobile && (
-        <div style={{display:'flex',alignItems:'center',justifyContent:'center',padding:'30px 40px 30px 20px'}}>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'center',padding:'30px 20px 30px 10px'}}>
           {heroImg ? (
-            <img src={heroImg} alt="Ceramica" style={{maxWidth:'100%',maxHeight:'506px',objectFit:'contain',display:'block'}} />
+            <img src={heroImg} alt="Ceramica" style={{maxWidth:'100%',maxHeight:'540px',objectFit:'contain',display:'block'}} />
           ) : (
             <div style={{width:'100%',height:'100%',display:'flex',alignItems:'center',justifyContent:'center',background:'var(--cream2)'}}>
               <p style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'18px',color:'var(--text-muted)'}}>Cer&apos;Amica</p>

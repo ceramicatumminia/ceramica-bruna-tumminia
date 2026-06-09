@@ -21,6 +21,7 @@ export default function Hero() {
       height: mobile ? 'auto' : '520px',
       display: 'grid',
       gridTemplateColumns: mobile ? '1fr' : '1.4fr 0.6fr',
+      paddingRight: mobile ? '0' : '60px',
       overflow: 'hidden'
     }}>
       <div style={{padding: mobile ? '40px 24px' : '60px 60px 40px', display:'flex', flexDirection:'column', justifyContent:'center'}}>

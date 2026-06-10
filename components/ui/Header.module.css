@@ -14,8 +14,7 @@
 }
 
 .headerTop {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
   align-items: center;
   width: 100%;
   position: relative;
@@ -25,8 +24,8 @@
 .logoOnly {
   display: flex;
   align-items: center;
-  justify-self: start;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .logoWrap {
@@ -34,7 +33,7 @@
   align-items: center;
   gap: 16px;
   text-decoration: none;
-  justify-self: start;
+  flex-shrink: 0;
 }
 
 .logoImg {
@@ -47,12 +46,16 @@
 .logoImg:hover { transform: scale(1.06) rotate(2deg); }
 
 .brand {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   line-height: 1;
   align-items: center;
   text-align: center;
-  justify-self: center;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .brandMain {

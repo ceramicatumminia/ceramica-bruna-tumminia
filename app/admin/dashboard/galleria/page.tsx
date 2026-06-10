@@ -110,6 +110,18 @@ export default function AdminGalleriaPage() {
     loadOpere(); showToast(isInHome ? 'Rimossa dalla vetrina' : 'Aggiunta in vetrina!')
   }
 
+  const handleToggleGalleria = async (o: Opera) => {
+    const val = !(o as any).in_galleria
+    await supabase.from('opere').update({ in_galleria: val }).eq('id', o.id)
+    loadOpere(); showToast(val ? 'Aggiunta in galleria' : 'Rimossa dalla galleria')
+  }
+
+  const handleToggleShop = async (o: Opera) => {
+    const val = !(o as any).in_shop
+    await supabase.from('opere').update({ in_shop: val }).eq('id', o.id)
+    loadOpere(); showToast(val ? 'Aggiunta nello shop' : 'Rimossa dallo shop')
+  }
+
   const handleDelete = async (id: string) => {
     if (!confirm('Eliminare questa opera?')) return
     await supabase.from('opere').delete().eq('id', id)
@@ -125,7 +137,7 @@ export default function AdminGalleriaPage() {
       <input ref={newFileInputRef} type="file" accept="image/*" onChange={handleFileSelect} style={{display:'none'}} />
 
       <div className={gStyles.header}>
-        <h1 className={styles.sectionTitle} style={{marginBottom:0,borderBottom:'none'}}>Gestione Galleria</h1>
+        <h1 className={styles.sectionTitle} style={{marginBottom:0,borderBottom:'none'}}>Gestione Opere</h1>
         <button className={gStyles.btnNew} onClick={handleNew}>+ Nuova opera</button>
       </div>
 
@@ -241,8 +253,15 @@ export default function AdminGalleriaPage() {
                   <button
                     className={(o as any).in_home ? gStyles.btnHomeOn : gStyles.btnHomeOff}
                     onClick={() => handleToggleHome(o)}
-                    title="Mostra/nascondi in homepage"
-                  >{(o as any).in_home ? '★ In home' : '☆ Home'}</button>
+                  >{(o as any).in_home ? '★ Vetrina' : '☆ Vetrina'}</button>
+                  <button
+                    className={(o as any).in_galleria ? gStyles.btnHomeOn : gStyles.btnHomeOff}
+                    onClick={() => handleToggleGalleria(o)}
+                  >{(o as any).in_galleria ? '🖼 Galleria' : '○ Galleria'}</button>
+                  <button
+                    className={(o as any).in_shop ? gStyles.btnHomeOn : gStyles.btnHomeOff}
+                    onClick={() => handleToggleShop(o)}
+                  >{(o as any).in_shop ? '🛒 Shop' : '○ Shop'}</button>
                   <button className={gStyles.btnDel} onClick={() => handleDelete(o.id)}>Elimina</button>
                 </div>
               </div>

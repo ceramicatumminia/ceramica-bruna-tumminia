@@ -34,7 +34,7 @@ export default function GalleriaClient() {
 
   const loadOpere = async (categoria: string) => {
     setLoading(true)
-    let q = supabase.from('opere').select('*').eq('visibile', true).not('immagine_url', 'is', null).order('ordine')
+    let q = supabase.from('opere').select('*').eq('visibile', true).eq('in_galleria', true).not('immagine_url', 'is', null).order('ordine')
     if (categoria !== 'all') q = q.eq('categoria', categoria)
     const { data } = await q
     setOpere(data || [])

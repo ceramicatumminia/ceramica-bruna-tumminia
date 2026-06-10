@@ -31,7 +31,10 @@ export default function ShopCheckoutPage() {
     if (!form.nome || !form.cognome || !form.email || !form.telefono || !form.indirizzo || !form.citta || !form.cap || !form.provincia) {
       setError('Compila tutti i campi obbligatori'); return
     }
-    if (form.codice_fiscale && !CF_REGEX.test(form.codice_fiscale)) {
+    if (!form.codice_fiscale) {
+      setError('Il codice fiscale è obbligatorio'); return
+    }
+    if (!CF_REGEX.test(form.codice_fiscale)) {
       setError('Codice fiscale non valido (es. RSSMRA80A01H501Z)'); return
     }
     setLoading(true); setError('')
@@ -85,7 +88,7 @@ export default function ShopCheckoutPage() {
               <div style={fieldStyle}><label style={labelStyle}>Email *</label><input type="email" style={inputStyle} value={form.email} onChange={e => set('email', e.target.value)} /></div>
               <div style={fieldStyle}><label style={labelStyle}>Telefono *</label><input style={inputStyle} value={form.telefono} onChange={e => set('telefono', e.target.value)} /></div>
               <div style={{ ...fieldStyle, gridColumn: '1 / -1' }}>
-                <label style={labelStyle}>Codice fiscale <span style={{color:'var(--text-pale)'}}>(opzionale)</span></label>
+                <label style={labelStyle}>Codice fiscale *</label>
                 <input style={{
                   ...inputStyle,
                   textTransform: 'uppercase',

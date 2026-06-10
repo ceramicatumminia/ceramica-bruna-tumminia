@@ -38,6 +38,7 @@ export default function ShopCheckoutPage() {
       const data = await res.json()
       if (data.url) {
         window.location.href = data.url
+        // Non resettare loading - la pagina si chiuderà
       } else {
         setError(data.error || 'Errore nel checkout'); setLoading(false)
       }

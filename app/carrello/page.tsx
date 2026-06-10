@@ -1,5 +1,6 @@
 'use client'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import Header from '@/components/ui/Header'
 import { useCart } from '@/components/shop/CartContext'
 import Link from 'next/link'
@@ -7,13 +8,23 @@ import Link from 'next/link'
 export default function CarrelloPage() {
   const { items, removeItem, updateQuantita, total, count } = useCart()
   const router = useRouter()
+  const [redirecting, setRedirecting] = useState(false)
 
-  if (count === 0) return (
+  if (count === 0 && !redirecting) return (
     <>
       <Header />
       <main style={{ background: 'var(--cream)', minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '24px' }}>
         <div style={{ fontFamily: 'Cormorant Garamond,serif', fontSize: '28px', color: 'var(--terra-dark)', fontStyle: 'italic' }}>Il carrello è vuoto</div>
         <Link href="/shop" style={{ fontFamily: 'Cinzel,serif', fontSize: '9px', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--terra)', textDecoration: 'none', borderBottom: '0.5px solid var(--terra)', paddingBottom: '4px' }}>Torna allo shop →</Link>
+      </main>
+    </>
+  )
+
+  if (redirecting) return (
+    <>
+      <Header />
+      <main style={{ background: 'var(--cream)', minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ fontFamily: 'Lora,serif', fontStyle: 'italic', color: 'var(--text-muted)', fontSize: '16px' }}>Reindirizzamento al pagamento...</div>
       </main>
     </>
   )
@@ -75,7 +86,7 @@ export default function CarrelloPage() {
               <span style={{ fontFamily: 'Cormorant Garamond,serif', fontSize: '24px', color: 'var(--terra)' }}>€ {total.toFixed(2)}</span>
             </div>
 
-            <button onClick={() => router.push('/shop/checkout')} style={{
+            <button onClick={() => { setRedirecting(true); router.push('/shop/checkout') }} style={{
               width: '100%', fontFamily: 'Cinzel,serif', fontSize: '10px', letterSpacing: '0.25em',
               textTransform: 'uppercase', background: 'var(--terra)', color: 'white',
               border: 'none', padding: '16px', cursor: 'pointer', transition: 'background 0.2s'

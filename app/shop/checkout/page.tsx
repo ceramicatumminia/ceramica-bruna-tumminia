@@ -7,8 +7,11 @@ import Link from 'next/link'
 
 const emptyForm = {
   nome: '', cognome: '', email: '', telefono: '',
+  codice_fiscale: '',
   indirizzo: '', citta: '', cap: '', provincia: '', note: ''
 }
+
+const CF_REGEX = /^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$/i
 
 export default function ShopCheckoutPage() {
   const { items, total, clearCart } = useCart()
@@ -27,6 +30,9 @@ export default function ShopCheckoutPage() {
   const handleSubmit = async () => {
     if (!form.nome || !form.cognome || !form.email || !form.telefono || !form.indirizzo || !form.citta || !form.cap || !form.provincia) {
       setError('Compila tutti i campi obbligatori'); return
+    }
+    if (form.codice_fiscale && !CF_REGEX.test(form.codice_fiscale)) {
+      setError('Codice fiscale non valido (es. RSSMRA80A01H501Z)'); return
     }
     setLoading(true); setError('')
     try {
@@ -78,6 +84,24 @@ export default function ShopCheckoutPage() {
               <div style={fieldStyle}><label style={labelStyle}>Cognome *</label><input style={inputStyle} value={form.cognome} onChange={e => set('cognome', e.target.value)} /></div>
               <div style={fieldStyle}><label style={labelStyle}>Email *</label><input type="email" style={inputStyle} value={form.email} onChange={e => set('email', e.target.value)} /></div>
               <div style={fieldStyle}><label style={labelStyle}>Telefono *</label><input style={inputStyle} value={form.telefono} onChange={e => set('telefono', e.target.value)} /></div>
+              <div style={{ ...fieldStyle, gridColumn: '1 / -1' }}>
+                <label style={labelStyle}>Codice fiscale <span style={{color:'var(--text-pale)'}}>(opzionale)</span></label>
+                <input style={{
+                  ...inputStyle,
+                  textTransform: 'uppercase',
+                  borderBottomColor: form.codice_fiscale && !CF_REGEX.test(form.codice_fiscale) ? '#c0504a' : 'rgba(160,104,56,0.3)'
+                }}
+                value={form.codice_fiscale}
+                onChange={e => set('codice_fiscale', e.target.value.toUpperCase())}
+                maxLength={16}
+                placeholder="es. RSSMRA80A01H501Z"
+                />
+                {form.codice_fiscale && !CF_REGEX.test(form.codice_fiscale) && (
+                  <div style={{fontFamily:'Lora,serif',fontSize:'11px',color:'#c0504a',fontStyle:'italic',marginTop:'4px'}}>
+                    Formato non valido — 16 caratteri (6 lettere, 2 numeri, 1 lettera, 2 numeri, 1 lettera, 3 numeri, 1 lettera)
+                  </div>
+                )}
+              </div>
               <div style={{ ...fieldStyle, gridColumn: '1 / -1' }}><label style={labelStyle}>Indirizzo *</label><input style={inputStyle} value={form.indirizzo} onChange={e => set('indirizzo', e.target.value)} /></div>
               <div style={fieldStyle}><label style={labelStyle}>Città *</label><input style={inputStyle} value={form.citta} onChange={e => set('citta', e.target.value)} /></div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>

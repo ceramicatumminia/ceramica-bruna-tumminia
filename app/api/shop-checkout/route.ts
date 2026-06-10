@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
       .from('ordini_shop')
       .insert([{
         nome: form.nome, cognome: form.cognome, email: form.email, telefono: form.telefono,
+        codice_fiscale: form.codice_fiscale || '',
         indirizzo: form.indirizzo, citta: form.citta, cap: form.cap, provincia: form.provincia,
         note: form.note || '', totale: total, stato: 'pending'
       }])

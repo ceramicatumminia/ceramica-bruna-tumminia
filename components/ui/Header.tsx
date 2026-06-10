@@ -1,10 +1,11 @@
+components_ui_Header.tsx
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import styles from './Header.module.css'
 import CartIcon from '@/components/shop/CartIcon'
-
+ 
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/artista', label: 'Chi sono' },
@@ -12,13 +13,13 @@ const navLinks = [
   { href: '/shop', label: 'Shop' },
   { href: '/contatti', label: 'Contatti' },
 ]
-
+ 
 export default function Header() {
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [shopAttivo, setShopAttivo] = useState(false)
-
+ 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll)
@@ -29,9 +30,9 @@ export default function Header() {
     })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
-
+ 
   const visibleLinks = navLinks.filter(l => l.href !== '/shop' || shopAttivo)
-
+ 
   return (
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.headerTop}>
@@ -43,11 +44,11 @@ export default function Header() {
           </div>
         </Link>
       </div>
-
+ 
       <div className={styles.headerUtils}>
         {shopAttivo && <CartIcon />}
       </div>
-
+ 
       <nav className={styles.nav}>
         {visibleLinks.map(link => (
           <Link
@@ -65,7 +66,7 @@ export default function Header() {
           Area riservata
         </Link>
       </nav>
-
+ 
       <button
         className={styles.hamburger}
         onClick={() => setMobileOpen(!mobileOpen)}
@@ -73,7 +74,7 @@ export default function Header() {
       >
         <span/><span/><span/>
       </button>
-
+ 
       {mobileOpen && (
         <div className={styles.mobileNav}>
           {visibleLinks.map(link => (

@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
       nome: m.nome, cognome: m.cognome, email: m.email, telefono: m.telefono,
       indirizzo: m.indirizzo, citta: m.citta, cap: m.cap, provincia: m.provincia,
       note: m.note, totale: parseFloat(m.totale),
-      stripe_payment_id: session.payment_intent as string,
+      stripe_payment_id: session.id,
       stato: 'in_lavorazione'
     }]).select().single()
 

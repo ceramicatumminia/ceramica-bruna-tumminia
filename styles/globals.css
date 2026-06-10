@@ -18,6 +18,24 @@
   --shadow-deep: rgba(26, 14, 8, 0.35);
 }
 
+[data-theme="dark"] {
+  --cream: #0f0d0b;
+  --cream2: #1a1710;
+  --warm-white: #1f1c17;
+  --terra: #c4935a;
+  --terra-light: #d4a870;
+  --terra-dark: #e8d8c0;
+  --bronze: #a07850;
+  --bronze-light: #c4935a;
+  --ink: #e8e2d9;
+  --ink-soft: #2a2218;
+  --text-body: #e8e2d9;
+  --text-muted: #a89880;
+  --text-pale: #6a5e50;
+  --shadow: rgba(0, 0, 0, 0.4);
+  --shadow-deep: rgba(0, 0, 0, 0.6);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -34,6 +52,7 @@ body {
   color: var(--text-body);
   font-family: 'Lora', serif;
   overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 ::-webkit-scrollbar { width: 4px; }

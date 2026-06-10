@@ -35,12 +35,12 @@ export default function Header() {
   return (
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.headerTop}>
-        <Link href="/" className={styles.logoOnly}>
+        <Link href="/" className={styles.logoWrap}>
           <img src="/logo.png" alt="Ippocampo" className={styles.logoImg} />
-        </Link>
-        <Link href="/" className={styles.brand}>
-          <span className={styles.brandMain}>Cer&apos;Amica</span>
-          <span className={styles.brandSub}>di Bruna Tumminia</span>
+          <div className={styles.brand}>
+            <span className={styles.brandMain}>Cer&apos;Amica</span>
+            <span className={styles.brandSub}>di Bruna Tumminia</span>
+          </div>
         </Link>
       </div>
 

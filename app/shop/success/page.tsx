@@ -12,13 +12,11 @@ export default function ShopSuccessPage() {
 
   useEffect(() => {
     if (!sessionId) return
-    // Aspetta 2 secondi che il webhook abbia salvato l'ordine
     const timer = setTimeout(async () => {
-      const { data } = await supabase
-        .from('ordini_shop')
-        .select('numero_ordine')
-        .eq('stripe_payment_id', sessionId)
-        .single()
+      // Il webhook salva payment_intent come stripe_payment_id
+      // Recuperiamo il payment_intent dalla sessione Stripe tramite API
+      const res = await fetch(`/api/shop-order?session_id=${sessionId}`)
+      const data = await res.json()
       if (data?.numero_ordine) setNumeroOrdine(data.numero_ordine)
     }, 2000)
     return () => clearTimeout(timer)

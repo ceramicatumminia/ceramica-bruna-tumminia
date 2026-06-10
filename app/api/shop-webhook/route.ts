@@ -18,28 +18,17 @@ export async function POST(req: NextRequest) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
-    const m = session.metadata!
+    const ordineId = session.metadata?.ordine_id
 
-    // Salva ordine
-    const { data: ordine, error } = await supabase.from('ordini_shop').insert([{
-      nome: m.nome, cognome: m.cognome, email: m.email, telefono: m.telefono,
-      indirizzo: m.indirizzo, citta: m.citta, cap: m.cap, provincia: m.provincia,
-      note: m.note, totale: parseFloat(m.totale),
-      stripe_payment_id: session.id,
-      stato: 'in_lavorazione'
-    }]).select().single()
-
-    if (!error && ordine) {
-      const items = JSON.parse(m.items)
-      await supabase.from('ordini_shop_righe').insert(
-        items.map((i: any) => ({
-          ordine_id: ordine.id,
-          opera_id: i.id,
-          opera_titolo: i.nome,
-          opera_prezzo: i.prezzo,
-          quantita: i.quantita
-        }))
-      )
+    if (ordineId) {
+      // Aggiorna stato ordine da pending a in_lavorazione
+      await supabase
+        .from('ordini_shop')
+        .update({
+          stato: 'in_lavorazione',
+          stripe_payment_id: session.payment_intent as string
+        })
+        .eq('id', ordineId)
     }
   }
 

@@ -1,12 +1,18 @@
 'use client'
 import { useSearchParams } from 'next/navigation'
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import Link from 'next/link'
 import Header from '@/components/ui/Header'
+import { useCart } from '@/components/shop/CartContext'
 
 function SuccessContent() {
   const searchParams = useSearchParams()
   const numeroOrdine = searchParams.get('ordine')
+  const { clearCart } = useCart()
+
+  useEffect(() => {
+    clearCart()
+  }, [])
 
   return (
     <div style={{ textAlign: 'center', maxWidth: '520px', padding: '40px 24px' }}>

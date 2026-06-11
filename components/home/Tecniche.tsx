@@ -14,7 +14,7 @@ export default function Tecniche() {
       <div className={styles.grid3}>
         {tecniche.map(t => (
           <div key={t.n} style={{paddingTop:'24px', borderTop:'0.5px solid rgba(160,104,56,0.25)'}}>
-            <div style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'42px',color:'rgba(160,104,56,0.2)',marginBottom:'12px'}}>{t.n}</div>
+            <div style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'42px',color:'var(--bronze-light)',opacity:0.4,marginBottom:'12px'}}>{t.n}</div>
             <div className={styles.label} style={{marginBottom:'12px',color:'var(--terra)'}}>{t.nome}</div>
             <p className={styles.bodySmall}>{t.desc}</p>
           </div>

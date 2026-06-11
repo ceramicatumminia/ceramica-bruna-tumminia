@@ -41,30 +41,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
-      {/* Sidebar */}
       <aside className={siteStyles.adminSidebar}>
         <div style={{ padding: '28px 24px 20px' }}>
-          <div style={{ fontFamily: 'Parisienne, cursive', fontSize: '26px', color: 'var(--bronze-light)', lineHeight: 1 }}>Cer&apos;Amica</div>
-          <div style={{ fontFamily: 'Cinzel, serif', fontSize: '7px', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--bronze)', marginTop: '4px' }}>Pannello Admin</div>
+          <div className={siteStyles.adminBrand}>Cer&apos;Amica</div>
+          <div className={siteStyles.adminBrandSub}>Pannello Admin</div>
         </div>
 
         <nav style={{ flex: 1, padding: '8px 0' }}>
           {navLinks.map(({ href, label }) => {
             const active = pathname.startsWith(href)
             return (
-              <Link key={href} href={href} style={{
-                display: 'block',
-                padding: '10px 24px',
-                fontFamily: 'Cinzel, serif',
-                fontSize: '9px',
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                textDecoration: 'none',
-                color: active ? 'var(--terra-dark)' : 'var(--bronze)',
-                background: active ? 'rgba(255,255,255,0.08)' : 'transparent',
-                borderLeft: active ? '2px solid var(--bronze-light)' : '2px solid transparent',
-                transition: 'all 0.2s',
-              }}>
+              <Link key={href} href={href}
+                className={`${siteStyles.adminNavLink} ${active ? siteStyles.adminNavLinkActive : ''}`}>
                 {label}
               </Link>
             )
@@ -72,25 +60,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </nav>
 
         <div style={{ padding: '16px 24px 28px' }}>
-          <button onClick={handleLogout} style={{
-            fontFamily: 'Cinzel, serif',
-            fontSize: '9px',
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
-            background: 'none',
-            border: '0.5px solid var(--bronze)',
-            color: 'var(--bronze)',
-            padding: '7px 16px',
-            cursor: 'pointer',
-            transition: 'all 0.2s',
-            width: '100%',
-          }}>
-            Esci
-          </button>
+          <button onClick={handleLogout} className={siteStyles.adminLogout}>Esci</button>
         </div>
       </aside>
 
-      {/* Main content */}
       <main style={{ marginLeft: '190px', flex: 1, padding: '40px', background: 'var(--cream)', minHeight: '100vh' }}>
         {children}
       </main>

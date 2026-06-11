@@ -1,43 +1,55 @@
 /* ═══════════════════════════════════════════════
-   SITE.MODULE.CSS — unica fonte di verità per il layout
-   Modifica qui per cambiare tutto il sito
+   SITE.MODULE.CSS — unica fonte di verità
+   Per cambiare colori: modifica globals.css (:root)
+   Per cambiare layout/testo: modifica qui
    ═══════════════════════════════════════════════ */
 
-/* ── Sezioni base ───────────────────────────── */
+/* ── Sezioni sfondo chiaro ──────────────────── */
 .sectionLight {
   padding: clamp(48px, 8vw, 100px) clamp(24px, 6vw, 80px);
   background: var(--cream);
 }
-
 .sectionAlt {
   padding: clamp(48px, 8vw, 100px) clamp(24px, 6vw, 80px);
   background: var(--warm-white);
 }
 
+/* ── Sezioni sfondo scuro ───────────────────── */
+/* Colori testo FISSI (hex) perché le CSS var non
+   si ridefiniscono nei CSS modules di Next.js    */
 .sectionDark {
   padding: clamp(48px, 8vw, 100px) clamp(24px, 6vw, 80px);
   background: var(--ink);
-  /* testo leggibile su sfondo scuro */
-  --terra-dark: #f0e4d0;
-  --terra: #e8c898;
-  --terra-light: #d4a870;
-  --bronze: #d4aa78;
-  --bronze-light: #e8c898;
-  --text-muted: #d8ccc0;
-  --text-pale: #b8a898;
 }
-
 .sectionDarkSoft {
   padding: clamp(48px, 8vw, 100px) clamp(24px, 6vw, 80px);
   background: var(--ink-soft);
-  --terra-dark: #f0e4d0;
-  --terra: #e8c898;
-  --terra-light: #d4a870;
-  --bronze: #d4aa78;
-  --bronze-light: #e8c898;
-  --text-muted: #d8ccc0;
-  --text-pale: #b8a898;
 }
+
+/* Testo su sfondo scuro — colori fissi */
+.sectionDark .label,
+.sectionDarkSoft .label,
+.footer .label,
+.adminSidebar .label { color: #c4935a; }
+
+.sectionDark .h1,
+.sectionDarkSoft .h1 { color: #f0e4d0; }
+
+.sectionDark .h2,
+.sectionDarkSoft .h2 { color: #f0e4d0; }
+
+.sectionDark .body,
+.sectionDarkSoft .body,
+.sectionDark .bodySmall,
+.sectionDarkSoft .bodySmall,
+.sectionDark .italic,
+.sectionDarkSoft .italic { color: #d8ccc0; }
+
+.sectionDark .divider,
+.sectionDarkSoft .divider { background: #c4935a; }
+
+.sectionDark a,
+.sectionDarkSoft a { color: #d8ccc0; }
 
 /* ── Layout griglie ─────────────────────────── */
 .grid2 {
@@ -45,13 +57,11 @@
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: clamp(32px, 5vw, 80px);
 }
-
 .grid3 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: clamp(24px, 4vw, 48px);
 }
-
 .gridAsymL {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -67,8 +77,8 @@
   text-transform: uppercase;
   color: var(--bronze);
   margin-bottom: 16px;
+  display: block;
 }
-
 .h1 {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
@@ -77,7 +87,6 @@
   line-height: 1.1;
   margin-bottom: 24px;
 }
-
 .h2 {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(26px, 3.5vw, 48px);
@@ -86,14 +95,6 @@
   line-height: 1.2;
   margin-bottom: 20px;
 }
-
-.h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  color: var(--terra-dark);
-  margin-bottom: 12px;
-}
-
 .body {
   font-family: 'Lora', serif;
   font-size: 15px;
@@ -101,14 +102,12 @@
   color: var(--text-muted);
   margin-bottom: 20px;
 }
-
 .bodySmall {
   font-family: 'Lora', serif;
   font-size: 13px;
   line-height: 1.7;
   color: var(--text-muted);
 }
-
 .italic {
   font-family: 'Lora', serif;
   font-style: italic;
@@ -116,7 +115,6 @@
   line-height: 1.85;
   color: var(--text-muted);
 }
-
 .blockquote {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
@@ -127,7 +125,6 @@
   padding: 16px 24px;
   margin: 32px 0;
 }
-
 .divider {
   width: 50px;
   height: 0.5px;
@@ -135,7 +132,7 @@
   margin: 0 0 32px;
 }
 
-/* ── Bottoni e link ─────────────────────────── */
+/* ── Bottoni ────────────────────────────────── */
 .btnPrimary {
   display: inline-flex;
   align-items: center;
@@ -166,21 +163,19 @@
   padding-bottom: 4px;
 }
 
-/* ── Hero section ───────────────────────────── */
+/* ── Hero ───────────────────────────────────── */
 .heroGrid {
   height: 520px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   overflow: hidden;
 }
-
 .heroContent {
   padding: 60px 60px 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-
 .heroImgWrap {
   overflow: hidden;
   height: calc(90% - 60px);
@@ -188,7 +183,7 @@
   margin: 30px 50px 30px auto;
 }
 
-/* ── Footer strip ───────────────────────────── */
+/* ── Footer ─────────────────────────────────── */
 .footer {
   padding: 80px;
   background: var(--ink);
@@ -196,18 +191,15 @@
   grid-template-columns: 1.2fr 1fr 1fr;
   gap: 40px;
   align-items: start;
-  --terra-dark: #f0e4d0;
-  --terra: #e8c898;
-  --bronze: #d4aa78;
-  --bronze-light: #e8c898;
-  --text-muted: #d8ccc0;
-  --text-pale: #b8a898;
 }
+.footer .label  { color: #c4935a; }
+.footer .bodySmall,
+.footer .bodySmall a { color: #d8ccc0; }
 
 .footerBrand {
   font-family: 'Parisienne', cursive;
   font-size: 34px;
-  color: var(--terra-dark);
+  color: #e8d8c0;
   line-height: 1;
 }
 
@@ -221,12 +213,59 @@
   position: fixed;
   top: 0; left: 0; bottom: 0;
   z-index: 100;
-  border-right: 1px solid rgba(128,128,128,0.1);
-  --terra-dark: #f0e4d0;
-  --terra: #e8c898;
-  --bronze: #d4aa78;
-  --bronze-light: #e8c898;
-  --text-muted: #d8ccc0;
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+.adminBrand {
+  font-family: 'Parisienne', cursive;
+  font-size: 26px;
+  color: #e8c898;
+  line-height: 1;
+}
+.adminBrandSub {
+  font-family: 'Cinzel', serif;
+  font-size: 7px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #c4935a;
+  margin-top: 4px;
+}
+.adminNavLink {
+  display: block;
+  padding: 11px 24px;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #c4935a;
+  border-left: 2px solid transparent;
+  transition: all 0.2s;
+}
+.adminNavLink:hover {
+  color: #e8d8c0;
+  background: rgba(255,255,255,0.05);
+}
+.adminNavLinkActive {
+  color: #e8d8c0;
+  background: rgba(255,255,255,0.08);
+  border-left-color: #c4935a;
+}
+.adminLogout {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: none;
+  border: 0.5px solid #c4935a;
+  color: #c4935a;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+}
+.adminLogout:hover {
+  color: #e8d8c0;
+  border-color: #e8d8c0;
 }
 
 /* ── Responsive ─────────────────────────────── */

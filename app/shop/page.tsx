@@ -55,7 +55,7 @@ export default function ShopPage() {
                 fontFamily: 'Cinzel,serif', fontSize: '8px', letterSpacing: '0.2em', textTransform: 'uppercase',
                 padding: '6px 16px', border: '0.5px solid rgba(160,104,56,0.3)', cursor: 'pointer',
                 background: filtro === c ? 'var(--terra)' : 'transparent',
-                color: filtro === c ? 'white' : 'var(--bronze)', transition: 'all 0.2s'
+                color: filtro === c ? 'var(--cream)' : 'var(--text-body)', transition: 'all 0.2s'
               }}>{c === 'tutti' ? 'Tutti' : c}</button>
             ))}
           </div>

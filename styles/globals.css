@@ -20,20 +20,20 @@
 
 [data-theme="dark"] {
   --cream: #0f0d0b;
-  --cream2: #1a1710;
-  --warm-white: #1f1c17;
-  --terra: #c4935a;
-  --terra-light: #d4a870;
-  --terra-dark: #e8d8c0;
-  --bronze: #a07850;
-  --bronze-light: #c4935a;
-  --ink: #1a1710;
-  --ink-soft: #242018;
-  --text-body: #e8e2d9;
-  --text-muted: #a89880;
-  --text-pale: #6a5e50;
-  --shadow: rgba(0, 0, 0, 0.4);
-  --shadow-deep: rgba(0, 0, 0, 0.6);
+  --cream2: #1c1814;
+  --warm-white: #242018;
+  --terra: #ffffff;
+  --terra-light: #ffffff;
+  --terra-dark: #ffffff;
+  --bronze: #e8e0d0;
+  --bronze-light: #f0e8d8;
+  --ink: #1c1814;
+  --ink-soft: #282218;
+  --text-body: #ffffff;
+  --text-muted: #e8e0d0;
+  --text-pale: #c8b898;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --shadow-deep: rgba(0, 0, 0, 0.7);
 }
 
 * {

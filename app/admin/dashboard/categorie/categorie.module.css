@@ -40,14 +40,14 @@
   font-size: 8px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  background: var(--terra);
+  background: #8a4a20;
   color: var(--cream);
   border: none;
   padding: 6px 14px;
   cursor: pointer;
   transition: background 0.2s;
 }
-.btnSave:hover { background: var(--terra-light); }
+.btnSave:hover { background: #b5682e; }
 
 .btnDel {
   font-family: 'Cinzel', serif;
@@ -109,7 +109,7 @@
   font-size: 9px;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  background: var(--terra);
+  background: #8a4a20;
   color: var(--cream);
   border: none;
   padding: 12px 28px;
@@ -117,7 +117,7 @@
   transition: background 0.2s;
   margin-top: 8px;
 }
-.btnAdd:hover { background: var(--terra-light); }
+.btnAdd:hover { background: #b5682e; }
 
 .toast {
   position: fixed;

@@ -77,10 +77,10 @@ export default function AdminProdottiPage() {
     loadProdotti(); showToast('Stato aggiornato')
   }
 
-  const cardStyle: React.CSSProperties = { background: 'white', boxShadow: '0 2px 12px rgba(90,45,15,0.08)', overflow: 'hidden' }
+  const cardStyle: React.CSSProperties = { background: 'var(--warm-white)', boxShadow: '0 2px 12px rgba(90,45,15,0.08)', overflow: 'hidden' }
   const labelStyle: React.CSSProperties = { fontFamily: 'Cinzel,serif', fontSize: '8px', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--bronze)', display: 'block', marginBottom: '6px' }
   const inputStyle: React.CSSProperties = { width: '100%', border: 'none', borderBottom: '0.5px solid rgba(160,104,56,0.3)', padding: '8px 0', fontFamily: 'Lora,serif', fontSize: '14px', color: 'var(--text-body)', background: 'none', outline: 'none', boxSizing: 'border-box' }
-  const btnStyle = (color = 'var(--terra)'): React.CSSProperties => ({ fontFamily: 'Cinzel,serif', fontSize: '8px', letterSpacing: '0.2em', textTransform: 'uppercase', background: color, color: 'white', border: 'none', padding: '8px 16px', cursor: 'pointer', height: '32px', display: 'inline-flex', alignItems: 'center' })
+  const btnStyle = (color = 'var(--terra)'): React.CSSProperties => ({ fontFamily: 'Cinzel,serif', fontSize: '8px', letterSpacing: '0.2em', textTransform: 'uppercase', background: '#8a4a20', color: 'var(--cream)', border: 'none', padding: '8px 16px', cursor: 'pointer', height: '32px', display: 'inline-flex', alignItems: 'center' })
   const btnOutStyle: React.CSSProperties = { fontFamily: 'Cinzel,serif', fontSize: '8px', letterSpacing: '0.2em', textTransform: 'uppercase', background: 'rgba(160,104,56,0.08)', color: 'var(--bronze)', border: '0.5px solid rgba(160,104,56,0.3)', padding: '8px 16px', cursor: 'pointer', height: '32px', display: 'inline-flex', alignItems: 'center' }
 
   return (
@@ -148,7 +148,7 @@ export default function AdminProdottiPage() {
             <div key={p.id} style={cardStyle}>
               <div style={{ aspectRatio: '4/3', overflow: 'hidden', background: 'var(--cream2)', position: 'relative' }}>
                 {p.immagine_url ? <img src={p.immagine_url} alt={p.nome} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cinzel,serif', fontSize: '9px', color: 'var(--text-pale)', letterSpacing: '0.2em' }}>NESSUNA FOTO</div>}
-                <span style={{ position: 'absolute', top: '8px', right: '8px', fontFamily: 'Cinzel,serif', fontSize: '7.5px', letterSpacing: '0.15em', textTransform: 'uppercase', padding: '3px 8px', background: p.disponibile ? 'rgba(80,140,80,0.85)' : 'rgba(160,104,56,0.85)', color: 'white' }}>{p.disponibile ? 'Disponibile' : 'Non disp.'}</span>
+                <span style={{ position: 'absolute', top: '8px', right: '8px', fontFamily: 'Cinzel,serif', fontSize: '7.5px', letterSpacing: '0.15em', textTransform: 'uppercase', padding: '3px 8px', background: p.disponibile ? 'rgba(80,140,80,0.85)' : 'rgba(160,104,56,0.85)', color: 'var(--cream)' }}>{p.disponibile ? 'Disponibile' : 'Non disp.'}</span>
               </div>
               <div style={{ padding: '16px' }}>
                 <div style={{ fontFamily: 'Cinzel,serif', fontSize: '8px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--bronze)', marginBottom: '4px' }}>{p.categoria}</div>

@@ -74,8 +74,8 @@ export default function ShopPage() {
               <button key={c} onClick={() => setFiltro(c)} style={{
                 fontFamily: 'Cinzel,serif', fontSize: '8px', letterSpacing: '0.2em', textTransform: 'uppercase',
                 padding: '6px 16px', border: '0.5px solid rgba(160,104,56,0.3)', cursor: 'pointer',
-                background: filtro === c ? 'var(--terra)' : 'transparent',
-                color: filtro === c ? 'var(--cream)' : 'var(--text-body)', transition: 'all 0.2s'
+                background: filtro === c ? '#8a4a20' : 'transparent',
+                color: filtro === c ? '#f5f0e8' : 'var(--text-body)', transition: 'all 0.2s'
               }}>{c === 'tutti' ? 'Tutti' : c}</button>
             ))}
           </div>
@@ -102,7 +102,7 @@ export default function ShopPage() {
                       <div style={{ fontFamily: 'Cormorant Garamond,serif', fontSize: '22px', color: 'var(--terra)' }}>€ {o.prezzo.toFixed(2)}</div>
                       <button onClick={() => handleAdd(o)} style={{
                         fontFamily: 'Cinzel,serif', fontSize: '8px', letterSpacing: '0.2em', textTransform: 'uppercase',
-                        background: 'var(--terra)', color: 'var(--cream)', border: 'none', padding: '10px 18px', cursor: 'pointer'
+                        background: '#8a4a20', color: '#f5f0e8', border: 'none', padding: '10px 18px', cursor: 'pointer'
                       }}>+ Carrello</button>
                     </div>
                   </div>

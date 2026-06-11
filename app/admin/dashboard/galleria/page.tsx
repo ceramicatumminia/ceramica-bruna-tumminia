@@ -138,7 +138,7 @@ export default function AdminGalleriaPage() {
 
       <div className={gStyles.header}>
         <h1 className={styles.sectionTitle} style={{marginBottom:0,borderBottom:'none'}}>Gestione Opere</h1>
-        <button className={gStyles.btnNew} onClick={handleNew}>+ Nuova opera</button>
+        {!showForm && <button className={gStyles.btnNew} onClick={handleNew}>+ Nuova opera</button>}
       </div>
 
       {showForm && (

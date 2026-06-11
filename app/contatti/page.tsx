@@ -1,30 +1,31 @@
 import Header from '@/components/ui/Header'
+import styles from '@/styles/site.module.css'
 
 export default function ContattiPage() {
   return (
     <>
       <Header />
-      <main style={{minHeight:'80vh',background:'var(--ink)',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))'}}>
-        <div style={{padding:'clamp(48px,8vw,100px) clamp(24px,6vw,80px)',display:'flex',flexDirection:'column',justifyContent:'center'}}>
-          <div style={{fontFamily:'Cinzel,serif',fontSize:'9px',letterSpacing:'0.4em',textTransform:'uppercase',color:'var(--bronze)',marginBottom:'20px'}}>— Scriviamo insieme</div>
-          <h1 style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'clamp(40px,5vw,70px)',color:'var(--terra-dark)',lineHeight:'1.1',marginBottom:'32px'}}>Contatti</h1>
-          <div style={{width:'50px',height:'0.5px',background:'var(--bronze)',margin:'0 0 32px'}}></div>
+      <main style={{minHeight:'80vh',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))'}}>
+        <div className={styles.sectionDark}>
+          <div className={styles.label}>— Scriviamo insieme</div>
+          <h1 className={styles.h1}>Contatti</h1>
+          <div className={styles.divider}></div>
           <div style={{marginBottom:'24px'}}>
-            <div style={{fontFamily:'Cinzel,serif',fontSize:'9px',letterSpacing:'0.3em',textTransform:'uppercase',color:'var(--bronze)',marginBottom:'8px'}}>Email</div>
-            <a href="mailto:ceramicatumminia@gmail.com" style={{fontFamily:'Lora,serif',fontSize:'15px',color:'var(--text-muted)',textDecoration:'none'}}>ceramicatumminia@gmail.com</a>
+            <div className={styles.label}>Email</div>
+            <a href="mailto:ceramicatumminia@gmail.com" className={styles.bodySmall} style={{textDecoration:'none',display:'block'}}>ceramicatumminia@gmail.com</a>
           </div>
           <div style={{marginBottom:'24px'}}>
-            <div style={{fontFamily:'Cinzel,serif',fontSize:'9px',letterSpacing:'0.3em',textTransform:'uppercase',color:'var(--bronze)',marginBottom:'8px'}}>Laboratorio</div>
-            <p style={{fontFamily:'Lora,serif',fontSize:'14px',color:'var(--text-muted)',lineHeight:'1.8'}}>Via Decimo 8<br/>09026 San Sperate (SU)<br/>340 0045472</p>
+            <div className={styles.label}>Laboratorio</div>
+            <p className={styles.bodySmall}>Via Decimo 8<br/>09026 San Sperate (SU)<br/>340 0045472</p>
           </div>
           <div>
-            <div style={{fontFamily:'Cinzel,serif',fontSize:'9px',letterSpacing:'0.3em',textTransform:'uppercase',color:'var(--bronze)',marginBottom:'8px'}}>Social</div>
-            <a href="https://instagram.com/ceramicatumminia" target="_blank" rel="noreferrer" style={{fontFamily:'Lora,serif',fontStyle:'italic',fontSize:'15px',color:'var(--text-muted)',textDecoration:'none'}}>@ceramicatumminia</a>
+            <div className={styles.label}>Social</div>
+            <a href="https://instagram.com/ceramicatumminia" target="_blank" rel="noreferrer" className={styles.bodySmall} style={{textDecoration:'none',fontStyle:'italic',display:'block'}}>@ceramicatumminia</a>
           </div>
         </div>
-        <div style={{padding:'clamp(48px,8vw,100px) clamp(24px,6vw,80px)',background:'var(--cream2)',display:'flex',flexDirection:'column',justifyContent:'center'}}>
-          <p style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'18px',color:'var(--text-muted)',marginBottom:'32px',lineHeight:'1.6'}}>Per informazioni sulle opere, commissioni o acquisti, scrivici direttamente.</p>
-          <a href="mailto:ceramicatumminia@gmail.com" style={{display:'inline-flex',alignItems:'center',gap:'10px',fontFamily:'Cinzel,serif',fontSize:'10px',letterSpacing:'0.3em',textTransform:'uppercase',color:'var(--cream)',background:'var(--terra)',border:'none',padding:'14px 32px',textDecoration:'none',width:'fit-content'}}>Scrivi una email →</a>
+        <div className={styles.sectionLight} style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>
+          <p className={styles.italic} style={{marginBottom:'32px'}}>Per informazioni sulle opere, commissioni o acquisti, scrivici direttamente.</p>
+          <a href="mailto:ceramicatumminia@gmail.com" className={styles.btnPrimary}>Scrivi una email →</a>
         </div>
       </main>
     </>

@@ -135,3 +135,54 @@ body {
 *, *::before, *::after {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
+
+/* ── Testo su sfondo scuro (ink) ─────────────────────────────────
+   Queste regole si applicano globalmente a qualsiasi elemento
+   dentro una sezione con sfondo var(--ink) o var(--ink-soft).
+   Colori hex fissi — non dipendono da variabili ridefinite.     */
+
+[style*="background:var(--ink)"] h1,
+[style*="background: var(--ink)"] h1,
+[style*="background:var(--ink-soft)"] h1,
+[style*="background: var(--ink-soft)"] h1 { color: #f0e4d0 !important; }
+
+[style*="background:var(--ink)"] h2,
+[style*="background: var(--ink)"] h2,
+[style*="background:var(--ink-soft)"] h2,
+[style*="background: var(--ink-soft)"] h2 { color: #f0e4d0 !important; }
+
+[style*="background:var(--ink)"] p,
+[style*="background: var(--ink)"] p,
+[style*="background:var(--ink-soft)"] p,
+[style*="background: var(--ink-soft)"] p { color: #d8ccc0 !important; }
+
+[style*="background:var(--ink)"] a,
+[style*="background: var(--ink)"] a,
+[style*="background:var(--ink-soft)"] a,
+[style*="background: var(--ink-soft)"] a { color: #d8ccc0 !important; }
+
+[style*="background:var(--ink)"] div[class*="label"],
+[style*="background: var(--ink)"] div[class*="label"],
+[style*="background:var(--ink-soft)"] div[class*="label"],
+[style*="background: var(--ink-soft)"] div[class*="label"] { color: #c4935a !important; }
+
+/* Footer e sidebar admin: sfondo ink fisso */
+footer, [class*="footer"] { background: var(--ink); }
+
+[class*="footer"] *,
+[class*="adminSidebar"] * { color: #d8ccc0; }
+
+[class*="footer"] [class*="label"],
+[class*="footer"] [class*="footerBrand"],
+[class*="adminSidebar"] [class*="adminBrand"] { color: #e8c898 !important; }
+
+[class*="footer"] [class*="bodySmall"],
+[class*="footer"] p,
+[class*="footer"] a,
+[class*="adminSidebar"] [class*="adminNavLink"] { color: #d8ccc0 !important; }
+
+[class*="adminSidebar"] [class*="adminBrand"] { color: #e8c898 !important; }
+[class*="adminSidebar"] [class*="adminBrandSub"] { color: #c4935a !important; }
+[class*="adminSidebar"] [class*="adminNavLink"] { color: #c4935a !important; }
+[class*="adminSidebar"] [class*="adminNavLinkActive"] { color: #e8d8c0 !important; }
+[class*="adminSidebar"] [class*="adminLogout"] { color: #c4935a !important; border-color: #c4935a !important; }

@@ -14,6 +14,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       if (!data.session) router.replace('/admin')
       else setChecking(false)
     })
+    // Applica tema salvato anche in admin
+    const saved = localStorage.getItem('theme')
+    if (saved && saved !== 'light') {
+      document.documentElement.setAttribute('data-theme', saved)
+    } else {
+      document.documentElement.removeAttribute('data-theme')
+    }
   }, [router])
 
   const handleLogout = async () => {
@@ -36,14 +43,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Sidebar */}
       <aside style={{
         width: '190px', flexShrink: 0,
-        background: '#1a1410',
+        background: 'var(--ink)',
         display: 'flex', flexDirection: 'column',
         position: 'fixed', top: 0, left: 0, bottom: 0,
         zIndex: 100,
+        borderRight: '1px solid rgba(128,128,128,0.1)',
       }}>
         <div style={{ padding: '28px 24px 20px' }}>
-          <div style={{ fontFamily: 'Parisienne, cursive', fontSize: '26px', color: 'rgba(232,221,208,0.9)', lineHeight: 1 }}>Cer&apos;Amica</div>
-          <div style={{ fontFamily: 'Cinzel, serif', fontSize: '7px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#c4935a', marginTop: '4px' }}>Pannello Admin</div>
+          <div style={{ fontFamily: 'Parisienne, cursive', fontSize: '26px', color: 'var(--bronze-light)', lineHeight: 1 }}>Cer&apos;Amica</div>
+          <div style={{ fontFamily: 'Cinzel, serif', fontSize: '7px', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--bronze)', marginTop: '4px' }}>Pannello Admin</div>
         </div>
 
         <nav style={{ flex: 1, padding: '8px 0' }}>
@@ -58,9 +66,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
                 textDecoration: 'none',
-                color: active ? '#e8ddd0' : 'rgba(196,147,90,0.7)',
-                background: active ? 'rgba(160,104,56,0.2)' : 'transparent',
-                borderLeft: active ? '2px solid #c4935a' : '2px solid transparent',
+                color: active ? 'var(--terra-dark)' : 'var(--bronze)',
+                background: active ? 'rgba(128,128,128,0.12)' : 'transparent',
+                borderLeft: active ? '2px solid var(--bronze-light)' : '2px solid transparent',
                 transition: 'all 0.2s',
               }}>
                 {label}
@@ -76,15 +84,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             letterSpacing: '0.2em',
             textTransform: 'uppercase',
             background: 'none',
-            border: '0.5px solid rgba(196,147,90,0.4)',
-            color: 'rgba(196,147,90,0.85)',
+            border: '0.5px solid var(--bronze)',
+            color: 'var(--bronze)',
             padding: '7px 16px',
             cursor: 'pointer',
             transition: 'all 0.2s',
             width: '100%',
           }}
-          onMouseEnter={e => { (e.target as HTMLButtonElement).style.color = '#e8ddd0'; (e.target as HTMLButtonElement).style.borderColor = 'rgba(196,147,90,0.8)' }}
-          onMouseLeave={e => { (e.target as HTMLButtonElement).style.color = 'rgba(196,147,90,0.85)'; (e.target as HTMLButtonElement).style.borderColor = 'rgba(196,147,90,0.4)' }}
+          onMouseEnter={e => { (e.target as HTMLButtonElement).style.color = 'var(--terra-dark)'; (e.target as HTMLButtonElement).style.borderColor = 'var(--bronze-light)' }}
+          onMouseLeave={e => { (e.target as HTMLButtonElement).style.color = 'var(--bronze)'; (e.target as HTMLButtonElement).style.borderColor = 'var(--bronze)' }}
           >
             Esci
           </button>

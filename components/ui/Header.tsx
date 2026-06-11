@@ -27,7 +27,7 @@ export default function Header() {
     window.addEventListener('scroll', onScroll)
 
     const saved = localStorage.getItem('theme') as 'light'|'dark'|'ice' | null
-    if (saved && saved !== 'light' && !pathname.startsWith('/admin')) {
+    if (saved && saved !== 'light') {
       setTheme(saved)
       document.documentElement.setAttribute('data-theme', saved)
     }

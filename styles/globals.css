@@ -25,13 +25,13 @@
   --terra: #2a2a2a;
   --terra-light: #444444;
   --terra-dark: #111111;
-  --bronze: #666666;
-  --bronze-light: #888888;
-  --ink: #1a1a1a;
-  --ink-soft: #2a2a2a;
+  --bronze: #555555;
+  --bronze-light: #777777;
+  --ink: #ffffff;
+  --ink-soft: #f0f2f5;
   --text-body: #1a1a1a;
-  --text-muted: #555555;
-  --text-pale: #999999;
+  --text-muted: #444444;
+  --text-pale: #888888;
   --shadow: rgba(0, 0, 0, 0.08);
   --shadow-deep: rgba(0, 0, 0, 0.15);
 }
@@ -122,6 +122,13 @@ body {
 [data-theme="dark"] main[style*="var(--ink)"],
 [data-theme="dark"] div[style*="var(--ink)"] {
   border: 0.5px solid rgba(160,104,56,0.1);
+}
+
+/* Ice mode: sections with var(--ink) background need dark text */
+[data-theme="ice"] section[style*="var(--ink)"],
+[data-theme="ice"] main[style*="var(--ink)"],
+[data-theme="ice"] div[style*="var(--ink)"] {
+  border: 0.5px solid rgba(0,0,0,0.06);
 }
 
 /* Smooth transitions for all elements */

@@ -42,7 +42,27 @@ export default function ShopPage() {
     <>
       <Header />
       <main style={{ background: 'var(--cream)', minHeight: '100vh' }}>
-        <div style={{ padding: 'clamp(40px,6vw,60px) clamp(20px,6vw,80px) 32px', borderBottom: '0.5px solid rgba(160,104,56,0.15)' }}>
+        <div style={{
+          padding: 'clamp(40px,6vw,80px) clamp(20px,6vw,80px) clamp(32px,4vw,48px)',
+          background: 'var(--warm-white)',
+          position: 'relative',
+          overflow: 'hidden',
+          borderBottom: '0.5px solid rgba(160,104,56,0.15)'
+        }}>
+          <div style={{
+            content: '',
+            fontFamily:'Cormorant Garamond,serif',
+            fontSize:'220px',
+            fontWeight:300,
+            fontStyle:'italic',
+            color:'rgba(160,104,56,0.04)',
+            position:'absolute',
+            right:'-10px',
+            bottom:'-40px',
+            lineHeight:1,
+            pointerEvents:'none',
+            userSelect:'none'
+          }} aria-hidden="true">Shop</div>
           <div style={{ fontFamily: 'Cinzel,serif', fontSize: '9px', letterSpacing: '0.4em', textTransform: 'uppercase', color: 'var(--bronze)', marginBottom: '12px' }}>— Ceramiche artistiche</div>
           <h1 style={{ fontFamily: 'Cormorant Garamond,serif', fontSize: 'clamp(32px,4vw,56px)', fontWeight: 300, color: 'var(--terra-dark)', marginBottom: '12px' }}>Shop</h1>
           <p style={{ fontFamily: 'Lora,serif', fontSize: '14px', color: 'var(--text-muted)', fontStyle: 'italic' }}>Ogni pezzo è realizzato e decorato interamente a mano.</p>

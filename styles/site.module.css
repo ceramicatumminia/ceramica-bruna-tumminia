@@ -26,14 +26,14 @@
 
 /* ── Tipografia su SFONDO SCURO ─────────── */
 /* Suffisso D = Dark, colori hex fissi */
-.labelD    { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.38em; text-transform:uppercase; color:#ffffff; margin-bottom:16px; display:block; }
-.h1D       { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(36px,5vw,72px); color:#ffffff; line-height:1.1; margin-bottom:24px; }
-.h2D       { font-family:'Cormorant Garamond',serif; font-size:clamp(26px,3.5vw,48px); font-weight:300; color:#ffffff; line-height:1.2; margin-bottom:20px; }
-.bodyD     { font-family:'Lora',serif; font-size:15px; line-height:1.85; color:#f0e8e0; margin-bottom:20px; }
-.bodySmallD{ font-family:'Lora',serif; font-size:13px; line-height:1.7; color:#f0e8e0; }
-.italicD   { font-family:'Lora',serif; font-style:italic; font-size:clamp(14px,2vw,16px); line-height:1.85; color:#f0e8e0; }
+.labelD    { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.38em; text-transform:uppercase; color:#d4aa78; margin-bottom:16px; display:block; }
+.h1D       { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(36px,5vw,72px); color:#f0e4d0; line-height:1.1; margin-bottom:24px; }
+.h2D       { font-family:'Cormorant Garamond',serif; font-size:clamp(26px,3.5vw,48px); font-weight:300; color:#f0e4d0; line-height:1.2; margin-bottom:20px; }
+.bodyD     { font-family:'Lora',serif; font-size:15px; line-height:1.85; color:#e0d4c8; margin-bottom:20px; }
+.bodySmallD{ font-family:'Lora',serif; font-size:13px; line-height:1.7; color:#e0d4c8; }
+.italicD   { font-family:'Lora',serif; font-style:italic; font-size:clamp(14px,2vw,16px); line-height:1.85; color:#e0d4c8; }
 .dividerD  { width:50px; height:0.5px; background:#d4aa78; margin:0 0 32px; }
-.linkD     { font-family:'Lora',serif; font-size:13px; color:#f0e8e0; text-decoration:none; display:block; }
+.linkD     { font-family:'Lora',serif; font-size:13px; color:#e0d4c8; text-decoration:none; display:block; }
 
 /* ── Bottoni ────────────────────────────── */
 .btnPrimary { display:inline-flex; align-items:center; gap:10px; font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:var(--cream); background:var(--terra); border:none; padding:14px 32px; text-decoration:none; cursor:pointer; transition:background 0.2s; width:fit-content; }
@@ -41,16 +41,16 @@
 
 /* ── Footer ─────────────────────────────── */
 .footer      { padding:80px; background:#2c2018; display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:40px; align-items:start; }
-.footerBrand { font-family:'Parisienne',cursive; font-size:34px; color:#ffffff; line-height:1; }
+.footerBrand { font-family:'Parisienne',cursive; font-size:34px; color:#f0e4d0; line-height:1; }
 
 /* ── Admin sidebar ──────────────────────── */
 .adminSidebar  { width:190px; flex-shrink:0; background:#2c2018; display:flex; flex-direction:column; position:fixed; top:0; left:0; bottom:0; z-index:100; border-right:1px solid rgba(255,255,255,0.06); }
-.adminBrand    { font-family:'Parisienne',cursive; font-size:26px; color:#ffffff; line-height:1; }
-.adminBrandSub { font-family:'Cinzel',serif; font-size:7px; letter-spacing:0.25em; text-transform:uppercase; color:#f0e8e0; margin-top:4px; }
-.adminNavLink  { display:block; padding:11px 24px; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; text-decoration:none; color:#f0e8e0; border-left:2px solid transparent; transition:all 0.2s; }
+.adminBrand    { font-family:'Parisienne',cursive; font-size:26px; color:#f0e4d0; line-height:1; }
+.adminBrandSub { font-family:'Cinzel',serif; font-size:7px; letter-spacing:0.25em; text-transform:uppercase; color:#d4aa78; margin-top:4px; }
+.adminNavLink  { display:block; padding:11px 24px; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; text-decoration:none; color:#d4aa78; border-left:2px solid transparent; transition:all 0.2s; }
 .adminNavLink:hover { color:#f0e4d0; background:rgba(255,255,255,0.05); }
 .adminNavLinkActive { color:#f0e4d0 !important; background:rgba(255,255,255,0.08); border-left-color:#d4aa78 !important; }
-.adminLogout   { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; background:none; border:0.5px solid #f0e8e0; color:#f0e8e0; padding:7px 16px; cursor:pointer; transition:all 0.2s; width:100%; }
+.adminLogout   { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; background:none; border:0.5px solid #d4aa78; color:#d4aa78; padding:7px 16px; cursor:pointer; transition:all 0.2s; width:100%; }
 .adminLogout:hover { color:#f0e4d0; border-color:#f0e4d0; }
 
 /* ── Responsive ─────────────────────────── */

@@ -73,13 +73,17 @@
 
 .themeToggle {
   background: none;
-  border: none;
+  border: 0.5px solid var(--bronze);
+  border-radius: 50%;
   cursor: pointer;
   color: var(--bronze);
-  padding: 4px;
+  padding: 5px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
-  opacity: 0.7;
+  justify-content: center;
+  opacity: 0.8;
   transition: opacity 0.2s;
 }
 .themeToggle:hover { opacity: 1; }

@@ -35,9 +35,10 @@
   --shadow: rgba(0, 0, 0, 0.08);
   --shadow-deep: rgba(0, 0, 0, 0.15);
 }
+[data-theme="dark"] {
   --cream: #0f0d0b;
   --cream2: #1c1814;
-  --warm-white: #242018;
+  --warm-white: #2e2820;
   --terra: #ffffff;
   --terra-light: #ffffff;
   --terra-dark: #ffffff;

@@ -89,7 +89,7 @@ export default function ShopPage() {
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(260px,1fr))', gap: '28px' }}>
               {filtered.map(o => (
-                <div key={o.id} style={{ background: 'white', overflow: 'hidden', boxShadow: '0 2px 16px rgba(90,45,15,0.07)' }}>
+                <div key={o.id} style={{ background: 'var(--warm-white)', overflow: 'hidden', boxShadow: '0 2px 16px var(--shadow)' }}>
                   <div style={{ aspectRatio: '4/3', overflow: 'hidden', background: 'var(--cream2)' }}>
                     <img src={o.immagine_url!} alt={o.titolo} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }} />
                   </div>

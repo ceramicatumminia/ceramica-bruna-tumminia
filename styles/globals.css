@@ -9,8 +9,8 @@
   --terra-dark: #5c2d0e;
   --bronze: #a06838;
   --bronze-light: #c4935a;
-  --ink: #6e503c;
-  --ink-soft: #7d5c46;
+  --ink: #2c2018;
+  --ink-soft: #3a2a1c;
   --text-body: #3a2e22;
   --text-muted: #7a6a58;
   --text-pale: #b0a090;
@@ -115,23 +115,6 @@ body {
     grid-template-columns: 1fr !important;
     padding: 24px 16px !important;
   }
-}
-
-/* Testo su sfondo var(--ink) — leggibile in tutti i temi */
-section[style*="background:var(--ink)"] *,
-section[style*="background: var(--ink)"] *,
-main[style*="background:var(--ink)"] *,
-main[style*="background: var(--ink)"] *,
-div[style*="background:var(--ink)"] *,
-div[style*="background: var(--ink)"] *,
-footer[style*="background:var(--ink)"] *,
-footer[style*="background: var(--ink)"] * {
-  --text-muted: #e8ddd0;
-  --text-pale: #c8b898;
-  --bronze: #d4aa78;
-  --bronze-light: #e8c898;
-  --terra: #f0dcc0;
-  --terra-dark: #f5e8d4;
 }
 
 /* Dark mode: sections that use var(--ink) as background */

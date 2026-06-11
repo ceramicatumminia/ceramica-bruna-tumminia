@@ -7,20 +7,20 @@ export default function ContattiPage() {
       <Header />
       <main style={{minHeight:'80vh',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))'}}>
         <div className={styles.sectionDark}>
-          <div className={styles.label}>— Scriviamo insieme</div>
-          <h1 className={styles.h1}>Contatti</h1>
-          <div className={styles.divider}></div>
+          <div className={styles.labelD}>— Scriviamo insieme</div>
+          <h1 className={styles.h1D}>Contatti</h1>
+          <div className={styles.dividerD}></div>
           <div style={{marginBottom:'24px'}}>
-            <div className={styles.label}>Email</div>
-            <a href="mailto:ceramicatumminia@gmail.com" className={styles.bodySmall} style={{textDecoration:'none',display:'block'}}>ceramicatumminia@gmail.com</a>
+            <div className={styles.labelD}>Email</div>
+            <a href="mailto:ceramicatumminia@gmail.com" className={styles.linkD}>ceramicatumminia@gmail.com</a>
           </div>
           <div style={{marginBottom:'24px'}}>
-            <div className={styles.label}>Laboratorio</div>
-            <p className={styles.bodySmall}>Via Decimo 8<br/>09026 San Sperate (SU)<br/>340 0045472</p>
+            <div className={styles.labelD}>Laboratorio</div>
+            <p className={styles.bodySmallD}>Via Decimo 8<br/>09026 San Sperate (SU)<br/>340 0045472</p>
           </div>
           <div>
-            <div className={styles.label}>Social</div>
-            <a href="https://instagram.com/ceramicatumminia" target="_blank" rel="noreferrer" className={styles.bodySmall} style={{textDecoration:'none',fontStyle:'italic',display:'block'}}>@ceramicatumminia</a>
+            <div className={styles.labelD}>Social</div>
+            <a href="https://instagram.com/ceramicatumminia" target="_blank" rel="noreferrer" className={styles.linkD} style={{fontStyle:'italic'}}>@ceramicatumminia</a>
           </div>
         </div>
         <div className={styles.sectionLight} style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>

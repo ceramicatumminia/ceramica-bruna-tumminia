@@ -1,278 +1,60 @@
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    SITE.MODULE.CSS — unica fonte di verità
-   Per cambiare colori: modifica globals.css (:root)
-   Per cambiare layout/testo: modifica qui
-   ═══════════════════════════════════════════════ */
+   ═══════════════════════════════════════════ */
 
-/* ── Sezioni sfondo chiaro ──────────────────── */
-.sectionLight {
-  padding: clamp(48px, 8vw, 100px) clamp(24px, 6vw, 80px);
-  background: var(--cream);
-}
-.sectionAlt {
-  padding: clamp(48px, 8vw, 100px) clamp(24px, 6vw, 80px);
-  background: var(--warm-white);
-}
+/* ── Sfondi sezioni ─────────────────────── */
+.sectionLight    { padding: clamp(48px,8vw,100px) clamp(24px,6vw,80px); background: var(--cream); }
+.sectionAlt      { padding: clamp(48px,8vw,100px) clamp(24px,6vw,80px); background: var(--warm-white); }
+.sectionCream2   { padding: clamp(48px,8vw,100px) clamp(24px,6vw,80px); background: var(--cream2); }
+.sectionDark     { padding: clamp(48px,8vw,100px) clamp(24px,6vw,80px); background: #2c2018; }
+.sectionDarkSoft { padding: clamp(48px,8vw,100px) clamp(24px,6vw,80px); background: #3a2a1c; }
 
-/* ── Sezioni sfondo scuro ───────────────────── */
-/* Colori testo FISSI (hex) perché le CSS var non
-   si ridefiniscono nei CSS modules di Next.js    */
-.sectionDark {
-  padding: clamp(48px, 8vw, 100px) clamp(24px, 6vw, 80px);
-  background: var(--ink);
-}
-.sectionDarkSoft {
-  padding: clamp(48px, 8vw, 100px) clamp(24px, 6vw, 80px);
-  background: var(--ink-soft);
-}
+/* ── Layout ─────────────────────────────── */
+.grid2     { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: clamp(32px,5vw,80px); }
+.grid3     { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: clamp(24px,4vw,48px); }
+.gridAsymL { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(32px,5vw,60px); align-items: center; }
 
-/* Testo su sfondo scuro — colori fissi */
-.sectionDark .label,
-.sectionDarkSoft .label,
-.footer .label,
-.adminSidebar .label { color: #c4935a; }
+/* ── Tipografia su SFONDO CHIARO ────────── */
+.label    { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.38em; text-transform:uppercase; color:var(--bronze); margin-bottom:16px; display:block; }
+.h1       { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(36px,5vw,72px); color:var(--terra-dark); line-height:1.1; margin-bottom:24px; }
+.h2       { font-family:'Cormorant Garamond',serif; font-size:clamp(26px,3.5vw,48px); font-weight:300; color:var(--terra-dark); line-height:1.2; margin-bottom:20px; }
+.body     { font-family:'Lora',serif; font-size:15px; line-height:1.85; color:var(--text-muted); margin-bottom:20px; }
+.bodySmall{ font-family:'Lora',serif; font-size:13px; line-height:1.7; color:var(--text-muted); }
+.italic   { font-family:'Lora',serif; font-style:italic; font-size:clamp(14px,2vw,16px); line-height:1.85; color:var(--text-muted); }
+.blockquote { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:22px; color:var(--terra); line-height:1.5; border-left:2px solid var(--terra-light); padding:16px 24px; margin:32px 0; }
+.divider  { width:50px; height:0.5px; background:var(--bronze); margin:0 0 32px; }
 
-.sectionDark .h1,
-.sectionDarkSoft .h1 { color: #f0e4d0; }
+/* ── Tipografia su SFONDO SCURO ─────────── */
+/* Suffisso D = Dark, colori hex fissi */
+.labelD    { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.38em; text-transform:uppercase; color:#d4aa78; margin-bottom:16px; display:block; }
+.h1D       { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(36px,5vw,72px); color:#f0e4d0; line-height:1.1; margin-bottom:24px; }
+.h2D       { font-family:'Cormorant Garamond',serif; font-size:clamp(26px,3.5vw,48px); font-weight:300; color:#f0e4d0; line-height:1.2; margin-bottom:20px; }
+.bodyD     { font-family:'Lora',serif; font-size:15px; line-height:1.85; color:#e0d4c8; margin-bottom:20px; }
+.bodySmallD{ font-family:'Lora',serif; font-size:13px; line-height:1.7; color:#e0d4c8; }
+.italicD   { font-family:'Lora',serif; font-style:italic; font-size:clamp(14px,2vw,16px); line-height:1.85; color:#e0d4c8; }
+.dividerD  { width:50px; height:0.5px; background:#d4aa78; margin:0 0 32px; }
+.linkD     { font-family:'Lora',serif; font-size:13px; color:#e0d4c8; text-decoration:none; display:block; }
 
-.sectionDark .h2,
-.sectionDarkSoft .h2 { color: #f0e4d0; }
-
-.sectionDark .body,
-.sectionDarkSoft .body,
-.sectionDark .bodySmall,
-.sectionDarkSoft .bodySmall,
-.sectionDark .italic,
-.sectionDarkSoft .italic { color: #d8ccc0; }
-
-.sectionDark .divider,
-.sectionDarkSoft .divider { background: #c4935a; }
-
-.sectionDark a,
-.sectionDarkSoft a { color: #d8ccc0; }
-
-/* ── Layout griglie ─────────────────────────── */
-.grid2 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: clamp(32px, 5vw, 80px);
-}
-.grid3 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: clamp(24px, 4vw, 48px);
-}
-.gridAsymL {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: clamp(32px, 5vw, 60px);
-  align-items: center;
-}
-
-/* ── Tipografia ─────────────────────────────── */
-.label {
-  font-family: 'Cinzel', serif;
-  font-size: 9px;
-  letter-spacing: 0.38em;
-  text-transform: uppercase;
-  color: var(--bronze);
-  margin-bottom: 16px;
-  display: block;
-}
-.h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: clamp(36px, 5vw, 72px);
-  color: var(--terra-dark);
-  line-height: 1.1;
-  margin-bottom: 24px;
-}
-.h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(26px, 3.5vw, 48px);
-  font-weight: 300;
-  color: var(--terra-dark);
-  line-height: 1.2;
-  margin-bottom: 20px;
-}
-.body {
-  font-family: 'Lora', serif;
-  font-size: 15px;
-  line-height: 1.85;
-  color: var(--text-muted);
-  margin-bottom: 20px;
-}
-.bodySmall {
-  font-family: 'Lora', serif;
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--text-muted);
-}
-.italic {
-  font-family: 'Lora', serif;
-  font-style: italic;
-  font-size: clamp(14px, 2vw, 16px);
-  line-height: 1.85;
-  color: var(--text-muted);
-}
-.blockquote {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 22px;
-  color: var(--terra);
-  line-height: 1.5;
-  border-left: 2px solid var(--terra-light);
-  padding: 16px 24px;
-  margin: 32px 0;
-}
-.divider {
-  width: 50px;
-  height: 0.5px;
-  background: var(--bronze);
-  margin: 0 0 32px;
-}
-
-/* ── Bottoni ────────────────────────────────── */
-.btnPrimary {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: 'Cinzel', serif;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--cream);
-  background: var(--terra);
-  border: none;
-  padding: 14px 32px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background 0.2s;
-  width: fit-content;
-}
+/* ── Bottoni ────────────────────────────── */
+.btnPrimary { display:inline-flex; align-items:center; gap:10px; font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:var(--cream); background:var(--terra); border:none; padding:14px 32px; text-decoration:none; cursor:pointer; transition:background 0.2s; width:fit-content; }
 .btnPrimary:hover { background: var(--terra-light); }
 
-.linkUnderline {
-  font-family: 'Cinzel', serif;
-  font-size: 10px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--bronze);
-  text-decoration: none;
-  border-bottom: 0.5px solid var(--bronze);
-  padding-bottom: 4px;
-}
+/* ── Footer ─────────────────────────────── */
+.footer      { padding:80px; background:#2c2018; display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:40px; align-items:start; }
+.footerBrand { font-family:'Parisienne',cursive; font-size:34px; color:#f0e4d0; line-height:1; }
 
-/* ── Hero ───────────────────────────────────── */
-.heroGrid {
-  height: 520px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  overflow: hidden;
-}
-.heroContent {
-  padding: 60px 60px 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.heroImgWrap {
-  overflow: hidden;
-  height: calc(90% - 60px);
-  width: calc(90% - 50px);
-  margin: 30px 50px 30px auto;
-}
+/* ── Admin sidebar ──────────────────────── */
+.adminSidebar  { width:190px; flex-shrink:0; background:#2c2018; display:flex; flex-direction:column; position:fixed; top:0; left:0; bottom:0; z-index:100; border-right:1px solid rgba(255,255,255,0.06); }
+.adminBrand    { font-family:'Parisienne',cursive; font-size:26px; color:#f0e4d0; line-height:1; }
+.adminBrandSub { font-family:'Cinzel',serif; font-size:7px; letter-spacing:0.25em; text-transform:uppercase; color:#d4aa78; margin-top:4px; }
+.adminNavLink  { display:block; padding:11px 24px; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; text-decoration:none; color:#d4aa78; border-left:2px solid transparent; transition:all 0.2s; }
+.adminNavLink:hover { color:#f0e4d0; background:rgba(255,255,255,0.05); }
+.adminNavLinkActive { color:#f0e4d0 !important; background:rgba(255,255,255,0.08); border-left-color:#d4aa78 !important; }
+.adminLogout   { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; background:none; border:0.5px solid #d4aa78; color:#d4aa78; padding:7px 16px; cursor:pointer; transition:all 0.2s; width:100%; }
+.adminLogout:hover { color:#f0e4d0; border-color:#f0e4d0; }
 
-/* ── Footer ─────────────────────────────────── */
-.footer {
-  padding: 80px;
-  background: var(--ink);
-  display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
-  gap: 40px;
-  align-items: start;
-}
-.footer .label  { color: #c4935a; }
-.footer .bodySmall,
-.footer .bodySmall a { color: #d8ccc0; }
-
-.footerBrand {
-  font-family: 'Parisienne', cursive;
-  font-size: 34px;
-  color: #e8d8c0;
-  line-height: 1;
-}
-
-/* ── Admin sidebar ──────────────────────────── */
-.adminSidebar {
-  width: 190px;
-  flex-shrink: 0;
-  background: var(--ink);
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 0; left: 0; bottom: 0;
-  z-index: 100;
-  border-right: 1px solid rgba(255,255,255,0.06);
-}
-.adminBrand {
-  font-family: 'Parisienne', cursive;
-  font-size: 26px;
-  color: #e8c898;
-  line-height: 1;
-}
-.adminBrandSub {
-  font-family: 'Cinzel', serif;
-  font-size: 7px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: #c4935a;
-  margin-top: 4px;
-}
-.adminNavLink {
-  display: block;
-  padding: 11px 24px;
-  font-family: 'Cinzel', serif;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #c4935a;
-  border-left: 2px solid transparent;
-  transition: all 0.2s;
-}
-.adminNavLink:hover {
-  color: #e8d8c0;
-  background: rgba(255,255,255,0.05);
-}
-.adminNavLinkActive {
-  color: #e8d8c0;
-  background: rgba(255,255,255,0.08);
-  border-left-color: #c4935a;
-}
-.adminLogout {
-  font-family: 'Cinzel', serif;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  background: none;
-  border: 0.5px solid #c4935a;
-  color: #c4935a;
-  padding: 7px 16px;
-  cursor: pointer;
-  transition: all 0.2s;
-  width: 100%;
-}
-.adminLogout:hover {
-  color: #e8d8c0;
-  border-color: #e8d8c0;
-}
-
-/* ── Responsive ─────────────────────────────── */
+/* ── Responsive ─────────────────────────── */
 @media (max-width: 768px) {
-  .heroGrid { height: auto; grid-template-columns: 1fr; }
-  .heroContent { padding: 48px 24px; align-items: center; text-align: center; }
-  .heroImgWrap { display: none; }
   .gridAsymL { grid-template-columns: 1fr; }
-  .footer { padding: 40px 24px; grid-template-columns: 1fr; gap: 28px; }
+  .footer { padding:40px 24px; grid-template-columns:1fr; gap:28px; }
 }

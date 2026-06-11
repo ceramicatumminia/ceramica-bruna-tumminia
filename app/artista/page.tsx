@@ -8,12 +8,11 @@ export default function ArtistaPage() {
       <main>
         <div className={styles.sectionDarkSoft}>
           <div style={{maxWidth:'700px'}}>
-            <div className={styles.label}>— Bruna Tumminia</div>
-            <h1 className={styles.h1}>L&apos;anima<br/>dell&apos;argilla</h1>
-            <p className={styles.italic}>La ceramica come dialogo intimo tra le mie mani, la mente e la materia. Ogni opera è un racconto silenzioso di tempo, pazienza e meraviglia.</p>
+            <div className={styles.labelD}>— Bruna Tumminia</div>
+            <h1 className={styles.h1D}>L&apos;anima<br/>dell&apos;argilla</h1>
+            <p className={styles.italicD}>La ceramica come dialogo intimo tra le mie mani, la mente e la materia. Ogni opera è un racconto silenzioso di tempo, pazienza e meraviglia.</p>
           </div>
         </div>
-
         <div className={`${styles.sectionLight} ${styles.grid2}`}>
           <div>
             <h2 className={styles.h2}>Una vita plasmata dall&apos;argilla</h2>

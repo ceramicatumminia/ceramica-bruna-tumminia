@@ -102,7 +102,7 @@ export default function ShopPage() {
                       <div style={{ fontFamily: 'Cormorant Garamond,serif', fontSize: '22px', color: 'var(--terra)' }}>€ {o.prezzo.toFixed(2)}</div>
                       <button onClick={() => handleAdd(o)} style={{
                         fontFamily: 'Cinzel,serif', fontSize: '8px', letterSpacing: '0.2em', textTransform: 'uppercase',
-                        background: 'var(--terra)', color: 'white', border: 'none', padding: '10px 18px', cursor: 'pointer'
+                        background: 'var(--terra)', color: 'var(--cream)', border: 'none', padding: '10px 18px', cursor: 'pointer'
                       }}>+ Carrello</button>
                     </div>
                   </div>

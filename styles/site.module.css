@@ -6,8 +6,8 @@
 .sectionLight    { padding: clamp(48px,8vw,100px) clamp(24px,6vw,80px); background: var(--cream); }
 .sectionAlt      { padding: clamp(48px,8vw,100px) clamp(24px,6vw,80px); background: var(--warm-white); }
 .sectionCream2   { padding: clamp(48px,8vw,100px) clamp(24px,6vw,80px); background: var(--cream2); }
-.sectionDark     { padding: clamp(48px,8vw,100px) clamp(24px,6vw,80px); background: #2c2018; }
-.sectionDarkSoft { padding: clamp(48px,8vw,100px) clamp(24px,6vw,80px); background: #3a2a1c; }
+.sectionDark     { padding: clamp(48px,8vw,100px) clamp(24px,6vw,80px); background: var(--ink); }
+.sectionDarkSoft { padding: clamp(48px,8vw,100px) clamp(24px,6vw,80px); background: var(--ink-soft); }
 
 /* ── Layout ─────────────────────────────── */
 .grid2     { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: clamp(32px,5vw,80px); }
@@ -40,11 +40,11 @@
 .btnPrimary:hover { background: var(--terra-light); }
 
 /* ── Footer ─────────────────────────────── */
-.footer      { padding:80px; background:#2c2018; display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:40px; align-items:start; }
+.footer      { padding:80px; background: var(--ink); display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:40px; align-items:start; }
 .footerBrand { font-family:'Parisienne',cursive; font-size:34px; color:#f0e4d0; line-height:1; }
 
 /* ── Admin sidebar ──────────────────────── */
-.adminSidebar  { width:190px; flex-shrink:0; background:#2c2018; display:flex; flex-direction:column; position:fixed; top:0; left:0; bottom:0; z-index:100; border-right:1px solid rgba(255,255,255,0.06); }
+.adminSidebar  { width:190px; flex-shrink:0; background: var(--ink); display:flex; flex-direction:column; position:fixed; top:0; left:0; bottom:0; z-index:100; border-right:1px solid rgba(255,255,255,0.06); }
 .adminBrand    { font-family:'Parisienne',cursive; font-size:26px; color:#f0e4d0; line-height:1; }
 .adminBrandSub { font-family:'Cinzel',serif; font-size:7px; letter-spacing:0.25em; text-transform:uppercase; color:#d4aa78; margin-top:4px; }
 .adminNavLink  { display:block; padding:11px 24px; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; text-decoration:none; color:#d4aa78; border-left:2px solid transparent; transition:all 0.2s; }

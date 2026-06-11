@@ -20,16 +20,16 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [shopAttivo, setShopAttivo] = useState(false)
-  const [dark, setDark] = useState(false)
+  const [theme, setTheme] = useState<'light'|'dark'|'ice'>('light')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll)
 
-    const saved = localStorage.getItem('theme')
-    if (saved === 'dark') {
-      setDark(true)
-      document.documentElement.setAttribute('data-theme', 'dark')
+    const saved = localStorage.getItem('theme') as 'light'|'dark'|'ice' | null
+    if (saved && saved !== 'light' && !pathname.startsWith('/admin')) {
+      setTheme(saved)
+      document.documentElement.setAttribute('data-theme', saved)
     }
 
     import('@/lib/supabase').then(({ supabase }) => {
@@ -39,11 +39,11 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const toggleTheme = () => {
-    const next = !dark
-    setDark(next)
-    document.documentElement.setAttribute('data-theme', next ? 'dark' : 'light')
-    localStorage.setItem('theme', next ? 'dark' : 'light')
+  const cycleTheme = () => {
+    const next = theme === 'light' ? 'dark' : theme === 'dark' ? 'ice' : 'light'
+    setTheme(next)
+    document.documentElement.setAttribute('data-theme', next)
+    localStorage.setItem('theme', next)
   }
 
   const visibleLinks = navLinks.filter(l => l.href !== '/shop' || shopAttivo)
@@ -61,18 +61,18 @@ export default function Header() {
       </div>
 
       <div className={styles.headerUtils}>
-        <button onClick={toggleTheme} className={styles.themeToggle} title={dark ? 'Tema chiaro' : 'Tema scuro'}>
-          {dark ? (
+        <button onClick={cycleTheme} className={styles.themeToggle} title={theme === 'light' ? 'Tema scuro' : theme === 'dark' ? 'Tema ghiaccio' : 'Tema chiaro'}>
+          {theme === 'dark' ? (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="5"/>
-              <line x1="12" y1="1" x2="12" y2="3"/>
-              <line x1="12" y1="21" x2="12" y2="23"/>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-              <line x1="1" y1="12" x2="3" y2="12"/>
-              <line x1="21" y1="12" x2="23" y2="12"/>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          ) : theme === 'ice' ? (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
             </svg>
           ) : (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">

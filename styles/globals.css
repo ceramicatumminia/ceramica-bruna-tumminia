@@ -18,7 +18,23 @@
   --shadow-deep: rgba(26, 14, 8, 0.35);
 }
 
-[data-theme="dark"] {
+[data-theme="ice"] {
+  --cream: #f8f9fb;
+  --cream2: #eef0f4;
+  --warm-white: #ffffff;
+  --terra: #2a2a2a;
+  --terra-light: #444444;
+  --terra-dark: #111111;
+  --bronze: #666666;
+  --bronze-light: #888888;
+  --ink: #1a1a1a;
+  --ink-soft: #2a2a2a;
+  --text-body: #1a1a1a;
+  --text-muted: #555555;
+  --text-pale: #999999;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --shadow-deep: rgba(0, 0, 0, 0.15);
+}
   --cream: #0f0d0b;
   --cream2: #1c1814;
   --warm-white: #242018;

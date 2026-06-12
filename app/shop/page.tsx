@@ -15,9 +15,13 @@ export default function ShopPage() {
   const [filtro, setFiltro] = useState('tutti')
   const [loading, setLoading] = useState(true)
   const [toast, setToast] = useState('')
+  const [shopAttivo, setShopAttivo] = useState<boolean | null>(null)
   const { addItem } = useCart()
 
   useEffect(() => {
+    supabase.from('impostazioni').select('valore').eq('chiave', 'shop_attivo').single()
+      .then(({ data }) => setShopAttivo(data?.valore === 'true'))
+
     supabase.from('opere').select('*')
       .eq('visibile', true).eq('in_shop', true).not('immagine_url', 'is', null)
       .order('ordine')
@@ -37,6 +41,21 @@ export default function ShopPage() {
     setToast(`"${o.titolo}" aggiunto al carrello`)
     setTimeout(() => setToast(''), 2500)
   }
+
+  if (shopAttivo === false) return (
+    <>
+      <Header />
+      <main style={{minHeight:'70vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:'var(--cream)',textAlign:'center',padding:'80px 24px'}}>
+        <div style={{fontFamily:'Cinzel,serif',fontSize:'9px',letterSpacing:'0.38em',textTransform:'uppercase',color:'var(--bronze)',marginBottom:'24px'}}>— In preparazione</div>
+        <h1 style={{fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(36px,5vw,64px)',fontWeight:300,color:'var(--terra-dark)',marginBottom:'20px',lineHeight:1.1}}>Lo shop apre presto</h1>
+        <p style={{fontFamily:'Lora,serif',fontStyle:'italic',fontSize:'16px',color:'var(--text-muted)',maxWidth:'480px',lineHeight:1.8,marginBottom:'40px'}}>Le opere saranno presto disponibili per l&apos;acquisto. Nel frattempo puoi scoprirle nella galleria o contattarci direttamente.</p>
+        <div style={{display:'flex',gap:'16px',flexWrap:'wrap',justifyContent:'center'}}>
+          <a href="/galleria" style={{fontFamily:'Cinzel,serif',fontSize:'9px',letterSpacing:'0.3em',textTransform:'uppercase',color:'var(--cream)',background:'#8a4a20',padding:'14px 32px',textDecoration:'none'}}>Scopri la galleria</a>
+          <a href="/contatti" style={{fontFamily:'Cinzel,serif',fontSize:'9px',letterSpacing:'0.3em',textTransform:'uppercase',color:'var(--bronze)',border:'0.5px solid rgba(160,104,56,0.4)',padding:'14px 32px',textDecoration:'none'}}>Contattaci</a>
+        </div>
+      </main>
+    </>
+  )
 
   return (
     <>

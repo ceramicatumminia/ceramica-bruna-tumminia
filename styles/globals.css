@@ -131,7 +131,9 @@ body {
   border: 0.5px solid rgba(0,0,0,0.06);
 }
 
-/* Ice mode: admin sidebar forza sfondo scuro e testo leggibile */
+/* Ice mode: sezioni scure e footer/sidebar mantengono sfondo scuro fisso */
+[data-theme="ice"] [class*="sectionDark"],
+[data-theme="ice"] [class*="footer"],
 [data-theme="ice"] [class*="adminSidebar"] {
   background: #2c2018 !important;
 }

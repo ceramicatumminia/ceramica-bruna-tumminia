@@ -18,9 +18,9 @@
 .label    { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.38em; text-transform:uppercase; color:var(--bronze); margin-bottom:16px; display:block; }
 .h1       { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(36px,5vw,72px); color:var(--terra-dark); line-height:1.1; margin-bottom:24px; }
 .h2       { font-family:'Cormorant Garamond',serif; font-size:clamp(26px,3.5vw,48px); font-weight:300; color:var(--terra-dark); line-height:1.2; margin-bottom:20px; }
-.body     { font-family:'Satisfy',cursive; font-size:20px; line-height:2; color:var(--text-muted); margin-bottom:20px; }
-.bodySmall{ font-family:'Satisfy',cursive; font-size:18px; line-height:1.95; color:var(--text-muted); }
-.italic   { font-family:'Satisfy',cursive; font-style:italic; font-size:clamp(19px,2.2vw,22px); line-height:2; color:var(--text-muted); }
+.body     { font-family:'Parisienne',cursive; font-size:20px; line-height:2; color:var(--text-muted); margin-bottom:20px; }
+.bodySmall{ font-family:'Parisienne',cursive; font-size:18px; line-height:1.95; color:var(--text-muted); }
+.italic   { font-family:'Parisienne',cursive; font-style:italic; font-size:clamp(19px,2.2vw,22px); line-height:2; color:var(--text-muted); }
 .blockquote { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:22px; color:var(--terra); line-height:1.5; border-left:2px solid var(--terra-light); padding:16px 24px; margin:32px 0; }
 .divider  { width:50px; height:0.5px; background:var(--bronze); margin:0 0 32px; }
 
@@ -29,11 +29,11 @@
 .labelD    { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.38em; text-transform:uppercase; color:#d4aa78; margin-bottom:16px; display:block; }
 .h1D       { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(36px,5vw,72px); color:#f0e4d0; line-height:1.1; margin-bottom:24px; }
 .h2D       { font-family:'Cormorant Garamond',serif; font-size:clamp(26px,3.5vw,48px); font-weight:300; color:#f0e4d0; line-height:1.2; margin-bottom:20px; }
-.bodyD     { font-family:'Satisfy',cursive; font-size:20px; line-height:2; color:#e0d4c8; margin-bottom:20px; }
-.bodySmallD{ font-family:'Satisfy',cursive; font-size:18px; line-height:1.95; color:#e0d4c8; }
-.italicD   { font-family:'Satisfy',cursive; font-style:italic; font-size:clamp(19px,2.2vw,22px); line-height:2; color:#e0d4c8; }
+.bodyD     { font-family:'Parisienne',cursive; font-size:20px; line-height:2; color:#e0d4c8; margin-bottom:20px; }
+.bodySmallD{ font-family:'Parisienne',cursive; font-size:18px; line-height:1.95; color:#e0d4c8; }
+.italicD   { font-family:'Parisienne',cursive; font-style:italic; font-size:clamp(19px,2.2vw,22px); line-height:2; color:#e0d4c8; }
 .dividerD  { width:50px; height:0.5px; background:#d4aa78; margin:0 0 32px; }
-.linkD     { font-family:'Satisfy',cursive; font-size:18px; color:#e0d4c8; text-decoration:none; display:block; }
+.linkD     { font-family:'Parisienne',cursive; font-size:18px; color:#e0d4c8; text-decoration:none; display:block; }
 
 /* ── Bottoni ────────────────────────────── */
 .btnPrimary { display:inline-flex; align-items:center; gap:10px; font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:var(--cream); background:var(--terra); border:none; padding:14px 32px; text-decoration:none; cursor:pointer; transition:background 0.2s; width:fit-content; }

@@ -75,7 +75,7 @@ export default function ImpostazioniPage() {
   }
 
   const sectionStyle: React.CSSProperties = {
-    background: 'var(--warm-white)', padding: '32px 36px', marginBottom: '24px',
+    background: 'white', padding: '32px 36px', marginBottom: '24px',
     boxShadow: '0 2px 12px rgba(90,45,15,0.08)'
   }
   const sectionTitleStyle: React.CSSProperties = {
@@ -191,7 +191,7 @@ export default function ImpostazioniPage() {
             <span style={{fontFamily:'Lora,serif', fontSize:'14px', color:'var(--text-muted)'}}>
               {shopAttivo ? 'Shop attivo — visibile al pubblico' : 'Shop non attivo — nascosto al pubblico'}
             </span>
-            <button style={{...btnStyle, background: shopAttivo ? '#c0504a' : '#8a4a20'}}
+            <button style={{...btnStyle, background: '#8a4a20'}}
               onClick={async () => { const v = !shopAttivo; setShopAttivo(v); await salvaImpostazione('shop_attivo', v.toString()); showToast('Salvato!') }}>
               {shopAttivo ? 'Disattiva shop' : 'Attiva shop'}
             </button>

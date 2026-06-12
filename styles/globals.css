@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Parisienne&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Parisienne&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap');
 
 :root {
   --cream: #f5f0e8;
@@ -67,7 +67,7 @@ html {
 body {
   background: var(--cream);
   color: var(--text-body);
-  font-family: 'Lora', serif;
+  font-family: 'Playfair Display', serif;
   overflow-x: hidden;
   transition: background 0.3s ease, color 0.3s ease;
 }
@@ -80,7 +80,7 @@ body {
 .font-display { font-family: 'Parisienne', cursive; }
 .font-heading { font-family: 'Cormorant Garamond', serif; }
 .font-label { font-family: 'Cinzel', serif; }
-.font-body { font-family: 'Lora', serif; }
+.font-body { font-family: 'Playfair Display', serif; }
 
 /* Section label */
 .section-label {
@@ -96,7 +96,7 @@ body {
 .loading-msg {
   text-align: center;
   padding: 60px;
-  font-family: 'Lora', serif;
+  font-family: 'Playfair Display', serif;
   font-style: italic;
   color: var(--text-muted);
 }

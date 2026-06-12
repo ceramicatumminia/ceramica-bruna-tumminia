@@ -1,22 +1,22 @@
 .subtitle {
   font-family: 'Lora', serif;
   font-style: italic;
-  color: var(--text-muted);
   font-size: 14px;
+  color: var(--text-muted);
   margin-bottom: 32px;
 }
 
 .block {
-  background: white;
-  padding: 28px 32px;
+  background: var(--warm-white);
+  border: 0.5px solid rgba(160,104,56,0.12);
+  padding: 32px 36px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(90,45,15,0.06);
 }
 
 .label {
   font-family: 'Cinzel', serif;
-  font-size: 9px;
-  letter-spacing: 0.25em;
+  font-size: 8px;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--bronze);
   display: block;
@@ -25,24 +25,24 @@
 
 .textarea {
   width: 100%;
-  min-height: 90px;
+  min-height: 100px;
+  border: none;
+  border-bottom: 0.5px solid rgba(160,104,56,0.25);
+  padding: 8px 0;
   font-family: 'Lora', serif;
   font-size: 14px;
-  line-height: 1.7;
   color: var(--text-body);
-  border: none;
-  border-bottom: 0.5px solid rgba(160,104,56,0.3);
-  padding: 8px 0;
   background: none;
   outline: none;
   resize: vertical;
+  box-sizing: border-box;
+  line-height: 1.7;
 }
-.textarea:focus { border-bottom-color: var(--bronze); }
 
 .actions {
   display: flex;
   gap: 12px;
-  margin-top: 14px;
+  margin-top: 16px;
 }
 
 .btnSave {
@@ -50,28 +50,28 @@
   font-size: 8px;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  background: var(--terra);
-  color: var(--cream);
+  background: #8a4a20;
+  color: #f5f0e8;
   border: none;
-  padding: 9px 20px;
+  padding: 8px 20px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.2s;
 }
-.btnSave:hover { background: var(--terra-dark); }
+.btnSave:hover { background: #b5682e; }
 
 .btnReset {
   font-family: 'Cinzel', serif;
   font-size: 8px;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
   background: none;
-  border: 0.5px solid rgba(160,104,56,0.25);
-  color: var(--text-muted);
-  padding: 9px 18px;
+  color: var(--bronze);
+  border: 0.5px solid rgba(160,104,56,0.35);
+  padding: 8px 20px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
-.btnReset:hover { color: var(--terra); border-color: var(--terra); }
+.btnReset:hover { border-color: #8a4a20; color: #8a4a20; }
 
 .toast {
   position: fixed;

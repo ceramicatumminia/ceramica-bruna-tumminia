@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Parisienne&family=Satisfy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&family=Parisienne&family=Satisfy&display=swap');
 
 :root {
   --cream: #f5f0e8;
@@ -159,7 +159,8 @@ body {
 [data-theme="ice"] [class*="adminSidebar"] [class*="adminNavLink"],
 [data-theme="ice"] [class*="adminSidebar"] [class*="adminLogout"] { color: #5c2d0e !important; border-color: rgba(92,45,14,0.4) !important; }
 
-/* Smooth transitions for all elements */
-*, *::before, *::after {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+/* Transizioni mirate — solo elementi che cambiano col tema */
+body, main, header, footer, section, nav, aside {
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+a, button { transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease; }

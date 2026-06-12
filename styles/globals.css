@@ -131,12 +131,33 @@ body {
   border: 0.5px solid rgba(0,0,0,0.06);
 }
 
-/* Ice mode: sezioni scure e footer/sidebar mantengono sfondo scuro fisso */
-[data-theme="ice"] [class*="sectionDark"],
-[data-theme="ice"] [class*="footer"],
-[data-theme="ice"] [class*="adminSidebar"] {
-  background: #2c2018 !important;
-}
+/* Ice mode: testo scuro su sezioni/footer/sidebar che nel tema ghiaccio hanno sfondo chiaro */
+[data-theme="ice"] [class*="sectionDark"] [class*="labelD"],
+[data-theme="ice"] [class*="sectionDarkSoft"] [class*="labelD"],
+[data-theme="ice"] [class*="footer"] [class*="labelD"] { color: #5c2d0e !important; }
+
+[data-theme="ice"] [class*="sectionDark"] [class*="h1D"],
+[data-theme="ice"] [class*="sectionDarkSoft"] [class*="h1D"] { color: #3a2010 !important; }
+
+[data-theme="ice"] [class*="sectionDark"] [class*="h2D"],
+[data-theme="ice"] [class*="sectionDarkSoft"] [class*="h2D"] { color: #3a2010 !important; }
+
+[data-theme="ice"] [class*="sectionDark"] [class*="bodySmallD"],
+[data-theme="ice"] [class*="sectionDark"] [class*="italicD"],
+[data-theme="ice"] [class*="sectionDark"] [class*="linkD"],
+[data-theme="ice"] [class*="sectionDarkSoft"] [class*="bodySmallD"],
+[data-theme="ice"] [class*="sectionDarkSoft"] [class*="italicD"],
+[data-theme="ice"] [class*="sectionDarkSoft"] [class*="linkD"],
+[data-theme="ice"] [class*="footer"] [class*="bodySmallD"],
+[data-theme="ice"] [class*="footer"] [class*="linkD"] { color: #4a3525 !important; }
+
+[data-theme="ice"] [class*="footer"] [class*="footerBrand"] { color: #3a2010 !important; }
+
+/* Ice mode: sidebar admin testo scuro */
+[data-theme="ice"] [class*="adminSidebar"] [class*="adminBrand"] { color: #3a2010 !important; }
+[data-theme="ice"] [class*="adminSidebar"] [class*="adminBrandSub"],
+[data-theme="ice"] [class*="adminSidebar"] [class*="adminNavLink"],
+[data-theme="ice"] [class*="adminSidebar"] [class*="adminLogout"] { color: #5c2d0e !important; border-color: rgba(92,45,14,0.4) !important; }
 
 /* Smooth transitions for all elements */
 *, *::before, *::after {

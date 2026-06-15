@@ -35,6 +35,11 @@
 .dividerD  { width:50px; height:0.5px; background:#d4aa78; margin:0 0 32px; }
 .linkD     { font-family:'Parisienne',cursive; font-size:18px; color:#e0d4c8; text-decoration:none; display:block; }
 
+/* Varianti leggibili su sfondo scuro — Cormorant Garamond */
+.textD     { font-family:'Cormorant Garamond',serif; font-size:16px; line-height:1.8; color:#e0d4c8; margin-bottom:16px; }
+.textSmallD{ font-family:'Cormorant Garamond',serif; font-size:15px; line-height:1.75; color:#e0d4c8; }
+.linkPlainD{ font-family:'Cormorant Garamond',serif; font-size:15px; color:#e0d4c8; text-decoration:none; display:block; }
+
 /* ── Bottoni ────────────────────────────── */
 .btnPrimary { display:inline-flex; align-items:center; gap:10px; font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:var(--cream); background:var(--terra); border:none; padding:14px 32px; text-decoration:none; cursor:pointer; transition:background 0.2s; width:fit-content; }
 .btnPrimary:hover { background: var(--terra-light); }

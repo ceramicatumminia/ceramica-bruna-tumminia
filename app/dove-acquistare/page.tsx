@@ -32,7 +32,7 @@ export default function DoveAcquistarePage() {
           <div style={{maxWidth:'700px'}}>
             <div className={styles.labelD}>— Dove acquistare</div>
             <h1 className={styles.h1D}>Le ceramiche<br/>di Bruna</h1>
-            <p className={styles.italicD}>Le opere di Bruna Tumminia sono disponibili presso una selezione di negozi in Sardegna, oppure direttamente contattando l&apos;artista nel suo laboratorio a San Sperate.</p>
+            <p className={styles.textD}>Le opere di Bruna Tumminia sono disponibili presso una selezione di negozi in Sardegna, oppure direttamente contattando l&apos;artista nel suo laboratorio a San Sperate.</p>
           </div>
         </div>
 
@@ -78,17 +78,17 @@ export default function DoveAcquistarePage() {
           <div style={{maxWidth:'600px'}}>
             <div className={styles.labelD}>— Acquisto diretto</div>
             <h2 className={styles.h2D} style={{marginBottom:'16px'}}>Contatta Bruna</h2>
-            <p className={styles.italicD} style={{marginBottom:'40px'}}>
+            <p className={styles.textD} style={{marginBottom:'40px'}}>
               Puoi acquistare direttamente contattando Bruna per email o visitando il laboratorio a San Sperate. Per commissioni personalizzate, pezzi unici o informazioni sulle opere, scrivici.
             </p>
             <div style={{display:'flex',flexDirection:'column',gap:'16px',marginBottom:'36px'}}>
               <div style={{borderLeft:'1.5px solid rgba(196,147,90,0.4)',paddingLeft:'16px'}}>
                 <div className={styles.labelD} style={{marginBottom:'4px'}}>Email</div>
-                <a href="mailto:ceramicatumminia@gmail.com" className={styles.linkD}>ceramicatumminia@gmail.com</a>
+                <a href="mailto:ceramicatumminia@gmail.com" className={styles.linkPlainD}>ceramicatumminia@gmail.com</a>
               </div>
               <div style={{borderLeft:'1.5px solid rgba(196,147,90,0.4)',paddingLeft:'16px'}}>
                 <div className={styles.labelD} style={{marginBottom:'4px'}}>Laboratorio</div>
-                <p className={styles.bodySmallD}>Via Decimo 8 — San Sperate (SU)</p>
+                <p className={styles.textSmallD}>Via Decimo 8 — San Sperate (SU)</p>
               </div>
             </div>
             <a href="mailto:ceramicatumminia@gmail.com" className={styles.btnPrimary}>Scrivi a Bruna →</a>

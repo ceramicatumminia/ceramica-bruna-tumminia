@@ -12,15 +12,15 @@ export default function ContattiPage() {
           <div className={styles.dividerD}></div>
           <div style={{marginBottom:'24px'}}>
             <div className={styles.labelD}>Email</div>
-            <a href="mailto:ceramicatumminia@gmail.com" className={styles.linkD}>ceramicatumminia@gmail.com</a>
+            <a href="mailto:ceramicatumminia@gmail.com" className={styles.linkPlainD}>ceramicatumminia@gmail.com</a>
           </div>
           <div style={{marginBottom:'24px'}}>
             <div className={styles.labelD}>Laboratorio</div>
-            <p className={styles.bodySmallD}>Via Decimo 8<br/>09026 San Sperate (SU)<br/>340 0045472</p>
+            <p className={styles.textSmallD}>Via Decimo 8<br/>09026 San Sperate (SU)<br/>340 0045472</p>
           </div>
           <div>
             <div className={styles.labelD}>Social</div>
-            <a href="https://instagram.com/ceramicatumminia" target="_blank" rel="noreferrer" className={styles.linkD} style={{fontStyle:'italic'}}>@ceramicatumminia</a>
+            <a href="https://instagram.com/ceramicatumminia" target="_blank" rel="noreferrer" className={styles.linkPlainD} style={{fontStyle:'italic'}}>@ceramicatumminia</a>
           </div>
         </div>
         <div className={styles.sectionLight} style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>

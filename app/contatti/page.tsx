@@ -20,7 +20,8 @@ export default function ContattiPage() {
           </div>
           <div>
             <div className={styles.labelD}>Social</div>
-            <a href="https://instagram.com/ceramicatumminia" target="_blank" rel="noreferrer" className={styles.linkPlainD} style={{fontStyle:'italic'}}>@ceramicatumminia</a>
+            <a href="https://www.instagram.com/ceramicatumminia/" target="_blank" rel="noreferrer" className={styles.linkPlainD} style={{fontStyle:'italic',marginBottom:'6px'}}>Instagram @ceramicatumminia</a>
+            <a href="https://www.facebook.com/p/CerAmica-Tumminia-100063630775468/" target="_blank" rel="noreferrer" className={styles.linkPlainD} style={{fontStyle:'italic'}}>Facebook Cer&apos;Amica Tumminia</a>
           </div>
         </div>
         <div className={styles.sectionLight} style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>

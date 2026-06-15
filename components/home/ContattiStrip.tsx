@@ -14,7 +14,8 @@ export default function ContattiStrip() {
       </div>
       <div>
         <div className={styles.labelD}>Social</div>
-        <a href="https://instagram.com/ceramicatumminia" target="_blank" rel="noreferrer" className={styles.linkD} style={{fontStyle:'italic'}}>@ceramicatumminia</a>
+        <a href="https://www.instagram.com/ceramicatumminia/" target="_blank" rel="noreferrer" className={styles.linkD} style={{fontStyle:'italic',marginBottom:'6px'}}>Instagram @ceramicatumminia</a>
+        <a href="https://www.facebook.com/p/CerAmica-Tumminia-100063630775468/" target="_blank" rel="noreferrer" className={styles.linkD} style={{fontStyle:'italic'}}>Facebook Cer'Amica Tumminia</a>
       </div>
     </section>
   )

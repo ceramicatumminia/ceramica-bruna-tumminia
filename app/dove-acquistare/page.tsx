@@ -90,6 +90,11 @@ export default function DoveAcquistarePage() {
                 <div className={styles.labelD} style={{marginBottom:'4px'}}>Laboratorio</div>
                 <p className={styles.textSmallD}>Via Decimo 8 — San Sperate (SU)</p>
               </div>
+              <div style={{borderLeft:'1.5px solid rgba(196,147,90,0.4)',paddingLeft:'16px'}}>
+                <div className={styles.labelD} style={{marginBottom:'4px'}}>Social</div>
+                <a href="https://www.instagram.com/ceramicatumminia/" target="_blank" rel="noreferrer" className={styles.linkPlainD} style={{fontStyle:'italic',marginBottom:'4px'}}>Instagram @ceramicatumminia</a>
+                <a href="https://www.facebook.com/p/CerAmica-Tumminia-100063630775468/" target="_blank" rel="noreferrer" className={styles.linkPlainD} style={{fontStyle:'italic'}}>Facebook Cer&apos;Amica Tumminia</a>
+              </div>
             </div>
             <a href="mailto:ceramicatumminia@gmail.com" className={styles.btnPrimary}>Scrivi a Bruna →</a>
           </div>

@@ -12,6 +12,7 @@ const navLinks = [
   { href: '/artista', label: 'Chi sono' },
   { href: '/galleria', label: 'Galleria' },
   { href: '/shop', label: 'Shop' },
+  { href: '/dove-acquistare', label: 'Dove acquistare' },
   { href: '/contatti', label: 'Contatti' },
 ]
 

@@ -24,7 +24,7 @@ export default function ContattiPage() {
           </div>
         </div>
         <div className={styles.sectionLight} style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>
-          <p className={styles.italic} style={{marginBottom:'32px'}}>Per informazioni sulle opere, commissioni o acquisti, scrivici direttamente.</p>
+          <p style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'17px',lineHeight:1.8,color:'var(--text-muted)',marginBottom:'32px'}}>Per informazioni sulle opere, commissioni o acquisti, scrivici direttamente.</p>
           <a href="mailto:ceramicatumminia@gmail.com" className={styles.btnPrimary}>Scrivi una email →</a>
         </div>
       </main>

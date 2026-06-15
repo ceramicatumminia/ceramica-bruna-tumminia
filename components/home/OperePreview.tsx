@@ -34,12 +34,12 @@ export default function OperePreview() {
     setTimeout(() => {
       setPrincipale(p => (p + 1) % opere.length)
       setFade(true)
-    }, 400)
+    }, 800)
   }, [opere.length])
 
   useEffect(() => {
     if (opere.length < 2) return
-    const t = setInterval(next, 4500)
+    const t = setInterval(next, 7000)
     return () => clearInterval(t)
   }, [opere.length, next])
 
@@ -114,7 +114,7 @@ export default function OperePreview() {
               gridRow:'1/3', textDecoration:'none', display:'block',
               position:'relative', overflow:'hidden',
               opacity: fade ? 1 : 0,
-              transition: 'opacity 0.4s ease',
+              transition: 'opacity 0.8s ease',
             }}>
               <img
                 key={opere[principale].id}

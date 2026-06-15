@@ -19,7 +19,7 @@ export default function Hero() {
     <>
       <style>{`
         @keyframes kenburns {
-          0%   { transform: scale(1.12) translate(2%, 1%); }
+          0%   { transform: scale(1.18) translate(3%, 2%); }
           100% { transform: scale(1.0)  translate(0%, 0%); }
         }
         @keyframes fadeInUp {
@@ -28,7 +28,7 @@ export default function Hero() {
         }
         .hero-img {
           width: 100%; height: 100%; object-fit: cover; display: block;
-          animation: kenburns 8s ease-out forwards;
+          animation: kenburns 16s ease-out forwards;
         }
         .hero-t1 { animation: fadeInUp 0.9s ease 0.1s both; }
         .hero-t2 { animation: fadeInUp 0.9s ease 0.25s both; }

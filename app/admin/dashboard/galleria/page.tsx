@@ -20,6 +20,7 @@ export default function AdminGalleriaPage() {
   const [editing, setEditing] = useState<string | null>(null)
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState(emptyForm)
+  const [formErrors, setFormErrors] = useState<{titolo?:string}>({})
   const [uploading, setUploading] = useState(false)
   const [toast, setToast] = useState('')
   const [editorFile, setEditorFile] = useState<File | null>(null)
@@ -85,7 +86,10 @@ export default function AdminGalleriaPage() {
   }
 
   const handleSave = async () => {
-    if (!form.titolo) { showToast('Inserisci il titolo'); return }
+    const errors: {titolo?:string} = {}
+    if (!form.titolo.trim()) errors.titolo = 'Il titolo è obbligatorio'
+    if (Object.keys(errors).length > 0) { setFormErrors(errors); return }
+    setFormErrors({})
     const data = { ...form, immagine_url: form.immagine_url || null }
     const res = editing
       ? await supabase.from('opere').update(data).eq('id', editing)
@@ -149,8 +153,18 @@ export default function AdminGalleriaPage() {
             <div className={gStyles.formLeft}>
               <div className={gStyles.formRow}>
                 <div className={gStyles.field}>
-                  <label>Titolo opera</label>
-                  <input value={form.titolo} onChange={e => setForm(f=>({...f,titolo:e.target.value}))} placeholder="es. Piatto turchese n.3" />
+                  <label style={{color: formErrors.titolo ? '#c0504a' : undefined}}>
+                    Titolo opera <span style={{color:'#c0504a'}}>*</span>
+                  </label>
+                  <input
+                    value={form.titolo}
+                    onChange={e => { setForm(f=>({...f,titolo:e.target.value})); if(formErrors.titolo) setFormErrors({}) }}
+                    placeholder="es. Piatto turchese n.3"
+                    style={{borderBottomColor: formErrors.titolo ? '#c0504a' : undefined}}
+                  />
+                  {formErrors.titolo && (
+                    <div style={{fontSize:'12px',color:'#c0504a',marginTop:'4px',fontStyle:'italic'}}>{formErrors.titolo}</div>
+                  )}
                 </div>
                 <div className={gStyles.field}>
                   <label>Categoria</label>

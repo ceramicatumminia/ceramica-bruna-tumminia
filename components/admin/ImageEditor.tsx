@@ -403,6 +403,17 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
   }
 
   const handleConfirm = () => {
+    // Nessuna modifica: restituisce il file originale senza ricompressione
+    const isUnmodified =
+      filters.brightness === 100 && filters.contrast === 100 &&
+      filters.saturation === 100 && filters.sharpness === 0 &&
+      filters.whiteBalance === 0 &&
+      !edge.enabled &&
+      mask.shape === 'nessuna' &&
+      cropBox.w === 0 && cropBox.h === 0 &&
+      outputSize === 100
+    if (isUnmodified) { onConfirm(file); return }
+
     const canvas = previewRef.current
     if (!canvas) return
     const scale = outputSize / 100
@@ -412,7 +423,7 @@ export default function ImageEditor({ file, onConfirm, onCancel }: Props) {
     out.width = finalW; out.height = finalH
     const ctx = out.getContext('2d')!
     ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, finalW, finalH)
-    out.toBlob(blob => { if (blob) onConfirm(blob) }, 'image/jpeg', 0.92)
+    out.toBlob(blob => { if (blob) onConfirm(blob) }, 'image/jpeg', 0.98)
   }
 
   const resetAll = () => {

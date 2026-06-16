@@ -199,20 +199,19 @@ export default function ImpostazioniPage() {
             </button>
           </div>
         </div>
+      </div>
 
-        {/* Toggle Dove acquistare */}
-        <div style={{background:'var(--warm-white)',border:'0.5px solid rgba(160,104,56,0.12)',padding:'32px 36px',marginBottom:'24px'}}>
-          <h2 style={{fontFamily:'Cormorant Garamond,serif',fontSize:'22px',color:'var(--terra-dark)',marginBottom:'16px',paddingBottom:'12px',borderBottom:'0.5px solid rgba(160,104,56,0.15)'}}>Pagina Dove acquistare</h2>
-          <div style={{display:'flex',alignItems:'center',gap:'24px',flexWrap:'wrap'}}>
-            <p style={{fontFamily:'Lora,serif',fontSize:'14px',color:'var(--text-muted)',fontStyle:'italic'}}>
-              {doveAttivo ? 'Pagina visibile al pubblico — link in navbar' : 'Pagina nascosta — link rimosso dalla navbar'}
-            </p>
-            <button
-              onClick={async () => { const v = !doveAttivo; setDoveAttivo(v); await salvaImpostazione('dove_acquistare_attivo', v.toString()); showToast('Salvato!') }}
-              style={{fontFamily:'Cinzel,serif',fontSize:'9px',letterSpacing:'0.25em',textTransform:'uppercase',background: doveAttivo ? '#c0504a' : '#8a4a20',color:'#f5f0e8',border:'none',padding:'10px 24px',cursor:'pointer'}}>
-              {doveAttivo ? 'Nascondi pagina' : 'Mostra pagina'}
-            </button>
-          </div>
+      {/* Dove acquistare */}
+      <div style={sectionStyle}>
+        <div style={sectionTitleStyle}>Pagina Dove acquistare</div>
+        <div style={{display:'flex', alignItems:'center', gap:'16px'}}>
+          <span style={{fontFamily:'Lora,serif', fontSize:'14px', color:'var(--text-muted)'}}>
+            {doveAttivo ? 'Pagina visibile al pubblico — link in navbar' : 'Pagina nascosta — link rimosso dalla navbar'}
+          </span>
+          <button style={{...btnStyle, background: doveAttivo ? '#c0504a' : '#8a4a20'}}
+            onClick={async () => { const v = !doveAttivo; setDoveAttivo(v); await salvaImpostazione('dove_acquistare_attivo', v.toString()); showToast('Salvato!') }}>
+            {doveAttivo ? 'Nascondi pagina' : 'Mostra pagina'}
+          </button>
         </div>
       </div>
 

@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
 
 type Opera = {
@@ -98,7 +99,7 @@ export default function OperePreview() {
           <div style={{display:'grid',gridTemplateColumns:'1fr',gap:'16px'}}>
             {opere.map(o => (
               <Link key={o.id} href="/galleria" className="op-card" style={{textDecoration:'none',display:'block',position:'relative',overflow:'hidden',aspectRatio:'4/3'}}>
-                <img src={o.immagine_url!} alt={o.titolo} className="op-small-img" style={{position:'absolute',inset:0}} />
+              <Image src={o.immagine_url!} alt={o.titolo} fill sizes="100vw" style={{objectFit:'cover'}} className="op-small-img" />
                 <div className="op-overlay">
                   <div style={{fontFamily:'Cinzel,serif',fontSize:'8px',letterSpacing:'0.25em',textTransform:'uppercase',color:'rgba(196,147,90,0.9)',marginBottom:'4px'}}>{o.categoria}</div>
                   <div style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'18px',color:'#f0e4d0',lineHeight:1.1}}>{o.titolo}</div>
@@ -116,12 +117,15 @@ export default function OperePreview() {
               opacity: fade ? 1 : 0,
               transition: 'opacity 0.8s ease',
             }}>
-              <img
+              <Image
                 key={opere[principale].id}
                 src={opere[principale].immagine_url!}
                 alt={opere[principale].titolo}
+                fill
+                sizes="(max-width:768px) 100vw, 55vw"
+                style={{objectFit:'cover'}}
                 className="op-main-img"
-                style={{position:'absolute',inset:0,height:'100%'}}
+                priority
               />
               <div className="op-main-overlay">
                 <div style={{fontFamily:'Cinzel,serif',fontSize:'9px',letterSpacing:'0.25em',textTransform:'uppercase',color:'rgba(196,147,90,0.9)',marginBottom:'6px'}}>{opere[principale].categoria}</div>
@@ -139,7 +143,14 @@ export default function OperePreview() {
                 onMouseEnter={() => setHovered(idx)}
                 onMouseLeave={() => setHovered(null)}
               >
-                <img src={o.immagine_url!} alt={o.titolo} className="op-small-img" style={{position:'absolute',inset:0,height:'100%'}} />
+                <Image
+                  src={o.immagine_url!}
+                  alt={o.titolo}
+                  fill
+                  sizes="(max-width:768px) 100vw, 25vw"
+                  style={{objectFit:'cover'}}
+                  className="op-small-img"
+                />
                 <div className="op-overlay">
                   <div style={{fontFamily:'Cinzel,serif',fontSize:'8px',letterSpacing:'0.25em',textTransform:'uppercase',color:'rgba(196,147,90,0.9)',marginBottom:'3px'}}>{o.categoria}</div>
                   <div style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'16px',color:'#f0e4d0',lineHeight:1.1}}>{o.titolo}</div>

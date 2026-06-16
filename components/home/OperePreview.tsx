@@ -122,9 +122,10 @@ export default function OperePreview() {
                 src={opere[principale].immagine_url!}
                 alt={opere[principale].titolo}
                 fill
-                sizes="(max-width:768px) 100vw, 55vw"
+                sizes="(max-width:768px) 100vw, 70vw"
                 style={{objectFit:'cover'}}
                 className="op-main-img"
+                quality={100}
                 priority
               />
               <div className="op-main-overlay">
@@ -147,9 +148,10 @@ export default function OperePreview() {
                   src={o.immagine_url!}
                   alt={o.titolo}
                   fill
-                  sizes="(max-width:768px) 100vw, 25vw"
+                  sizes="(max-width:768px) 100vw, 30vw"
                   style={{objectFit:'cover'}}
                   className="op-small-img"
+                  quality={100}
                 />
                 <div className="op-overlay">
                   <div style={{fontFamily:'Cinzel,serif',fontSize:'8px',letterSpacing:'0.25em',textTransform:'uppercase',color:'rgba(196,147,90,0.9)',marginBottom:'3px'}}>{o.categoria}</div>

@@ -15,12 +15,28 @@ type Negozio = {
 
 export default function DoveAcquistarePage() {
   const [negozi, setNegozi] = useState<Negozio[]>([])
+  const [attivo, setAttivo] = useState<boolean | null>(null)
 
   useEffect(() => {
+    supabase.from('impostazioni').select('valore').eq('chiave', 'dove_acquistare_attivo').single()
+      .then(({ data }) => setAttivo(data?.valore !== 'false'))
+
     supabase.from('negozi').select('*')
       .eq('visibile', true).order('ordine')
       .then(({ data }) => setNegozi(data || []))
   }, [])
+
+  if (attivo === false) return (
+    <>
+      <Header />
+      <main style={{minHeight:'70vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:'var(--cream)',textAlign:'center',padding:'80px 24px'}}>
+        <div style={{fontFamily:'Cinzel,serif',fontSize:'9px',letterSpacing:'0.38em',textTransform:'uppercase',color:'var(--bronze)',marginBottom:'24px'}}>— Pagina non disponibile</div>
+        <h1 style={{fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(32px,4vw,56px)',fontWeight:300,color:'var(--terra-dark)',marginBottom:'16px'}}>Informazioni in aggiornamento</h1>
+        <p style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'16px',color:'var(--text-muted)',maxWidth:'440px',lineHeight:1.8,marginBottom:'40px'}}>Per informazioni su dove acquistare le ceramiche, contattaci direttamente.</p>
+        <a href="/contatti" style={{fontFamily:'Cinzel,serif',fontSize:'9px',letterSpacing:'0.3em',textTransform:'uppercase',color:'#f5f0e8',background:'#8a4a20',padding:'14px 32px',textDecoration:'none'}}>Contattaci →</a>
+      </main>
+    </>
+  )
 
   return (
     <>

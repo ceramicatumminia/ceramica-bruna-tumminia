@@ -21,6 +21,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [shopAttivo, setShopAttivo] = useState(false)
+  const [doveAttivo, setDoveAttivo] = useState(true)
   const [theme, setTheme] = useState<'light'|'dark'|'ice'>('light')
 
   useEffect(() => {
@@ -34,13 +35,23 @@ export default function Header() {
     }
 
     import('@/lib/supabase').then(({ supabase }) => {
-      supabase.from('impostazioni').select('valore').eq('chiave', 'shop_attivo').single()
-        .then(({ data }) => setShopAttivo(data?.valore === 'true'))
+      supabase.from('impostazioni').select('chiave,valore')
+        .in('chiave', ['shop_attivo', 'dove_acquistare_attivo'])
+        .then(({ data }) => {
+          data?.forEach(r => {
+            if (r.chiave === 'shop_attivo') setShopAttivo(r.valore === 'true')
+            if (r.chiave === 'dove_acquistare_attivo') setDoveAttivo(r.valore === 'true')
+          })
+        })
     })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const visibleLinks = navLinks.filter(l => l.href !== '/shop' || shopAttivo)
+  const visibleLinks = navLinks.filter(l => {
+    if (l.href === '/shop') return shopAttivo
+    if (l.href === '/dove-acquistare') return doveAttivo
+    return true
+  })
 
   return (
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>

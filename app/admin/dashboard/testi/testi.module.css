@@ -9,8 +9,8 @@
 .block {
   background: var(--warm-white);
   border: 0.5px solid rgba(160,104,56,0.12);
-  padding: 32px 36px;
-  margin-bottom: 20px;
+  padding: 22px 28px;
+  margin-bottom: 14px;
 }
 
 .label {
@@ -20,15 +20,15 @@
   text-transform: uppercase;
   color: var(--bronze);
   display: block;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .textarea {
   width: 100%;
-  min-height: 100px;
+  min-height: 48px;
   border: none;
   border-bottom: 0.5px solid rgba(160,104,56,0.25);
-  padding: 8px 0;
+  padding: 6px 0;
   font-family: 'Lora', serif;
   font-size: 14px;
   color: var(--text-body);
@@ -36,13 +36,13 @@
   outline: none;
   resize: vertical;
   box-sizing: border-box;
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 .actions {
   display: flex;
   gap: 12px;
-  margin-top: 16px;
+  margin-top: 12px;
 }
 
 .btnSave {

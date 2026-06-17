@@ -108,7 +108,7 @@ export default function OperePreview() {
             ))}
           </div>
         ) : (
-          <div style={{display:'grid',gridTemplateColumns:'1.5fr 1fr',gridTemplateRows:'280px 280px',gap:'12px'}}>
+          <div style={{display:'grid',gridTemplateColumns:'1.35fr 1fr',gridTemplateRows:'252px 252px',gap:'12px'}}>
 
             {/* Opera principale — grande, occupa 2 righe */}
             <Link href="/galleria" className="op-main" style={{

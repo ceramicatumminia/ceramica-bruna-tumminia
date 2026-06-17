@@ -265,6 +265,15 @@
   display: block;
   margin-bottom: 14px;
 }
+.ambClosing {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(18px,2vw,24px);
+  line-height: 1.8;
+  color: var(--text-muted);
+  max-width: 620px;
+  margin: 0 auto;
+}
 
 @media (max-width: 860px) {
   .ambRow, .ambRowReverse {

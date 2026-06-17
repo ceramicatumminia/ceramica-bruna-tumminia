@@ -13,6 +13,7 @@ type Ambientazione = {
 export default function AmbientazioniPage() {
   const [foto, setFoto] = useState<Ambientazione[]>([])
   const [attivo, setAttivo] = useState<boolean | null>(null)
+  const [chiusura, setChiusura] = useState("Ogni opera è unica e nasce dalle mani di Bruna Tumminia, pronta a trovare il proprio posto anche nella tua casa.")
 
   useEffect(() => {
     supabase.from('impostazioni').select('valore').eq('chiave', 'ambientazioni_attivo').single()
@@ -21,6 +22,9 @@ export default function AmbientazioniPage() {
     supabase.from('ambientazioni').select('id,immagine_url,didascalia')
       .eq('visibile', true).order('ordine')
       .then(({ data }) => setFoto(data || []))
+
+    supabase.from('testi_sito').select('valore').eq('chiave', 'ambientazioni-chiusura-text').single()
+      .then(({ data }) => { if (data?.valore) setChiusura(data.valore) })
   }, [])
 
   if (attivo === false) return (
@@ -91,10 +95,7 @@ export default function AmbientazioniPage() {
 
         {foto.length > 0 && (
           <section className={styles.sectionCream2} style={{textAlign:'center'}}>
-            <p className={styles.italic}>
-              Ogni opera è unica e nasce dalle mani di Bruna Tumminia,<br/>
-              pronta a trovare il proprio posto anche nella tua casa.
-            </p>
+            <p className={styles.ambClosing}>{chiusura}</p>
           </section>
         )}
 

@@ -60,32 +60,33 @@ export default function AmbientazioniPage() {
           </section>
         )}
 
-        {/* Prima foto — grande, in apertura */}
+        {/* Prima foto — leggermente più grande, in apertura, ma con dimensioni contenute */}
         {prima && (
-          <div style={{padding:'0 clamp(24px,6vw,80px) clamp(40px,6vw,70px)'}}>
-            <div style={{aspectRatio:'16/9',overflow:'hidden',background:'var(--cream2)'}}>
-              <img src={prima.immagine_url} alt={prima.didascalia || 'Ceramica in ambiente'}
-                style={{width:'100%',height:'100%',objectFit:'cover'}} />
+          <div className={styles.ambFirstWrap}>
+            <div className={styles.ambFirstPhoto}>
+              <img src={prima.immagine_url} alt={prima.didascalia || 'Ceramica in ambiente'} />
             </div>
             {prima.didascalia && (
-              <p className={styles.ambCaption} style={{textAlign:'center',marginTop:'20px',maxWidth:'520px',marginLeft:'auto',marginRight:'auto'}}>
+              <p className={styles.ambCaption} style={{textAlign:'center',marginTop:'20px',maxWidth:'480px',marginLeft:'auto',marginRight:'auto'}}>
                 {prima.didascalia}
               </p>
             )}
           </div>
         )}
 
-        {/* Foto successive — righe alternate asimmetriche */}
+        {/* Foto successive — righe alternate, dimensioni contenute */}
         {resto.map((item, i) => (
-          <section key={item.id} className={i % 2 === 0 ? styles.ambRow : `${styles.ambRow} ${styles.ambRowReverse}`}>
-            <div className={styles.ambPhoto} style={{aspectRatio:'4/5'}}>
-              <img src={item.immagine_url} alt={item.didascalia || 'Ceramica in ambiente'} />
-            </div>
-            <div className={styles.ambCaption}>
-              <span className={styles.ambCaptionNum}>{String(i + 2).padStart(2,'0')}</span>
-              {item.didascalia || ' '}
-            </div>
-          </section>
+          <div key={item.id} className={styles.ambRowOuter}>
+            <section className={i % 2 === 0 ? styles.ambRow : `${styles.ambRow} ${styles.ambRowReverse}`}>
+              <div className={styles.ambPhoto} style={{aspectRatio:'4/5'}}>
+                <img src={item.immagine_url} alt={item.didascalia || 'Ceramica in ambiente'} />
+              </div>
+              <div className={styles.ambCaption}>
+                <span className={styles.ambCaptionNum}>{String(i + 2).padStart(2,'0')}</span>
+                {item.didascalia || ' '}
+              </div>
+            </section>
+          </div>
         ))}
 
         {foto.length > 0 && (

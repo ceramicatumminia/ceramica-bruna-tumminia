@@ -8,6 +8,7 @@ export default function ImpostazioniPage() {
   const [tempiConsegna, setTempiConsegna] = useState('7-10 giorni lavorativi')
   const [shopAttivo, setShopAttivo] = useState(false)
   const [doveAttivo, setDoveAttivo] = useState(true)
+  const [ambientazioniAttivo, setAmbientazioniAttivo] = useState(false)
   const [heroImg, setHeroImg] = useState('')
   const [labImg, setLabImg] = useState('')
   const [uploadingHero, setUploadingHero] = useState(false)
@@ -27,6 +28,7 @@ export default function ImpostazioniPage() {
         if (r.chiave === 'tempi_consegna') setTempiConsegna(r.valore)
         if (r.chiave === 'shop_attivo') setShopAttivo(r.valore === 'true')
           if (r.chiave === 'dove_acquistare_attivo') setDoveAttivo(r.valore === 'true')
+          if (r.chiave === 'ambientazioni_attivo') setAmbientazioniAttivo(r.valore === 'true')
         if (r.chiave === 'hero_immagine') setHeroImg(r.valore || '')
         if (r.chiave === 'laboratorio_immagine') setLabImg(r.valore || '')
       })
@@ -213,6 +215,23 @@ export default function ImpostazioniPage() {
             {doveAttivo ? 'Nascondi pagina' : 'Mostra pagina'}
           </button>
         </div>
+      </div>
+
+      {/* Ambientazioni */}
+      <div style={sectionStyle}>
+        <div style={sectionTitleStyle}>Pagina Ambientazioni</div>
+        <div style={{display:'flex', alignItems:'center', gap:'16px'}}>
+          <span style={{fontFamily:'Lora,serif', fontSize:'14px', color:'var(--text-muted)'}}>
+            {ambientazioniAttivo ? 'Pagina visibile al pubblico — link in navbar' : 'Pagina nascosta — link rimosso dalla navbar'}
+          </span>
+          <button style={{...btnStyle, background: ambientazioniAttivo ? '#c0504a' : '#8a4a20'}}
+            onClick={async () => { const v = !ambientazioniAttivo; setAmbientazioniAttivo(v); await salvaImpostazione('ambientazioni_attivo', v.toString()); showToast('Salvato!') }}>
+            {ambientazioniAttivo ? 'Nascondi pagina' : 'Mostra pagina'}
+          </button>
+        </div>
+        <p style={{fontFamily:'Lora,serif', fontStyle:'italic', fontSize:'12px', color:'var(--text-pale)', marginTop:'12px'}}>
+          Le foto si gestiscono dalla voce &quot;Ambientazioni&quot; nel menu laterale.
+        </p>
       </div>
 
       {/* Consegna */}

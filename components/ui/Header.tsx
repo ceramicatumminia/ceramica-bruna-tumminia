@@ -11,6 +11,7 @@ const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/artista', label: 'Chi sono' },
   { href: '/galleria', label: 'Galleria' },
+  { href: '/ambientazioni', label: 'Ambientazioni' },
   { href: '/shop', label: 'Shop' },
   { href: '/dove-acquistare', label: 'Dove acquistare' },
   { href: '/contatti', label: 'Contatti' },
@@ -22,6 +23,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [shopAttivo, setShopAttivo] = useState(false)
   const [doveAttivo, setDoveAttivo] = useState(true)
+  const [ambientazioniAttivo, setAmbientazioniAttivo] = useState(false)
   const [theme, setTheme] = useState<'light'|'dark'|'ice'>('light')
 
   useEffect(() => {
@@ -36,11 +38,12 @@ export default function Header() {
 
     import('@/lib/supabase').then(({ supabase }) => {
       supabase.from('impostazioni').select('chiave,valore')
-        .in('chiave', ['shop_attivo', 'dove_acquistare_attivo'])
+        .in('chiave', ['shop_attivo', 'dove_acquistare_attivo', 'ambientazioni_attivo'])
         .then(({ data }) => {
           data?.forEach(r => {
             if (r.chiave === 'shop_attivo') setShopAttivo(r.valore === 'true')
             if (r.chiave === 'dove_acquistare_attivo') setDoveAttivo(r.valore === 'true')
+            if (r.chiave === 'ambientazioni_attivo') setAmbientazioniAttivo(r.valore === 'true')
           })
         })
     })
@@ -50,6 +53,7 @@ export default function Header() {
   const visibleLinks = navLinks.filter(l => {
     if (l.href === '/shop') return shopAttivo
     if (l.href === '/dove-acquistare') return doveAttivo
+    if (l.href === '/ambientazioni') return ambientazioniAttivo
     return true
   })
 

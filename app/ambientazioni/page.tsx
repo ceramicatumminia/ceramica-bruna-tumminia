@@ -13,6 +13,7 @@ type Ambientazione = {
 export default function AmbientazioniPage() {
   const [foto, setFoto] = useState<Ambientazione[]>([])
   const [attivo, setAttivo] = useState<boolean | null>(null)
+  const [intro, setIntro] = useState("Ogni ceramica trova il proprio respiro quando entra a far parte di una casa, di una luce, di un gesto quotidiano.")
   const [chiusura, setChiusura] = useState("Ogni opera è unica e nasce dalle mani di Bruna Tumminia, pronta a trovare il proprio posto anche nella tua casa.")
 
   useEffect(() => {
@@ -23,8 +24,14 @@ export default function AmbientazioniPage() {
       .eq('visibile', true).order('ordine')
       .then(({ data }) => setFoto(data || []))
 
-    supabase.from('testi_sito').select('valore').eq('chiave', 'ambientazioni-chiusura-text').single()
-      .then(({ data }) => { if (data?.valore) setChiusura(data.valore) })
+    supabase.from('testi_sito').select('chiave,valore')
+      .in('chiave', ['ambientazioni-intro-text', 'ambientazioni-chiusura-text'])
+      .then(({ data }) => {
+        data?.forEach(r => {
+          if (r.chiave === 'ambientazioni-intro-text' && r.valore) setIntro(r.valore)
+          if (r.chiave === 'ambientazioni-chiusura-text' && r.valore) setChiusura(r.valore)
+        })
+      })
   }, [])
 
   if (attivo === false) return (
@@ -51,10 +58,7 @@ export default function AmbientazioniPage() {
           <div className={styles.ambHeroIntro}>
             <span className={styles.label} style={{display:'inline-block'}}>— Ambientazioni</span>
             <h1 className={styles.h1}>Le opere<br/>nello spazio</h1>
-            <p className={styles.italic}>
-              Ogni ceramica trova il proprio respiro quando entra a far parte di una casa,
-              di una luce, di un gesto quotidiano.
-            </p>
+            <p className={styles.ambSubtitle}>{intro}</p>
           </div>
         </section>
 

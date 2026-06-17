@@ -197,6 +197,14 @@
   max-width: 640px;
   margin: 0 auto;
 }
+.ambSubtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(16px,1.7vw,19px);
+  line-height: 1.8;
+  color: var(--text-muted);
+}
 .ambFirstWrap {
   max-width: 980px;
   margin: 0 auto;
@@ -267,11 +275,12 @@
 }
 .ambClosing {
   font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
   font-weight: 400;
-  font-size: clamp(18px,2vw,24px);
+  font-size: clamp(15px,1.5vw,18px);
   line-height: 1.8;
   color: var(--text-muted);
-  max-width: 620px;
+  max-width: 480px;
   margin: 0 auto;
 }
 

@@ -10,6 +10,8 @@ const TESTI_CONFIG = [
   { chiave: 'tecnica-sfoglia-text', label: 'Tecnica sfoglia', default: "Lastre di argilla stese e sagomate per costruire forme geometriche o morbide. Ogni piega, ogni giuntura porta con sé il segno della mano che l'ha formata." },
   { chiave: 'tecnica-colaggio-text', label: 'Tecnica colaggio', default: "Argilla liquida colata in stampi per ottenere forme complesse e dettagli precisi. Il risultato è poi rifinito e decorato a mano con smalti e ossidi minerali." },
   { chiave: 'lab-body-text', label: 'Testo laboratorio', default: "Un luogo dove il tempo scorre diversamente. Il laboratorio di Bruna Tumminia a San Sperate è il cuore pulsante di ogni opera." },
+  { chiave: 'ambientazioni-intro-text', label: 'Frase introduttiva pagina Ambientazioni', default: "Ogni ceramica trova il proprio respiro quando entra a far parte di una casa, di una luce, di un gesto quotidiano." },
+  { chiave: 'ambientazioni-chiusura-text', label: 'Frase di chiusura pagina Ambientazioni', default: "Ogni opera è unica e nasce dalle mani di Bruna Tumminia, pronta a trovare il proprio posto anche nella tua casa." },
 ]
 
 export default function AdminTestiPage() {

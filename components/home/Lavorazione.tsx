@@ -33,7 +33,7 @@ export default function Lavorazione() {
     <section className={styles.sectionAlt}>
       <div className={styles.label}>— Dalla materia all&apos;opera</div>
       <h2 className={styles.h2} style={{ maxWidth: '500px' }}>Le fasi della lavorazione</h2>
-      <p style={{ fontFamily: 'Satisfy,cursive', fontSize: '17px', lineHeight: '1.85', color: 'var(--text-muted)', maxWidth: '620px', marginBottom: '56px' }}>{intro}</p>
+      <p style={{ fontFamily: 'Cormorant Garamond,serif', fontStyle: 'italic', fontWeight: 400, fontSize: '19px', lineHeight: '1.8', color: 'var(--text-muted)', maxWidth: '620px', marginBottom: '56px' }}>{intro}</p>
 
       <div
         style={{
@@ -53,11 +53,11 @@ export default function Lavorazione() {
               borderRight: i < fasi.length - 1 ? '0.5px solid rgba(160,104,56,0.15)' : 'none',
             }}
           >
-            <div style={{ fontFamily: 'Satisfy,cursive', fontSize: '32px', color: 'var(--bronze-light)', opacity: 0.55, marginBottom: '10px' }}>
+            <div style={{ fontFamily: 'Cormorant Garamond,serif', fontStyle: 'italic', fontWeight: 300, fontSize: '38px', color: 'var(--bronze-light)', opacity: 0.55, marginBottom: '10px' }}>
               {String(f.ordine).padStart(2, '0')}
             </div>
             <div className={styles.label} style={{ marginBottom: '10px', color: 'var(--terra)' }}>{f.titolo}</div>
-            <p style={{ fontFamily: 'Satisfy,cursive', fontSize: '16px', lineHeight: '1.85', color: 'var(--text-muted)' }}>{f.descrizione}</p>
+            <p style={{ fontFamily: 'Cormorant Garamond,serif', fontStyle: 'italic', fontWeight: 400, fontSize: '17px', lineHeight: '1.75', color: 'var(--text-muted)' }}>{f.descrizione}</p>
           </div>
         ))}
       </div>

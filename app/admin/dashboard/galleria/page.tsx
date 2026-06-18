@@ -299,6 +299,16 @@ export default function AdminGalleriaPage() {
               <div className={gStyles.cardBody}>
                 <div className={gStyles.cardTitle}>{o.titolo}</div>
                 <div className={gStyles.cardCat}>{o.categoria} · €{o.prezzo}</div>
+                {o.descrizione && (
+                  <div style={{
+                    fontFamily: 'Lora,serif', fontSize: '12.5px', lineHeight: '1.5',
+                    color: 'var(--text-muted)', marginTop: '6px', marginBottom: '4px',
+                    display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}>
+                    {o.descrizione}
+                  </div>
+                )}
                 <div className={gStyles.cardActions}>
                   <button className={gStyles.btnEdit} onClick={() => handleEdit(o)}>Modifica</button>
                   <button className={gStyles.btnToggle} onClick={() => handleToggle(o)}>{o.visibile ? 'Nascondi' : 'Pubblica'}</button>

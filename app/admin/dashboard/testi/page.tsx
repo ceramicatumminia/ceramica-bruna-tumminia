@@ -6,9 +6,6 @@ import tStyles from './testi.module.css'
 
 const TESTI_CONFIG = [
   { chiave: 'hero-desc-text', label: 'Descrizione hero (homepage)', default: "Ceramiche artistiche interamente realizzate e decorate a mano. Ogni pezzo nasce da un dialogo silenzioso tra le mani e l'argilla, custodendo la traccia del gesto." },
-  { chiave: 'tecnica-colombino-text', label: 'Tecnica colombino', default: "Lunghi rotoli d'argilla sovrapposti e modellati a mano. Una tecnica millenaria che conserva nell'oggetto finito il ritmo lento e meditativo della costruzione." },
-  { chiave: 'tecnica-sfoglia-text', label: 'Tecnica sfoglia', default: "Lastre di argilla stese e sagomate per costruire forme geometriche o morbide. Ogni piega, ogni giuntura porta con sé il segno della mano che l'ha formata." },
-  { chiave: 'tecnica-colaggio-text', label: 'Tecnica colaggio', default: "Argilla liquida colata in stampi per ottenere forme complesse e dettagli precisi. Il risultato è poi rifinito e decorato a mano con smalti e ossidi minerali." },
   { chiave: 'lab-body-text', label: 'Testo laboratorio', default: "Un luogo dove il tempo scorre diversamente. Il laboratorio di Bruna Tumminia a San Sperate è il cuore pulsante di ogni opera." },
   { chiave: 'ambientazioni-intro-text', label: 'Frase introduttiva pagina Ambientazioni', default: "Ogni ceramica trova il proprio respiro quando entra a far parte di una casa, di una luce, di un gesto quotidiano." },
   { chiave: 'ambientazioni-chiusura-text', label: 'Frase di chiusura pagina Ambientazioni', default: "Ogni opera è unica e nasce dalle mani di Bruna Tumminia, pronta a trovare il proprio posto anche nella tua casa." },
@@ -54,7 +51,7 @@ export default function AdminTestiPage() {
   return (
     <div>
       <h1 className={styles.sectionTitle}>Testi del sito</h1>
-      <p className={tStyles.subtitle}>Modifica i testi principali del sito: home, tecniche, laboratorio, ambientazioni, contatti e l&apos;Artista.</p>
+      <p className={tStyles.subtitle}>Modifica i testi principali del sito: home, laboratorio, ambientazioni, contatti e l&apos;Artista. La sezione &quot;Le fasi della lavorazione&quot; si gestisce dalla voce &quot;Lavorazione&quot; nel menu laterale.</p>
 
       {TESTI_CONFIG.map(t => (
         <TestoBlock

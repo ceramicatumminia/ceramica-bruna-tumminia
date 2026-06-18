@@ -161,7 +161,7 @@ export default function AdminGalleriaPage() {
           style={{
             position: 'fixed', inset: 0, background: 'rgba(20,14,8,0.55)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            padding: '24px', zIndex: 1000, overflowY: 'auto',
+            padding: '24px', zIndex: 900, overflowY: 'auto',
           }}
         >
           <div

@@ -1,7 +1,19 @@
+'use client'
+import { useEffect, useState } from 'react'
 import Header from '@/components/ui/Header'
+import { supabase } from '@/lib/supabase'
 import styles from '@/styles/site.module.css'
 
+const DEFAULT_CTA_TEXT = 'Per informazioni sulle opere, scrivimi direttamente.'
+
 export default function ContattiPage() {
+  const [ctaText, setCtaText] = useState(DEFAULT_CTA_TEXT)
+
+  useEffect(() => {
+    supabase.from('testi_sito').select('valore').eq('chiave', 'contatti-cta-text').single()
+      .then(({ data }) => { if (data?.valore) setCtaText(data.valore) })
+  }, [])
+
   return (
     <>
       <Header />
@@ -35,7 +47,7 @@ export default function ContattiPage() {
           </div>
         </div>
         <div className={styles.sectionLight} style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>
-          <p style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'17px',lineHeight:1.8,color:'var(--text-muted)',marginBottom:'32px'}}>Per informazioni sulle opere, commissioni o acquisti, scrivici direttamente.</p>
+          <p style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'17px',lineHeight:1.8,color:'var(--text-muted)',marginBottom:'32px'}}>{ctaText}</p>
           <a href="mailto:ceramicatumminia@gmail.com" className={styles.btnPrimary}>Scrivi una email →</a>
         </div>
       </main>

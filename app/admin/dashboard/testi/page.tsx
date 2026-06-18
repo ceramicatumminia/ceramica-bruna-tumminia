@@ -12,6 +12,16 @@ const TESTI_CONFIG = [
   { chiave: 'lab-body-text', label: 'Testo laboratorio', default: "Un luogo dove il tempo scorre diversamente. Il laboratorio di Bruna Tumminia a San Sperate è il cuore pulsante di ogni opera." },
   { chiave: 'ambientazioni-intro-text', label: 'Frase introduttiva pagina Ambientazioni', default: "Ogni ceramica trova il proprio respiro quando entra a far parte di una casa, di una luce, di un gesto quotidiano." },
   { chiave: 'ambientazioni-chiusura-text', label: 'Frase di chiusura pagina Ambientazioni', default: "Ogni opera è unica e nasce dalle mani di Bruna Tumminia, pronta a trovare il proprio posto anche nella tua casa." },
+  { chiave: 'contatti-cta-text', label: 'Frase invito pagina Contatti', default: 'Per informazioni sulle opere, scrivimi direttamente.' },
+  { chiave: 'artista-label-text', label: "L'Artista — etichetta sopra il titolo", default: 'Bruna Tumminia' },
+  { chiave: 'artista-titolo-text', label: "L'Artista — titolo principale", default: "L'anima dell'argilla" },
+  { chiave: 'artista-sottotitolo-text', label: "L'Artista — sottotitolo corsivo", default: 'La ceramica come dialogo intimo tra le mie mani, la mente e la materia. Ogni opera è un racconto silenzioso di tempo, pazienza e meraviglia.' },
+  { chiave: 'artista-h2-text', label: "L'Artista — titolo sezione biografia", default: "Una vita plasmata dall'argilla" },
+  { chiave: 'artista-par1-text', label: "L'Artista — biografia, paragrafo 1", default: "Ho scelto la ceramica come linguaggio dell'anima. Nel mio laboratorio di San Sperate, in Sardegna, ogni giornata inizia con il contatto diretto con la terra: un gesto ancestrale che si rinnova in ogni opera." },
+  { chiave: 'artista-par2-text', label: "L'Artista — biografia, paragrafo 2", default: 'La mia formazione affonda le radici nelle tecniche tradizionali della ceramica artigianale, ma lo sguardo è sempre rivolto alla contemporaneità.' },
+  { chiave: 'artista-citazione-text', label: "L'Artista — citazione", default: "L'entusiasmo, lo slancio creativo, la vibrazione dell'animo ma anche la riflessione, la calma e la meditazione attraverso l'intimo rapporto con la materia si manifestano nell'opera finale." },
+  { chiave: 'artista-par3-text', label: "L'Artista — biografia, paragrafo 3", default: 'La decorazione — ossidi, smalti, terre colorate — è per me un momento di pura espressione pittorica. La superficie della ceramica diventa tela: il fuoco del forno è l\'ultimo complice.' },
+  { chiave: 'artista-par4-text', label: "L'Artista — biografia, paragrafo 4", default: "Ogni pezzo che creo è unico. Ogni imperfezione è voluta, cercata, amata — perché è lì che abita la vita dell'oggetto artigianale." },
 ]
 
 export default function AdminTestiPage() {
@@ -44,7 +54,7 @@ export default function AdminTestiPage() {
   return (
     <div>
       <h1 className={styles.sectionTitle}>Testi del sito</h1>
-      <p className={tStyles.subtitle}>Modifica i testi principali della home page.</p>
+      <p className={tStyles.subtitle}>Modifica i testi principali del sito: home, tecniche, laboratorio, ambientazioni, contatti e l&apos;Artista.</p>
 
       {TESTI_CONFIG.map(t => (
         <TestoBlock

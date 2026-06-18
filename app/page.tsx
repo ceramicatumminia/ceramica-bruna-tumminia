@@ -11,8 +11,8 @@ export default function HomePage() {
       <Header />
       <main>
         <Hero />
-        <Lavorazione />
         <OperePreview />
+        <Lavorazione />
         <LabPreview />
         <ContattiStrip />
       </main>

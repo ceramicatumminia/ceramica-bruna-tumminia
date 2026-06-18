@@ -2,9 +2,12 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 
+const DEFAULT_DESC = "Ceramiche artistiche interamente realizzate e decorate a mano. Ogni pezzo nasce da un dialogo silenzioso tra le mani e l'argilla."
+
 export default function Hero() {
   const [mobile, setMobile] = useState(false)
   const [heroImg, setHeroImg] = useState('')
+  const [heroDesc, setHeroDesc] = useState(DEFAULT_DESC)
 
   useEffect(() => {
     const check = () => setMobile(window.innerWidth < 768)
@@ -12,6 +15,8 @@ export default function Hero() {
     window.addEventListener('resize', check)
     supabase.from('impostazioni').select('valore').eq('chiave', 'hero_immagine').single()
       .then(({ data }) => { if (data?.valore) setHeroImg(data.valore) })
+    supabase.from('testi_sito').select('valore').eq('chiave', 'hero-desc-text').single()
+      .then(({ data }) => { if (data?.valore) setHeroDesc(data.valore) })
     return () => window.removeEventListener('resize', check)
   }, [])
 
@@ -54,7 +59,7 @@ export default function Hero() {
           </div>
           <div className="hero-t2" style={{width:'50px',height:'0.5px',background:'var(--bronze)',marginBottom:'20px'}}></div>
           <p className="hero-t3" style={{fontFamily:'Satisfy,cursive',fontSize:'20px',lineHeight:'2',color:'var(--text-muted)',maxWidth: mobile ? '100%' : '400px',marginBottom:'36px'}}>
-            Ceramiche artistiche interamente realizzate e decorate a mano. Ogni pezzo nasce da un dialogo silenzioso tra le mani e l&apos;argilla.
+            {heroDesc}
           </p>
           <a className="hero-t4" href="/galleria" style={{display:'inline-flex',alignItems:'center',gap:'10px',fontFamily:'Cinzel,serif',fontSize:'10px',letterSpacing:'0.3em',textTransform:'uppercase',color:'var(--terra)',textDecoration:'none',borderBottom:'0.5px solid var(--terra)',paddingBottom:'6px',width:'fit-content'}}>
             Scopri le opere →

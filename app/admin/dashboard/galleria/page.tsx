@@ -20,7 +20,7 @@ export default function AdminGalleriaPage() {
   const [editing, setEditing] = useState<string | null>(null)
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState(emptyForm)
-  const [formErrors, setFormErrors] = useState<{titolo?:string}>({})
+  const [formErrors, setFormErrors] = useState<{titolo?:string; immagine?:string}>({})
   const [uploading, setUploading] = useState(false)
   const [toast, setToast] = useState('')
   const [editorFile, setEditorFile] = useState<File | null>(null)
@@ -75,6 +75,7 @@ export default function AdminGalleriaPage() {
     setForm(f => ({ ...f, immagine_url: data.publicUrl }))
     setEditorPreview(data.publicUrl)
     setUploading(false)
+    if (formErrors.immagine) setFormErrors(e => ({ ...e, immagine: undefined }))
     showToast('Foto caricata!')
   }
 
@@ -96,8 +97,9 @@ export default function AdminGalleriaPage() {
   }
 
   const handleSave = async () => {
-    const errors: {titolo?:string} = {}
+    const errors: {titolo?:string; immagine?:string} = {}
     if (!form.titolo.trim()) errors.titolo = 'Il titolo è obbligatorio'
+    if (!form.immagine_url) errors.immagine = 'Carica una foto prima di salvare'
     if (Object.keys(errors).length > 0) { setFormErrors(errors); return }
     setFormErrors({})
     const data = { ...form, immagine_url: form.immagine_url || null }
@@ -199,7 +201,7 @@ export default function AdminGalleriaPage() {
                       style={{borderBottomColor: formErrors.titolo ? '#c0504a' : undefined}}
                     />
                     {formErrors.titolo && (
-                      <div style={{fontSize:'12px',color:'#c0504a',marginTop:'4px',fontStyle:'italic'}}>{formErrors.titolo}</div>
+                      <div style={{fontFamily:'Lora,serif',fontSize:'12px',color:'#c0504a',marginTop:'4px',fontStyle:'normal'}}>{formErrors.titolo}</div>
                     )}
                   </div>
                   <div className={gStyles.field}>
@@ -241,7 +243,7 @@ export default function AdminGalleriaPage() {
 
               <div className={gStyles.formRight}>
                 <div className={gStyles.field}>
-                  <label>Foto opera</label>
+                  <label style={{color: formErrors.immagine ? '#c0504a' : undefined}}>Foto opera</label>
                   <div className={gStyles.imgUploadArea}>
                     {editorPreview ? (
                       <div className={gStyles.imgPreviewWrap}>
@@ -269,6 +271,9 @@ export default function AdminGalleriaPage() {
                     )}
                     {uploading && <div className={gStyles.uploading}>Caricamento in corso...</div>}
                   </div>
+                  {formErrors.immagine && (
+                    <div style={{fontFamily:'Lora,serif',fontSize:'12px',color:'#c0504a',marginTop:'8px',fontStyle:'normal'}}>{formErrors.immagine}</div>
+                  )}
                 </div>
               </div>
             </div>

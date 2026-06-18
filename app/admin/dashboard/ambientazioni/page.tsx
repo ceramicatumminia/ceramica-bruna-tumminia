@@ -198,7 +198,7 @@ export default function AmbientazioniPage() {
                 </div>
               )}
               {uploading && <div style={{ fontFamily: 'Lora,serif', fontSize: '12px', color: 'var(--text-muted)', marginTop: '8px' }}>Caricamento in corso...</div>}
-              {formError && <div style={{ fontSize: '12px', color: '#c0504a', marginTop: '8px', fontStyle: 'italic' }}>{formError}</div>}
+              {formError && <div style={{ fontFamily: 'Lora,serif', fontSize: '12px', color: '#c0504a', marginTop: '8px', fontStyle: 'normal' }}>{formError}</div>}
             </div>
 
             <div style={{ marginBottom: '20px' }}>

@@ -80,7 +80,6 @@ export default function GalleriaClient() {
               <div className={styles.cardInfo}>
                 <div className={styles.cardCat}>{o.categoria}</div>
                 <div className={styles.cardTitle}>{o.titolo}</div>
-                <div className={styles.cardTech}>{o.tecnica}</div>
               </div>
             </div>
           ))}
@@ -99,7 +98,6 @@ export default function GalleriaClient() {
               <h2 className={styles.modalTitle}>{selected.titolo}</h2>
               <p className={styles.modalDesc}>{selected.descrizione}</p>
               <div className={styles.modalMeta}>
-                <span>Tecnica: {selected.tecnica}</span>
                 <span>Dimensioni: {selected.dimensioni}</span>
               </div>
               {/* Nessun prezzo né bottone acquista in galleria */}

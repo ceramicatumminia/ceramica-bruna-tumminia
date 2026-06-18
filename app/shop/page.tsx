@@ -7,7 +7,7 @@ import styles from '@/styles/site.module.css'
 
 type Opera = {
   id: string; titolo: string; descrizione: string; categoria: string
-  prezzo: number; immagine_url: string | null; tecnica: string; dimensioni: string
+  prezzo: number; immagine_url: string | null; dimensioni: string
 }
 
 export default function ShopPage() {
@@ -94,7 +94,6 @@ export default function ShopPage() {
                 {o.categoria && <div className={styles.shopCardCat}>{o.categoria}</div>}
                 <div className={styles.shopCardTitle}>{o.titolo}</div>
                 {o.descrizione && <div className={styles.shopCardDesc}>{o.descrizione}</div>}
-                {o.tecnica && <div className={styles.shopCardTech}>Tecnica: {o.tecnica}</div>}
                 <div className={styles.shopCardFooter}>
                   <div className={styles.shopCardPrice}>€ {o.prezzo.toFixed(2)}</div>
                   <button onClick={() => handleAdd(o)} className={styles.shopCardBtn}>+ Carrello</button>

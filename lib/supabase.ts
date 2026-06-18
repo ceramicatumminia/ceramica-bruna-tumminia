@@ -11,7 +11,6 @@ export type Opera = {
   titolo: string
   categoria: string
   descrizione: string
-  tecnica: string
   dimensioni: string
   prezzo: number
   visibile: boolean

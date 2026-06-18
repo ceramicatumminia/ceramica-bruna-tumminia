@@ -8,7 +8,6 @@ type Opera = {
   id: string
   titolo: string
   categoria: string
-  tecnica: string
   immagine_url: string | null
 }
 
@@ -23,7 +22,7 @@ export default function OperePreview() {
     const check = () => setMobile(window.innerWidth < 768)
     check()
     window.addEventListener('resize', check)
-    supabase.from('opere').select('id,titolo,categoria,tecnica,immagine_url')
+    supabase.from('opere').select('id,titolo,categoria,immagine_url')
       .eq('visibile', true).eq('in_home', true).not('immagine_url', 'is', null)
       .order('ordine').limit(6)
       .then(({ data }) => setOpere(data || []))

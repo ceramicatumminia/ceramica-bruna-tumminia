@@ -9,7 +9,7 @@ type Categoria = { id: string; nome: string; slug: string; ordine: number }
 
 const emptyForm = {
   titolo: '', categoria: '', descrizione: '',
-  tecnica: '', dimensioni: '', prezzo: 0,
+  dimensioni: '', prezzo: 0,
   visibile: true, immagine_url: ''
 }
 
@@ -75,7 +75,7 @@ export default function AdminGalleriaPage() {
   const handleEdit = (o: Opera) => {
     setEditing(o.id)
     setForm({ titolo: o.titolo, categoria: o.categoria, descrizione: o.descrizione,
-      tecnica: o.tecnica, dimensioni: o.dimensioni, prezzo: o.prezzo,
+      dimensioni: o.dimensioni, prezzo: o.prezzo,
       visibile: o.visibile, immagine_url: o.immagine_url || '' })
     setEditorPreview(o.immagine_url || '')
     setShowForm(true)
@@ -179,10 +179,6 @@ export default function AdminGalleriaPage() {
                 <textarea value={form.descrizione} onChange={e => setForm(f=>({...f,descrizione:e.target.value}))} rows={3} />
               </div>
               <div className={gStyles.formRow}>
-                <div className={gStyles.field}>
-                  <label>Tecnica</label>
-                  <input value={form.tecnica} onChange={e => setForm(f=>({...f,tecnica:e.target.value}))} />
-                </div>
                 <div className={gStyles.field}>
                   <label>Dimensioni</label>
                   <input value={form.dimensioni} onChange={e => setForm(f=>({...f,dimensioni:e.target.value}))} />

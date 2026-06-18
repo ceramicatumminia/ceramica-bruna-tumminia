@@ -31,6 +31,12 @@ export default function AdminGalleriaPage() {
 
   useEffect(() => { loadOpere(); loadCategorie() }, [])
 
+  // Blocca lo scroll della pagina dietro quando la modale è aperta
+  useEffect(() => {
+    document.body.style.overflow = showForm ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [showForm])
+
   const loadOpere = async () => {
     const { data } = await supabase.from('opere').select('*').order('ordine')
     setOpere(data || [])
@@ -85,6 +91,10 @@ export default function AdminGalleriaPage() {
     setEditing(null); setForm(emptyForm); setEditorPreview(''); setShowForm(true)
   }
 
+  const closeForm = () => {
+    setShowForm(false); setEditing(null); setEditorPreview(''); setFormErrors({})
+  }
+
   const handleSave = async () => {
     const errors: {titolo?:string} = {}
     if (!form.titolo.trim()) errors.titolo = 'Il titolo è obbligatorio'
@@ -96,7 +106,7 @@ export default function AdminGalleriaPage() {
       : await supabase.from('opere').insert([data])
     if (res.error) { showToast('Errore: ' + res.error.message); return }
     showToast(editing ? 'Opera aggiornata!' : 'Opera aggiunta!')
-    setShowForm(false); setEditing(null); setEditorPreview(''); loadOpere()
+    closeForm(); loadOpere()
   }
 
   const handleToggle = async (o: Opera) => {
@@ -142,96 +152,123 @@ export default function AdminGalleriaPage() {
 
       <div className={gStyles.header}>
         <h1 className={styles.sectionTitle} style={{marginBottom:0,borderBottom:'none'}}>Gestione Opere</h1>
-        {!showForm && <button className={gStyles.btnNew} onClick={handleNew}>+ Nuova opera</button>}
+        <button className={gStyles.btnNew} onClick={handleNew}>+ Nuova opera</button>
       </div>
 
       {showForm && (
-        <div className={gStyles.formPanel}>
-          <h2 className={gStyles.formTitle}>{editing ? 'Modifica opera' : 'Nuova opera'}</h2>
+        <div
+          onClick={closeForm}
+          style={{
+            position: 'fixed', inset: 0, background: 'rgba(20,14,8,0.55)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '24px', zIndex: 1000, overflowY: 'auto',
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            className={gStyles.formPanel}
+            style={{
+              maxWidth: '900px', width: '100%', maxHeight: '90vh', overflowY: 'auto',
+              margin: 'auto', position: 'relative', boxShadow: '0 20px 60px rgba(20,14,8,0.35)',
+            }}
+          >
+            <button
+              onClick={closeForm}
+              aria-label="Chiudi"
+              style={{
+                position: 'absolute', top: '16px', right: '16px',
+                background: 'none', border: 'none', cursor: 'pointer',
+                fontSize: '22px', lineHeight: 1, color: 'var(--bronze)',
+                fontFamily: 'Lora,serif', padding: '4px 8px',
+              }}
+            >×</button>
 
-          <div className={gStyles.formLayout}>
-            <div className={gStyles.formLeft}>
-              <div className={gStyles.formRow}>
-                <div className={gStyles.field}>
-                  <label style={{color: formErrors.titolo ? '#c0504a' : undefined}}>
-                    Titolo opera <span style={{color:'#c0504a'}}>*</span>
-                  </label>
-                  <input
-                    value={form.titolo}
-                    onChange={e => { setForm(f=>({...f,titolo:e.target.value})); if(formErrors.titolo) setFormErrors({}) }}
-                    placeholder="es. Piatto turchese n.3"
-                    style={{borderBottomColor: formErrors.titolo ? '#c0504a' : undefined}}
-                  />
-                  {formErrors.titolo && (
-                    <div style={{fontSize:'12px',color:'#c0504a',marginTop:'4px',fontStyle:'italic'}}>{formErrors.titolo}</div>
-                  )}
-                </div>
-                <div className={gStyles.field}>
-                  <label>Categoria</label>
-                  <select value={form.categoria} onChange={e => setForm(f=>({...f,categoria:e.target.value}))}>
-                    <option value="">— Seleziona categoria —</option>
-                    {categorie.map(c => <option key={c.slug} value={c.slug}>{c.nome}</option>)}
-                  </select>
-                </div>
-              </div>
-              <div className={gStyles.field}>
-                <label>Descrizione</label>
-                <textarea value={form.descrizione} onChange={e => setForm(f=>({...f,descrizione:e.target.value}))} rows={3} />
-              </div>
-              <div className={gStyles.formRow}>
-                <div className={gStyles.field}>
-                  <label>Dimensioni</label>
-                  <input value={form.dimensioni} onChange={e => setForm(f=>({...f,dimensioni:e.target.value}))} />
-                </div>
-              </div>
-              <div className={gStyles.formRow}>
-                <div className={gStyles.field}>
-                  <label>Prezzo (€)</label>
-                  <input type="number" value={form.prezzo} onChange={e => setForm(f=>({...f,prezzo:parseFloat(e.target.value)||0}))} />
-                </div>
-                <div className={gStyles.field}>
-                  <label>Stato</label>
-                  <select value={form.visibile?'pub':'hid'} onChange={e => setForm(f=>({...f,visibile:e.target.value==='pub'}))}>
-                    <option value="pub">Pubblicato</option>
-                    <option value="hid">Nascosto</option>
-                  </select>
-                </div>
-              </div>
-              <div className={gStyles.formActions}>
-                <button className={gStyles.btnSave} onClick={handleSave}>{editing ? 'Salva modifiche' : 'Aggiungi opera'}</button>
-                <button className={gStyles.btnCancel} onClick={() => { setShowForm(false); setEditing(null); setEditorPreview('') }}>Annulla</button>
-              </div>
-            </div>
+            <h2 className={gStyles.formTitle}>{editing ? 'Modifica opera' : 'Nuova opera'}</h2>
 
-            <div className={gStyles.formRight}>
-              <div className={gStyles.field}>
-                <label>Foto opera</label>
-                <div className={gStyles.imgUploadArea}>
-                  {editorPreview ? (
-                    <div className={gStyles.imgPreviewWrap}>
-                      <img src={editorPreview} alt="" className={gStyles.imgPreviewFull} />
-                      <div className={gStyles.imgActions}>
-                        <button className={gStyles.btnChangeImg} onClick={async () => {
-                          const res = await fetch(editorPreview)
-                          const blob = await res.blob()
-                          const f = new File([blob], 'opera.jpg', { type: blob.type })
-                          setEditorFile(f)
-                        }}>
-                          Modifica con editor
-                        </button>
-                        <button className={gStyles.btnRemoveImg} onClick={() => { setEditorPreview(''); setForm(f=>({...f,immagine_url:''})) }}>
-                          Rimuovi
-                        </button>
+            <div className={gStyles.formLayout}>
+              <div className={gStyles.formLeft}>
+                <div className={gStyles.formRow}>
+                  <div className={gStyles.field}>
+                    <label style={{color: formErrors.titolo ? '#c0504a' : undefined}}>
+                      Titolo opera <span style={{color:'#c0504a'}}>*</span>
+                    </label>
+                    <input
+                      value={form.titolo}
+                      onChange={e => { setForm(f=>({...f,titolo:e.target.value})); if(formErrors.titolo) setFormErrors({}) }}
+                      placeholder="es. Piatto turchese n.3"
+                      style={{borderBottomColor: formErrors.titolo ? '#c0504a' : undefined}}
+                    />
+                    {formErrors.titolo && (
+                      <div style={{fontSize:'12px',color:'#c0504a',marginTop:'4px',fontStyle:'italic'}}>{formErrors.titolo}</div>
+                    )}
+                  </div>
+                  <div className={gStyles.field}>
+                    <label>Categoria</label>
+                    <select value={form.categoria} onChange={e => setForm(f=>({...f,categoria:e.target.value}))}>
+                      <option value="">— Seleziona categoria —</option>
+                      {categorie.map(c => <option key={c.slug} value={c.slug}>{c.nome}</option>)}
+                    </select>
+                  </div>
+                </div>
+                <div className={gStyles.field}>
+                  <label>Descrizione</label>
+                  <textarea value={form.descrizione} onChange={e => setForm(f=>({...f,descrizione:e.target.value}))} rows={3} />
+                </div>
+                <div className={gStyles.formRow}>
+                  <div className={gStyles.field}>
+                    <label>Dimensioni</label>
+                    <input value={form.dimensioni} onChange={e => setForm(f=>({...f,dimensioni:e.target.value}))} />
+                  </div>
+                </div>
+                <div className={gStyles.formRow}>
+                  <div className={gStyles.field}>
+                    <label>Prezzo (€)</label>
+                    <input type="number" value={form.prezzo} onChange={e => setForm(f=>({...f,prezzo:parseFloat(e.target.value)||0}))} />
+                  </div>
+                  <div className={gStyles.field}>
+                    <label>Stato</label>
+                    <select value={form.visibile?'pub':'hid'} onChange={e => setForm(f=>({...f,visibile:e.target.value==='pub'}))}>
+                      <option value="pub">Pubblicato</option>
+                      <option value="hid">Nascosto</option>
+                    </select>
+                  </div>
+                </div>
+                <div className={gStyles.formActions}>
+                  <button className={gStyles.btnSave} onClick={handleSave}>{editing ? 'Salva modifiche' : 'Aggiungi opera'}</button>
+                  <button className={gStyles.btnCancel} onClick={closeForm}>Annulla</button>
+                </div>
+              </div>
+
+              <div className={gStyles.formRight}>
+                <div className={gStyles.field}>
+                  <label>Foto opera</label>
+                  <div className={gStyles.imgUploadArea}>
+                    {editorPreview ? (
+                      <div className={gStyles.imgPreviewWrap}>
+                        <img src={editorPreview} alt="" className={gStyles.imgPreviewFull} />
+                        <div className={gStyles.imgActions}>
+                          <button className={gStyles.btnChangeImg} onClick={async () => {
+                            const res = await fetch(editorPreview)
+                            const blob = await res.blob()
+                            const f = new File([blob], 'opera.jpg', { type: blob.type })
+                            setEditorFile(f)
+                          }}>
+                            Modifica con editor
+                          </button>
+                          <button className={gStyles.btnRemoveImg} onClick={() => { setEditorPreview(''); setForm(f=>({...f,immagine_url:''})) }}>
+                            Rimuovi
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  ) : (
-                    <div className={gStyles.uploadPlaceholder} onClick={() => newFileInputRef.current?.click()}>
-                      <div className={gStyles.uploadIcon}>+</div>
-                      <div className={gStyles.uploadText}>Clicca per caricare</div>
-                      <div className={gStyles.uploadHint}>JPG, PNG, WEBP · Si aprirà l&apos;editor</div>
-                    </div>
-                  )}
-                  {uploading && <div className={gStyles.uploading}>Caricamento in corso...</div>}
+                    ) : (
+                      <div className={gStyles.uploadPlaceholder} onClick={() => newFileInputRef.current?.click()}>
+                        <div className={gStyles.uploadIcon}>+</div>
+                        <div className={gStyles.uploadText}>Clicca per caricare</div>
+                        <div className={gStyles.uploadHint}>JPG, PNG, WEBP · Si aprirà l&apos;editor</div>
+                      </div>
+                    )}
+                    {uploading && <div className={gStyles.uploading}>Caricamento in corso...</div>}
+                  </div>
                 </div>
               </div>
             </div>

@@ -34,6 +34,12 @@ export default function AmbientazioniPage() {
 
   useEffect(() => { load() }, [])
 
+  // Blocca lo scroll della pagina dietro quando la modale è aperta
+  useEffect(() => {
+    document.body.style.overflow = showForm ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [showForm])
+
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
@@ -69,6 +75,10 @@ export default function AmbientazioniPage() {
     setFormError('')
   }
 
+  const closeForm = () => {
+    setShowForm(false); setEditing(null); setEditorPreview(''); setFormError('')
+  }
+
   const handleSave = async () => {
     if (!form.immagine_url) { setFormError('Carica una foto prima di salvare'); return }
     setFormError('')
@@ -78,7 +88,7 @@ export default function AmbientazioniPage() {
       : await supabase.from('ambientazioni').insert([data])
     if (res.error) { showToast('Errore: ' + res.error.message); return }
     showToast(editing ? 'Ambientazione aggiornata!' : 'Ambientazione aggiunta!')
-    setShowForm(false); setEditing(null); setEditorPreview(''); load()
+    closeForm(); load()
   }
 
   const handleToggle = async (item: Ambientazione) => {
@@ -121,7 +131,7 @@ export default function AmbientazioniPage() {
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', paddingBottom: '14px', borderBottom: '0.5px solid rgba(160,104,56,0.2)' }}>
         <h1 className={styles.sectionTitle} style={{ marginBottom: 0, borderBottom: 'none' }}>Ambientazioni</h1>
-        {!showForm && <button style={btnStyle} onClick={handleNew}>+ Aggiungi foto</button>}
+        <button style={btnStyle} onClick={handleNew}>+ Aggiungi foto</button>
       </div>
       <p style={{ fontFamily: 'Lora,serif', fontStyle: 'italic', fontSize: '13px', color: 'var(--text-muted)', marginBottom: '32px', maxWidth: '560px' }}>
         Foto delle ceramiche fotografate in ambienti d&apos;arredo. Per mantenere la pagina elegante e non
@@ -129,62 +139,89 @@ export default function AmbientazioniPage() {
       </p>
 
       {showForm && (
-        <div style={{ background: 'var(--warm-white)', border: '0.5px solid rgba(160,104,56,0.15)', padding: '36px', marginBottom: '40px', maxWidth: '640px' }}>
-          <div style={{ fontFamily: 'Cormorant Garamond,serif', fontSize: '22px', color: 'var(--terra-dark)', marginBottom: '28px' }}>
-            {editing ? 'Modifica foto' : 'Nuova foto ambientazione'}
-          </div>
+        <div
+          onClick={closeForm}
+          style={{
+            position: 'fixed', inset: 0, background: 'rgba(20,14,8,0.55)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '24px', zIndex: 1000, overflowY: 'auto',
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              background: 'var(--warm-white)', border: '0.5px solid rgba(160,104,56,0.15)',
+              padding: '36px', maxWidth: '640px', width: '100%', maxHeight: '90vh', overflowY: 'auto',
+              margin: 'auto', position: 'relative', boxShadow: '0 20px 60px rgba(20,14,8,0.35)',
+            }}
+          >
+            <button
+              onClick={closeForm}
+              aria-label="Chiudi"
+              style={{
+                position: 'absolute', top: '16px', right: '16px',
+                background: 'none', border: 'none', cursor: 'pointer',
+                fontSize: '22px', lineHeight: 1, color: 'var(--bronze)',
+                fontFamily: 'Lora,serif', padding: '4px 8px',
+              }}
+            >×</button>
 
-          <div style={{ marginBottom: '24px' }}>
-            <label style={{ ...labelStyle, color: formError ? '#c0504a' : undefined }}>Foto</label>
-            {editorPreview ? (
-              <div style={{ position: 'relative', maxWidth: '420px' }}>
-                <img src={editorPreview} alt="" style={{ width: '100%', display: 'block', border: '0.5px solid rgba(160,104,56,0.2)' }} />
-                <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
-                  <button style={btnOutStyle} onClick={async () => {
-                    const res = await fetch(editorPreview)
-                    const blob = await res.blob()
-                    const f = new File([blob], 'ambientazione.jpg', { type: blob.type })
-                    setEditorFile(f)
-                  }}>Modifica con editor</button>
-                  <button style={{ ...btnOutStyle, color: '#c0504a', borderColor: 'rgba(192,80,74,0.3)' }}
-                    onClick={() => { setEditorPreview(''); setForm(f => ({ ...f, immagine_url: '' })) }}>Rimuovi</button>
+            <div style={{ fontFamily: 'Cormorant Garamond,serif', fontSize: '22px', color: 'var(--terra-dark)', marginBottom: '28px' }}>
+              {editing ? 'Modifica foto' : 'Nuova foto ambientazione'}
+            </div>
+
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{ ...labelStyle, color: formError ? '#c0504a' : undefined }}>Foto</label>
+              {editorPreview ? (
+                <div style={{ position: 'relative', maxWidth: '420px' }}>
+                  <img src={editorPreview} alt="" style={{ width: '100%', display: 'block', border: '0.5px solid rgba(160,104,56,0.2)' }} />
+                  <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
+                    <button style={btnOutStyle} onClick={async () => {
+                      const res = await fetch(editorPreview)
+                      const blob = await res.blob()
+                      const f = new File([blob], 'ambientazione.jpg', { type: blob.type })
+                      setEditorFile(f)
+                    }}>Modifica con editor</button>
+                    <button style={{ ...btnOutStyle, color: '#c0504a', borderColor: 'rgba(192,80,74,0.3)' }}
+                      onClick={() => { setEditorPreview(''); setForm(f => ({ ...f, immagine_url: '' })) }}>Rimuovi</button>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div onClick={() => fileInputRef.current?.click()} style={{
-                maxWidth: '420px', aspectRatio: '4/3', border: `0.5px dashed ${formError ? '#c0504a' : 'rgba(160,104,56,0.35)'}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column',
-                cursor: 'pointer', gap: '8px', color: 'var(--bronze)',
-              }}>
-                <div style={{ fontSize: '24px' }}>+</div>
-                <div style={{ fontFamily: 'Cinzel,serif', fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase' }}>Clicca per caricare</div>
-                <div style={{ fontFamily: 'Lora,serif', fontSize: '11px', color: 'var(--text-muted)' }}>JPG, PNG, WEBP · Si aprirà l&apos;editor</div>
-              </div>
-            )}
-            {uploading && <div style={{ fontFamily: 'Lora,serif', fontSize: '12px', color: 'var(--text-muted)', marginTop: '8px' }}>Caricamento in corso...</div>}
-            {formError && <div style={{ fontSize: '12px', color: '#c0504a', marginTop: '8px', fontStyle: 'italic' }}>{formError}</div>}
-          </div>
-
-          <div style={{ marginBottom: '20px' }}>
-            <label style={labelStyle}>Didascalia (opzionale)</label>
-            <input value={form.didascalia} onChange={e => setForm(f => ({ ...f, didascalia: e.target.value }))}
-              placeholder="es. Vaso in ambiente — luce naturale" style={fieldStyle} />
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '100px 1fr', gap: '20px', marginBottom: '28px', alignItems: 'center' }}>
-            <div>
-              <label style={labelStyle}>Ordine</label>
-              <input type="number" value={form.ordine} onChange={e => setForm(f => ({ ...f, ordine: parseInt(e.target.value) || 0 }))} style={fieldStyle} />
+              ) : (
+                <div onClick={() => fileInputRef.current?.click()} style={{
+                  maxWidth: '420px', aspectRatio: '4/3', border: `0.5px dashed ${formError ? '#c0504a' : 'rgba(160,104,56,0.35)'}`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column',
+                  cursor: 'pointer', gap: '8px', color: 'var(--bronze)',
+                }}>
+                  <div style={{ fontSize: '24px' }}>+</div>
+                  <div style={{ fontFamily: 'Cinzel,serif', fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase' }}>Clicca per caricare</div>
+                  <div style={{ fontFamily: 'Lora,serif', fontSize: '11px', color: 'var(--text-muted)' }}>JPG, PNG, WEBP · Si aprirà l&apos;editor</div>
+                </div>
+              )}
+              {uploading && <div style={{ fontFamily: 'Lora,serif', fontSize: '12px', color: 'var(--text-muted)', marginTop: '8px' }}>Caricamento in corso...</div>}
+              {formError && <div style={{ fontSize: '12px', color: '#c0504a', marginTop: '8px', fontStyle: 'italic' }}>{formError}</div>}
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingTop: '20px' }}>
-              <input type="checkbox" checked={form.visibile} onChange={e => setForm(f => ({ ...f, visibile: e.target.checked }))} id="vis" />
-              <label htmlFor="vis" style={{ ...labelStyle, margin: 0 }}>Visibile al pubblico</label>
-            </div>
-          </div>
 
-          <div style={{ display: 'flex', gap: '12px' }}>
-            <button style={btnStyle} onClick={handleSave}>{editing ? 'Salva modifiche' : 'Aggiungi foto'}</button>
-            <button style={btnOutStyle} onClick={() => { setShowForm(false); setEditing(null); setEditorPreview(''); setFormError('') }}>Annulla</button>
+            <div style={{ marginBottom: '20px' }}>
+              <label style={labelStyle}>Didascalia (opzionale)</label>
+              <input value={form.didascalia} onChange={e => setForm(f => ({ ...f, didascalia: e.target.value }))}
+                placeholder="es. Vaso in ambiente — luce naturale" style={fieldStyle} />
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '100px 1fr', gap: '20px', marginBottom: '28px', alignItems: 'center' }}>
+              <div>
+                <label style={labelStyle}>Ordine</label>
+                <input type="number" value={form.ordine} onChange={e => setForm(f => ({ ...f, ordine: parseInt(e.target.value) || 0 }))} style={fieldStyle} />
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingTop: '20px' }}>
+                <input type="checkbox" checked={form.visibile} onChange={e => setForm(f => ({ ...f, visibile: e.target.checked }))} id="vis" />
+                <label htmlFor="vis" style={{ ...labelStyle, margin: 0 }}>Visibile al pubblico</label>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <button style={btnStyle} onClick={handleSave}>{editing ? 'Salva modifiche' : 'Aggiungi foto'}</button>
+              <button style={btnOutStyle} onClick={closeForm}>Annulla</button>
+            </div>
           </div>
         </div>
       )}

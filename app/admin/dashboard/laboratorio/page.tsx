@@ -69,7 +69,7 @@ export default function AdminLaboratorioPage() {
   }
 
   const removeFoto = async (slot: string) => {
-    const { error } = await supabase.from('impostazioni').update({ valore: null }).eq('chiave', slot)
+    const { error } = await supabase.from('impostazioni').update({ valore: '' }).eq('chiave', slot)
     if (error) { showToast('Errore: ' + error.message); return }
     setImgs(prev => { const next = { ...prev }; delete next[slot]; return next })
     showToast('Foto rimossa')

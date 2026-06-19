@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase'
 import ImageEditor from '@/components/admin/ImageEditor'
 import styles from '../../admin.module.css'
 
-const SLOT_KEYS = ['laboratorio_immagine_1', 'laboratorio_immagine_2', 'laboratorio_immagine_3'] as const
+const SLOT_KEYS = ['laboratorio_immagine_1', 'laboratorio_immagine_2', 'laboratorio_immagine_3', 'laboratorio_immagine_4', 'laboratorio_immagine_5'] as const
 
 export default function AdminLaboratorioPage() {
   const [imgs, setImgs] = useState<Record<string, string>>({})
@@ -116,7 +116,7 @@ export default function AdminLaboratorioPage() {
       <h1 className={styles.sectionTitle}>Laboratorio</h1>
       <p style={{ fontFamily: 'Lora,serif', fontStyle: 'italic', fontSize: '14px', color: 'var(--text-muted)', marginBottom: '32px', maxWidth: '600px' }}>
         Gestisci le foto della sezione &quot;Lo spazio della creazione&quot; in homepage. Puoi caricare, sostituire
-        o rimuovere liberamente fino a 3 foto: con una sola foto la sezione resta fissa, con 2 o 3 le immagini
+        o rimuovere liberamente fino a 5 foto: con una sola foto la sezione resta fissa, con 2 o più le immagini
         si alterneranno automaticamente ogni 7 secondi, come nella sezione Opere in vetrina.
       </p>
 
@@ -161,7 +161,7 @@ export default function AdminLaboratorioPage() {
       ))}
 
       <p style={{ fontFamily: 'Lora,serif', fontStyle: 'italic', fontSize: '12px', color: 'var(--text-pale)', textAlign: 'center' }}>
-        {filledCount} di 3 foto caricate
+        {filledCount} di 5 foto caricate
       </p>
 
       {toast && (

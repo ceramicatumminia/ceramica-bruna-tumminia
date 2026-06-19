@@ -14,10 +14,10 @@ export default function LabPreview() {
   useEffect(() => {
     supabase.from('impostazioni')
       .select('chiave, valore')
-      .in('chiave', ['laboratorio_immagine_1', 'laboratorio_immagine_2', 'laboratorio_immagine_3'])
+      .in('chiave', ['laboratorio_immagine_1', 'laboratorio_immagine_2', 'laboratorio_immagine_3', 'laboratorio_immagine_4', 'laboratorio_immagine_5'])
       .then(({ data }) => {
         if (!data) return
-        const ordered = ['laboratorio_immagine_1', 'laboratorio_immagine_2', 'laboratorio_immagine_3']
+        const ordered = ['laboratorio_immagine_1', 'laboratorio_immagine_2', 'laboratorio_immagine_3', 'laboratorio_immagine_4', 'laboratorio_immagine_5']
           .map(k => data.find(d => d.chiave === k)?.valore)
           .filter((v): v is string => !!v)
         if (ordered.length > 0) setLabImgs(ordered)

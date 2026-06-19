@@ -213,7 +213,7 @@
 .ambFirstPhoto {
   overflow: hidden;
   background: var(--cream2);
-  max-width: 720px;
+  max-width: 864px;
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -221,7 +221,7 @@
 .ambFirstPhoto img {
   width: 100%;
   height: auto;
-  max-height: 640px;
+  max-height: 768px;
   object-fit: contain;
   display: block;
 }
@@ -247,7 +247,7 @@
   position: relative;
   overflow: hidden;
   background: var(--cream2);
-  max-width: 380px;
+  max-width: 456px;
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -255,7 +255,7 @@
 .ambPhoto img {
   width: 100%;
   height: auto;
-  max-height: 480px;
+  max-height: 576px;
   object-fit: contain;
   display: block;
   transition: transform 1.2s ease;
@@ -297,6 +297,6 @@
   .ambRowOuter { padding: 32px 24px; }
   .ambRowReverse .ambPhoto { order: 1; }
   .ambRowReverse .ambCaption { order: 2; }
-  .ambPhoto { max-width: 420px; }
+  .ambPhoto { max-width: 504px; }
 }
 

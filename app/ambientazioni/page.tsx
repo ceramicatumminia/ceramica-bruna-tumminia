@@ -15,6 +15,14 @@ export default function AmbientazioniPage() {
   const [attivo, setAttivo] = useState<boolean | null>(null)
   const [intro, setIntro] = useState("Ogni ceramica trova il proprio respiro quando entra a far parte di una casa, di una luce, di un gesto quotidiano.")
   const [chiusura, setChiusura] = useState("Ogni opera è unica e nasce dalle mani di Bruna Tumminia, pronta a trovare il proprio posto anche nella tua casa.")
+  const [lightbox, setLightbox] = useState<Ambientazione | null>(null)
+
+  useEffect(() => {
+    if (!lightbox) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setLightbox(null) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [lightbox])
 
   useEffect(() => {
     supabase.from('impostazioni').select('valore').eq('chiave', 'ambientazioni_attivo').single()
@@ -71,7 +79,7 @@ export default function AmbientazioniPage() {
         {/* Prima foto — leggermente più grande, in apertura, ma con dimensioni contenute */}
         {prima && (
           <div className={styles.ambFirstWrap}>
-            <div className={styles.ambFirstPhoto}>
+            <div className={styles.ambFirstPhoto} onClick={() => setLightbox(prima)}>
               <img src={prima.immagine_url} alt={prima.didascalia || 'Ceramica in ambiente'} />
             </div>
             {prima.didascalia && (
@@ -82,11 +90,13 @@ export default function AmbientazioniPage() {
           </div>
         )}
 
-        {/* Foto successive — righe alternate, dimensioni contenute */}
+        {/* Foto successive — righe sfalsate orizzontalmente, foto orizzontali a piena vista, cliccabili */}
         {resto.map((item, i) => (
           <div key={item.id} className={styles.ambRowOuter}>
-            <section className={i % 2 === 0 ? styles.ambRow : `${styles.ambRow} ${styles.ambRowReverse}`}>
-              <div className={styles.ambPhoto} style={{aspectRatio:'4/5'}}>
+            <section
+              className={i % 2 === 0 ? styles.ambRow : `${styles.ambRow} ${styles.ambRowReverse}`}
+            >
+              <div className={styles.ambPhoto} onClick={() => setLightbox(item)}>
                 <img src={item.immagine_url} alt={item.didascalia || 'Ceramica in ambiente'} />
               </div>
               <div className={styles.ambCaption}>
@@ -104,6 +114,29 @@ export default function AmbientazioniPage() {
         )}
 
       </main>
+
+      {lightbox && (
+        <div className={styles.ambLightboxOverlay} onClick={() => setLightbox(null)}>
+          <button
+            className={styles.ambLightboxClose}
+            onClick={(e) => { e.stopPropagation(); setLightbox(null) }}
+            aria-label="Chiudi"
+          >
+            Chiudi ✕
+          </button>
+          <img
+            className={styles.ambLightboxImg}
+            src={lightbox.immagine_url}
+            alt={lightbox.didascalia || 'Ceramica in ambiente'}
+            onClick={(e) => e.stopPropagation()}
+          />
+          {lightbox.didascalia && (
+            <p className={styles.ambLightboxCaption} onClick={(e) => e.stopPropagation()}>
+              {lightbox.didascalia}
+            </p>
+          )}
+        </div>
+      )}
     </>
   )
 }

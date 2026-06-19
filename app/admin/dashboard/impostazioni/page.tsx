@@ -178,12 +178,9 @@ export default function ImpostazioniPage() {
           inputRef={heroInputRef} target="hero"
           onRemove={async () => { setHeroImg(''); await salvaImpostazione('hero_immagine', ''); showToast('Rimossa') }}
         />
-        <FotoSection
-          label="Foto Laboratorio (sezione laboratorio in homepage)"
-          img={labImg} uploading={uploadingLab}
-          inputRef={labInputRef} target="lab"
-          onRemove={async () => { setLabImg(''); await salvaImpostazione('laboratorio_immagine', ''); showToast('Rimossa') }}
-        />
+        <p style={{ fontFamily: 'Lora,serif', fontStyle: 'italic', fontSize: '12px', color: 'var(--text-pale)', marginTop: '4px' }}>
+          Le foto della sezione &quot;Lo spazio della creazione&quot; si gestiscono ora dalla voce &quot;Laboratorio&quot; nel menu laterale.
+        </p>
       </div>
 
       {/* Shop */}

@@ -115,16 +115,16 @@ export default function AdminLaboratorioPage() {
 
       <h1 className={styles.sectionTitle}>Laboratorio</h1>
       <p style={{ fontFamily: 'Lora,serif', fontStyle: 'italic', fontSize: '14px', color: 'var(--text-muted)', marginBottom: '32px', maxWidth: '600px' }}>
-        Gestisci le foto della sezione &quot;Lo spazio della creazione&quot; in homepage. Puoi caricare da 1 a 3 foto:
-        con una sola foto la sezione resta fissa, con 2 o 3 le immagini si alterneranno automaticamente ogni
-        7 secondi, come nella sezione Opere in vetrina.
+        Gestisci le foto della sezione &quot;Lo spazio della creazione&quot; in homepage. Puoi caricare, sostituire
+        o rimuovere liberamente fino a 3 foto: con una sola foto la sezione resta fissa, con 2 o 3 le immagini
+        si alterneranno automaticamente ogni 7 secondi, come nella sezione Opere in vetrina.
       </p>
 
       {SLOT_KEYS.map((slot, idx) => (
         <div key={slot} style={sectionStyle}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
             <div style={{ fontFamily: 'Cormorant Garamond,serif', fontSize: '20px', color: 'var(--terra-dark)' }}>
-              Foto {idx + 1} {idx === 0 ? '(obbligatoria)' : '(opzionale)'}
+              Foto {idx + 1} (opzionale)
             </div>
           </div>
 
@@ -153,7 +153,7 @@ export default function AdminLaboratorioPage() {
                 Modifica
               </button>
             )}
-            {imgs[slot] && idx > 0 && (
+            {imgs[slot] && (
               <button style={btnRedStyle} onClick={() => removeFoto(slot)}>Rimuovi</button>
             )}
           </div>

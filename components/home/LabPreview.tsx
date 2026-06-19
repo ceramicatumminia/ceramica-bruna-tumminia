@@ -54,7 +54,8 @@ export default function LabPreview() {
       </div>
       <div style={{
         overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center',
-        maxHeight:'320px', background: currentImg ? 'transparent' : 'var(--cream)',
+        width: '100%', aspectRatio: '4/3', maxHeight:'420px',
+        background: 'var(--cream)',
         position: 'relative',
       }}>
         {currentImg ? (

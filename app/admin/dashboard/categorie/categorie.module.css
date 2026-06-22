@@ -29,9 +29,17 @@
   border-bottom: 0.5px solid transparent;
   padding: 4px 0;
   outline: none;
-  transition: border-color 0.2s;
+  transition: background 0.2s, border-color 0.2s, padding 0.2s;
 }
 .nomeInput:focus { border-bottom-color: var(--bronze); }
+
+.nomeInputEditing {
+  background: #ffffff;
+  border: 1px solid var(--bronze);
+  padding: 6px 12px;
+  box-shadow: 0 1px 4px rgba(90,45,15,0.08);
+}
+.nomeInputEditing:focus { border-color: var(--bronze); }
 
 /* btnSave e btnDel identici — stesso colore */
 .btnSave, .btnDel {

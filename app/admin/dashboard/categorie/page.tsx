@@ -139,10 +139,11 @@ function CategoriaRow({ cat, onSave, onDelete }: { cat: Categoria, onSave: (nuov
   return (
     <div className={cStyles.row}>
       <input
-        className={cStyles.nomeInput}
+        className={editing ? `${cStyles.nomeInput} ${cStyles.nomeInputEditing}` : cStyles.nomeInput}
         value={nome}
         onChange={e => setNome(e.target.value)}
         disabled={!editing}
+        autoFocus={editing}
         onKeyDown={e => { if (e.key === 'Enter' && editing) handleSalva() }}
       />
       {isProtetta ? (

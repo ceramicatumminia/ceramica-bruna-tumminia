@@ -41,9 +41,9 @@ export default function GalleriaClient() {
     setLoading(false)
   }
 
-  const handleFilter = (slug: string) => {
-    setCat(slug)
-    loadOpere(slug)
+  const handleFilter = (nome: string) => {
+    setCat(nome)
+    loadOpere(nome)
   }
 
   const handleAcquista = (opera: Opera) => {
@@ -59,7 +59,7 @@ export default function GalleriaClient() {
         <div className={styles.filters}>
           <button className={`${styles.filterBtn} ${cat === 'all' ? styles.active : ''}`} onClick={() => handleFilter('all')}>Tutte le opere</button>
           {categorie.map(c => (
-            <button key={c.slug} className={`${styles.filterBtn} ${cat === c.slug ? styles.active : ''}`} onClick={() => handleFilter(c.slug)}>
+            <button key={c.id || c.slug} className={`${styles.filterBtn} ${cat === c.nome ? styles.active : ''}`} onClick={() => handleFilter(c.nome)}>
               {c.nome}
             </button>
           ))}

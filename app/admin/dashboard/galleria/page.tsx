@@ -208,7 +208,7 @@ export default function AdminGalleriaPage() {
                     <label>Categoria</label>
                     <select value={form.categoria} onChange={e => setForm(f=>({...f,categoria:e.target.value}))}>
                       <option value="">— Seleziona categoria —</option>
-                      {categorie.map(c => <option key={c.slug} value={c.slug}>{c.nome}</option>)}
+                      {categorie.map(c => <option key={c.id || c.slug} value={c.nome}>{c.nome}</option>)}
                     </select>
                   </div>
                 </div>

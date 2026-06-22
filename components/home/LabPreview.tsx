@@ -47,7 +47,7 @@ export default function LabPreview() {
       <div>
         <div className={styles.label}>— Il laboratorio</div>
         <h2 className={styles.h2}>Lo spazio<br/>della creazione</h2>
-        <p className={styles.body} style={{fontFamily:'Satisfy,cursive'}}>{labText}</p>
+        <p className={styles.bodySatisfy}>{labText}</p>
         <div className={styles.bodySmall} style={{borderLeft:'1.5px solid rgba(160,104,56,0.3)',paddingLeft:'16px',fontFamily:'Cinzel,serif',fontSize:'9px',letterSpacing:'0.25em',textTransform:'uppercase',lineHeight:'1.8'}}>
           Via Decimo 8<br/>09026 San Sperate (SU)<br/>340 0045472
         </div>

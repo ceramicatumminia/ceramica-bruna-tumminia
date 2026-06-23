@@ -10,14 +10,11 @@ export default function ImpostazioniPage() {
   const [doveAttivo, setDoveAttivo] = useState(true)
   const [ambientazioniAttivo, setAmbientazioniAttivo] = useState(false)
   const [heroImg, setHeroImg] = useState('')
-  const [labImg, setLabImg] = useState('')
   const [uploadingHero, setUploadingHero] = useState(false)
-  const [uploadingLab, setUploadingLab] = useState(false)
   const [editorFile, setEditorFile] = useState<File | null>(null)
-  const [editorTarget, setEditorTarget] = useState<'hero' | 'lab' | null>(null)
+  const [editorTarget, setEditorTarget] = useState<'hero' | null>(null)
   const [toast, setToast] = useState('')
   const heroInputRef = useRef<HTMLInputElement>(null)
-  const labInputRef = useRef<HTMLInputElement>(null)
 
   const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 3000) }
 
@@ -27,10 +24,9 @@ export default function ImpostazioniPage() {
       data.forEach(r => {
         if (r.chiave === 'tempi_consegna') setTempiConsegna(r.valore)
         if (r.chiave === 'shop_attivo') setShopAttivo(r.valore === 'true')
-          if (r.chiave === 'dove_acquistare_attivo') setDoveAttivo(r.valore === 'true')
-          if (r.chiave === 'ambientazioni_attivo') setAmbientazioniAttivo(r.valore === 'true')
+        if (r.chiave === 'dove_acquistare_attivo') setDoveAttivo(r.valore === 'true')
+        if (r.chiave === 'ambientazioni_attivo') setAmbientazioniAttivo(r.valore === 'true')
         if (r.chiave === 'hero_immagine') setHeroImg(r.valore || '')
-        if (r.chiave === 'laboratorio_immagine') setLabImg(r.valore || '')
       })
     })
   }, [])
@@ -39,7 +35,7 @@ export default function ImpostazioniPage() {
     await supabase.from('impostazioni').upsert({ chiave, valore }, { onConflict: 'chiave' })
   }
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>, target: 'hero' | 'lab') => {
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>, target: 'hero') => {
     const file = e.target.files?.[0]
     if (!file) return
     e.target.value = ''
@@ -49,28 +45,25 @@ export default function ImpostazioniPage() {
 
   const handleEditorConfirm = async (blob: Blob) => {
     if (!editorTarget) return
-    const isHero = editorTarget === 'hero'
-    const chiave = isHero ? 'hero_immagine' : 'laboratorio_immagine'
-    const setUploading = isHero ? setUploadingHero : setUploadingLab
-    const setter = isHero ? setHeroImg : setLabImg
+    const chiave = 'hero_immagine'
 
     setEditorFile(null)
     setEditorTarget(null)
-    setUploading(true)
+    setUploadingHero(true)
 
     const ext = blob.type === 'image/png' ? 'png' : 'jpg'
     const filename = `${chiave}_${Date.now()}.${ext}`
     const file = new File([blob], filename, { type: blob.type })
     const { error } = await supabase.storage.from('opere-immagini').upload(filename, file, { upsert: true })
-    if (error) { showToast('Errore upload: ' + error.message); setUploading(false); return }
+    if (error) { showToast('Errore upload: ' + error.message); setUploadingHero(false); return }
     const { data } = supabase.storage.from('opere-immagini').getPublicUrl(filename)
-    setter(data.publicUrl)
+    setHeroImg(data.publicUrl)
     await salvaImpostazione(chiave, data.publicUrl)
-    setUploading(false)
+    setUploadingHero(false)
     showToast('Foto salvata!')
   }
 
-  const openEditorFromUrl = async (url: string, target: 'hero' | 'lab') => {
+  const openEditorFromUrl = async (url: string, target: 'hero') => {
     const res = await fetch(url)
     const blob = await res.blob()
     const f = new File([blob], 'immagine.jpg', { type: blob.type })
@@ -120,43 +113,6 @@ export default function ImpostazioniPage() {
     color: 'var(--text-body)', background: 'none', outline: 'none'
   }
 
-  const FotoSection = ({ label, img, uploading, inputRef, target, onRemove }: {
-    label: string, img: string, uploading: boolean,
-    inputRef: React.RefObject<HTMLInputElement>, target: 'hero' | 'lab',
-    onRemove: () => void
-  }) => (
-    <div style={{ marginBottom: '28px' }}>
-      <div style={labelStyle}>{label}</div>
-      <div style={imgBoxStyle}>
-        {img
-          ? <img src={img} alt={label} style={{width:'100%',height:'100%',objectFit:'cover'}} />
-          : <span style={{fontFamily:'Lora,serif',fontStyle:'italic',fontSize:'13px',color:'var(--text-pale)'}}>
-              Nessuna foto caricata
-            </span>
-        }
-      </div>
-      <input ref={inputRef} type="file" accept="image/*" style={{display:'none'}}
-        onChange={e => handleFileSelect(e, target)} />
-      <div style={{display:'flex', gap:'10px', alignItems:'center', flexWrap:'wrap'}}>
-        {!img && (
-          <button style={btnOutlineStyle} onClick={() => inputRef.current?.click()}>
-            {uploading ? 'Caricamento...' : 'Carica foto'}
-          </button>
-        )}
-        {img && (
-          <button style={btnOutlineStyle} onClick={() => openEditorFromUrl(img, target)}>
-            Modifica con editor
-          </button>
-        )}
-        {img && (
-          <button style={btnRedStyle} onClick={onRemove}>
-            Rimuovi
-          </button>
-        )}
-      </div>
-    </div>
-  )
-
   return (
     <div>
       {editorFile && (
@@ -172,12 +128,37 @@ export default function ImpostazioniPage() {
       {/* Foto homepage */}
       <div style={sectionStyle}>
         <div style={sectionTitleStyle}>Foto homepage</div>
-        <FotoSection
-          label="Foto Hero (destra della homepage)"
-          img={heroImg} uploading={uploadingHero}
-          inputRef={heroInputRef} target="hero"
-          onRemove={async () => { setHeroImg(''); await salvaImpostazione('hero_immagine', ''); showToast('Rimossa') }}
-        />
+        <div style={{ marginBottom: '28px' }}>
+          <div style={labelStyle}>Foto Hero (destra della homepage)</div>
+          <div style={imgBoxStyle}>
+            {heroImg
+              ? <img src={heroImg} alt="Foto Hero" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              : <span style={{ fontFamily: 'Lora,serif', fontStyle: 'italic', fontSize: '13px', color: 'var(--text-pale)' }}>
+                  Nessuna foto caricata
+                </span>
+            }
+          </div>
+          <input ref={heroInputRef} type="file" accept="image/*" style={{ display: 'none' }}
+            onChange={e => handleFileSelect(e, 'hero')} />
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+            {!heroImg && (
+              <button style={btnOutlineStyle} onClick={() => heroInputRef.current?.click()}>
+                {uploadingHero ? 'Caricamento...' : 'Carica foto'}
+              </button>
+            )}
+            {heroImg && (
+              <button style={btnOutlineStyle} onClick={() => openEditorFromUrl(heroImg, 'hero')}>
+                Modifica con editor
+              </button>
+            )}
+            {heroImg && (
+              <button style={btnRedStyle}
+                onClick={async () => { setHeroImg(''); await salvaImpostazione('hero_immagine', ''); showToast('Rimossa') }}>
+                Rimuovi
+              </button>
+            )}
+          </div>
+        </div>
         <p style={{ fontFamily: 'Lora,serif', fontStyle: 'italic', fontSize: '12px', color: 'var(--text-pale)', marginTop: '4px' }}>
           Le foto della sezione &quot;Lo spazio della creazione&quot; si gestiscono ora dalla voce &quot;Laboratorio&quot; nel menu laterale.
         </p>

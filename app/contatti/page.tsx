@@ -24,7 +24,7 @@ export default function ContattiPage() {
           <div className={styles.dividerD}></div>
           <div style={{marginBottom:'24px'}}>
             <div className={styles.labelD}>Email</div>
-            <a href="mailto:ceramicatumminia@gmail.com" className={styles.linkPlainD}>ceramicatumminia@gmail.com</a>
+            <a href="mailto:info@ceramicatumminia.it" className={styles.linkPlainD}>info@ceramicatumminia.it</a>
           </div>
           <div style={{marginBottom:'24px'}}>
             <div className={styles.labelD}>Laboratorio</div>
@@ -48,7 +48,7 @@ export default function ContattiPage() {
         </div>
         <div className={styles.sectionLight} style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>
           <p style={{fontFamily:'Cormorant Garamond,serif',fontStyle:'italic',fontSize:'17px',lineHeight:1.8,color:'var(--text-muted)',marginBottom:'32px'}}>{ctaText}</p>
-          <a href="mailto:ceramicatumminia@gmail.com" className={styles.btnPrimary}>Scrivi una email →</a>
+          <a href="mailto:info@ceramicatumminia.it" className={styles.btnPrimary}>Scrivi una email →</a>
         </div>
       </main>
     </>

@@ -35,7 +35,7 @@ export default function ContattiStrip() {
       <div>
         <div className={styles.labelD}>Laboratorio</div>
         <p style={{...textStyle, display:'block'}}>Via Decimo 8<br/>09026 San Sperate (SU)<br/>340 0045472</p>
-        <a href="mailto:ceramicatumminia@gmail.com" style={{...textStyle, marginTop:'12px', display:'block'}}>ceramicatumminia@gmail.com</a>
+        <a href="mailto:info@ceramicatumminia.it" style={{...textStyle, marginTop:'12px', display:'block'}}>info@ceramicatumminia.it</a>
       </div>
       <div>
         <div className={styles.labelD}>Social</div>

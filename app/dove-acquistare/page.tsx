@@ -100,7 +100,7 @@ export default function DoveAcquistarePage() {
             <div style={{display:'flex',flexDirection:'column',gap:'16px',marginBottom:'36px'}}>
               <div style={{borderLeft:'1.5px solid rgba(196,147,90,0.4)',paddingLeft:'16px'}}>
                 <div className={styles.labelD} style={{marginBottom:'4px'}}>Email</div>
-                <a href="mailto:ceramicatumminia@gmail.com" className={styles.linkPlainD}>ceramicatumminia@gmail.com</a>
+                <a href="mailto:info@ceramicatumminia.it" className={styles.linkPlainD}>info@ceramicatumminia.it</a>
               </div>
               <div style={{borderLeft:'1.5px solid rgba(196,147,90,0.4)',paddingLeft:'16px'}}>
                 <div className={styles.labelD} style={{marginBottom:'4px'}}>Laboratorio</div>
@@ -122,7 +122,7 @@ export default function DoveAcquistarePage() {
                 </a>
               </div>
             </div>
-            <a href="mailto:ceramicatumminia@gmail.com" className={styles.btnPrimary}>Scrivi a Bruna →</a>
+            <a href="mailto:info@ceramicatumminia.it" className={styles.btnPrimary}>Scrivi a Bruna →</a>
           </div>
         </div>
 

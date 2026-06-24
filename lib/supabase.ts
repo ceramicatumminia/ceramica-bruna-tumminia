@@ -13,9 +13,11 @@ export type Opera = {
   descrizione: string
   dimensioni: string
   prezzo: number
-  visibile: boolean
   immagine_url: string | null
   ordine: number
+  in_home: boolean
+  in_galleria: boolean
+  in_shop: boolean
   created_at: string
   updated_at: string
 }

@@ -23,7 +23,7 @@ export default function OperePreview() {
     check()
     window.addEventListener('resize', check)
     supabase.from('opere').select('id,titolo,categoria,immagine_url')
-      .eq('visibile', true).eq('in_home', true).not('immagine_url', 'is', null)
+      .eq('in_home', true).not('immagine_url', 'is', null)
       .order('ordine').limit(6)
       .then(({ data }) => setOpere(data || []))
     return () => window.removeEventListener('resize', check)

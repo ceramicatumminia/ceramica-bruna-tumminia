@@ -10,7 +10,7 @@ type Categoria = { id: string; nome: string; slug: string; ordine: number }
 const emptyForm = {
   titolo: '', categoria: '', descrizione: '',
   dimensioni: '', prezzo: 0,
-  visibile: true, immagine_url: ''
+  immagine_url: ''
 }
 
 export default function AdminGalleriaPage() {
@@ -25,6 +25,7 @@ export default function AdminGalleriaPage() {
   const [toast, setToast] = useState('')
   const [editorFile, setEditorFile] = useState<File | null>(null)
   const [editorPreview, setEditorPreview] = useState<string>('')
+  const [busyId, setBusyId] = useState<string | null>(null)
   const newFileInputRef = useRef<HTMLInputElement>(null)
 
   const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 3000) }
@@ -83,7 +84,7 @@ export default function AdminGalleriaPage() {
     setEditing(o.id)
     setForm({ titolo: o.titolo, categoria: o.categoria, descrizione: o.descrizione,
       dimensioni: o.dimensioni, prezzo: o.prezzo,
-      visibile: o.visibile, immagine_url: o.immagine_url || '' })
+      immagine_url: o.immagine_url || '' })
     setEditorPreview(o.immagine_url || '')
     setShowForm(true)
   }
@@ -102,7 +103,14 @@ export default function AdminGalleriaPage() {
     if (!form.immagine_url) errors.immagine = 'Carica una foto prima di salvare'
     if (Object.keys(errors).length > 0) { setFormErrors(errors); return }
     setFormErrors({})
-    const data = { ...form, immagine_url: form.immagine_url || null }
+    const data: any = { ...form, immagine_url: form.immagine_url || null }
+    // Una nuova opera nasce sempre invisibile ovunque: l'admin decide dove
+    // farla apparire attivando esplicitamente Vetrina/Galleria/Shop dopo il salvataggio.
+    if (!editing) {
+      data.in_home = false
+      data.in_galleria = false
+      data.in_shop = false
+    }
     const res = editing
       ? await supabase.from('opere').update(data).eq('id', editing)
       : await supabase.from('opere').insert([data])
@@ -111,31 +119,50 @@ export default function AdminGalleriaPage() {
     closeForm(); loadOpere()
   }
 
-  const handleToggle = async (o: Opera) => {
-    await supabase.from('opere').update({ visibile: !o.visibile }).eq('id', o.id)
-    loadOpere(); showToast('Stato aggiornato')
-  }
+  // Le tre funzioni sotto condividono lo stesso pattern, pensato per evitare
+  // che click ravvicinati su bottoni diversi si scavalchino a vicenda:
+  // 1) blocchiamo i bottoni della card mentre la richiesta è in corso (busyId)
+  // 2) await sull'update PRIMA di ricaricare, mai in parallelo
+  // 3) controlliamo res.error: se qualcosa fallisce lo vediamo nel toast,
+  //    non restiamo con uno stato a metà senza saperlo
+  // 4) await anche su loadOpere(), così il prossimo click parte solo
+  //    quando lo stato in memoria è già allineato al database
 
   const handleToggleHome = async (o: Opera) => {
+    if (busyId) return
     const isInHome = (o as any).in_home
     if (!isInHome) {
       const count = opere.filter(x => (x as any).in_home).length
       if (count >= 6) { showToast('Massimo 6 opere in vetrina'); return }
     }
-    await supabase.from('opere').update({ in_home: !isInHome }).eq('id', o.id)
-    loadOpere(); showToast(isInHome ? 'Rimossa dalla vetrina' : 'Aggiunta in vetrina!')
+    setBusyId(o.id)
+    const res = await supabase.from('opere').update({ in_home: !isInHome }).eq('id', o.id)
+    if (res.error) { showToast('Errore: ' + res.error.message); setBusyId(null); return }
+    await loadOpere()
+    showToast(isInHome ? 'Rimossa dalla vetrina' : 'Aggiunta in vetrina!')
+    setBusyId(null)
   }
 
   const handleToggleGalleria = async (o: Opera) => {
+    if (busyId) return
     const val = !(o as any).in_galleria
-    await supabase.from('opere').update({ in_galleria: val }).eq('id', o.id)
-    loadOpere(); showToast(val ? 'Aggiunta in galleria' : 'Rimossa dalla galleria')
+    setBusyId(o.id)
+    const res = await supabase.from('opere').update({ in_galleria: val }).eq('id', o.id)
+    if (res.error) { showToast('Errore: ' + res.error.message); setBusyId(null); return }
+    await loadOpere()
+    showToast(val ? 'Aggiunta in galleria' : 'Rimossa dalla galleria')
+    setBusyId(null)
   }
 
   const handleToggleShop = async (o: Opera) => {
+    if (busyId) return
     const val = !(o as any).in_shop
-    await supabase.from('opere').update({ in_shop: val }).eq('id', o.id)
-    loadOpere(); showToast(val ? 'Aggiunta nello shop' : 'Rimossa dallo shop')
+    setBusyId(o.id)
+    const res = await supabase.from('opere').update({ in_shop: val }).eq('id', o.id)
+    if (res.error) { showToast('Errore: ' + res.error.message); setBusyId(null); return }
+    await loadOpere()
+    showToast(val ? 'Aggiunta nello shop' : 'Rimossa dallo shop')
+    setBusyId(null)
   }
 
   const handleDelete = async (id: string) => {
@@ -221,20 +248,16 @@ export default function AdminGalleriaPage() {
                     <label>Dimensioni</label>
                     <input value={form.dimensioni} onChange={e => setForm(f=>({...f,dimensioni:e.target.value}))} />
                   </div>
-                </div>
-                <div className={gStyles.formRow}>
                   <div className={gStyles.field}>
                     <label>Prezzo (€)</label>
                     <input type="number" value={form.prezzo} onChange={e => setForm(f=>({...f,prezzo:parseFloat(e.target.value)||0}))} />
                   </div>
-                  <div className={gStyles.field}>
-                    <label>Stato</label>
-                    <select value={form.visibile?'pub':'hid'} onChange={e => setForm(f=>({...f,visibile:e.target.value==='pub'}))}>
-                      <option value="pub">Pubblicato</option>
-                      <option value="hid">Nascosto</option>
-                    </select>
-                  </div>
                 </div>
+                {!editing && (
+                  <p style={{fontFamily:'Lora,serif',fontStyle:'italic',fontSize:'12px',color:'var(--text-pale)',marginTop:'4px'}}>
+                    L&apos;opera verrà salvata come bozza: non comparirà in Vetrina, Galleria o Shop finché non li attivi dalla card dopo il salvataggio.
+                  </p>
+                )}
                 <div className={gStyles.formActions}>
                   <button className={gStyles.btnSave} onClick={handleSave}>{editing ? 'Salva modifiche' : 'Aggiungi opera'}</button>
                   <button className={gStyles.btnCancel} onClick={closeForm}>Annulla</button>
@@ -285,50 +308,52 @@ export default function AdminGalleriaPage() {
         <div className="loading-msg">Caricamento...</div>
       ) : (
         <div className={gStyles.grid}>
-          {opere.filter(o => o.immagine_url).map(o => (
-            <div key={o.id} className={gStyles.card}>
-              <div className={gStyles.cardImg}>
-                <img src={o.immagine_url!} alt={o.titolo} />
-                <span className={`${gStyles.badge} ${o.visibile ? gStyles.pub : gStyles.hid}`}>
-                  {o.visibile ? 'Pubblico' : 'Nascosto'}
-                </span>
-                {(o as any).in_home && (
-                  <span className={gStyles.badgeHome}>★ Home</span>
-                )}
-              </div>
-              <div className={gStyles.cardBody}>
-                <div className={gStyles.cardTitle}>{o.titolo}</div>
-                <div className={gStyles.cardCat}>{o.categoria} · €{o.prezzo}</div>
-                {o.descrizione && (
-                  <div style={{
-                    fontFamily: 'Lora,serif', fontSize: '12.5px', lineHeight: '1.5',
-                    color: 'var(--text-muted)', marginTop: '6px', marginBottom: '4px',
-                    display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                  }}>
-                    {o.descrizione}
+          {opere.filter(o => o.immagine_url).map(o => {
+            const isBusy = busyId === o.id
+            return (
+              <div key={o.id} className={gStyles.card}>
+                <div className={gStyles.cardImg}>
+                  <img src={o.immagine_url!} alt={o.titolo} />
+                  {(o as any).in_home && (
+                    <span className={gStyles.badgeHome}>★ Home</span>
+                  )}
+                </div>
+                <div className={gStyles.cardBody}>
+                  <div className={gStyles.cardTitle}>{o.titolo}</div>
+                  <div className={gStyles.cardCat}>{o.categoria} · €{o.prezzo}</div>
+                  {o.descrizione && (
+                    <div style={{
+                      fontFamily: 'Lora,serif', fontSize: '12.5px', lineHeight: '1.5',
+                      color: 'var(--text-muted)', marginTop: '6px', marginBottom: '4px',
+                      display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                    }}>
+                      {o.descrizione}
+                    </div>
+                  )}
+                  <div className={gStyles.cardActions}>
+                    <button className={gStyles.btnEdit} onClick={() => handleEdit(o)} disabled={isBusy}>Modifica</button>
+                    <button
+                      className={(o as any).in_home ? gStyles.btnHomeOn : gStyles.btnHomeOff}
+                      onClick={() => handleToggleHome(o)}
+                      disabled={isBusy}
+                    >{(o as any).in_home ? '★ Vetrina' : '☆ Vetrina'}</button>
+                    <button
+                      className={(o as any).in_galleria ? gStyles.btnHomeOn : gStyles.btnHomeOff}
+                      onClick={() => handleToggleGalleria(o)}
+                      disabled={isBusy}
+                    >{(o as any).in_galleria ? '🖼 Galleria' : '○ Galleria'}</button>
+                    <button
+                      className={(o as any).in_shop ? gStyles.btnHomeOn : gStyles.btnHomeOff}
+                      onClick={() => handleToggleShop(o)}
+                      disabled={isBusy}
+                    >{(o as any).in_shop ? '🛒 Shop' : '○ Shop'}</button>
+                    <button className={gStyles.btnDel} onClick={() => handleDelete(o.id)} disabled={isBusy}>Elimina</button>
                   </div>
-                )}
-                <div className={gStyles.cardActions}>
-                  <button className={gStyles.btnEdit} onClick={() => handleEdit(o)}>Modifica</button>
-                  <button className={gStyles.btnToggle} onClick={() => handleToggle(o)}>{o.visibile ? 'Nascondi' : 'Pubblica'}</button>
-                  <button
-                    className={(o as any).in_home ? gStyles.btnHomeOn : gStyles.btnHomeOff}
-                    onClick={() => handleToggleHome(o)}
-                  >{(o as any).in_home ? '★ Vetrina' : '☆ Vetrina'}</button>
-                  <button
-                    className={(o as any).in_galleria ? gStyles.btnHomeOn : gStyles.btnHomeOff}
-                    onClick={() => handleToggleGalleria(o)}
-                  >{(o as any).in_galleria ? '🖼 Galleria' : '○ Galleria'}</button>
-                  <button
-                    className={(o as any).in_shop ? gStyles.btnHomeOn : gStyles.btnHomeOff}
-                    onClick={() => handleToggleShop(o)}
-                  >{(o as any).in_shop ? '🛒 Shop' : '○ Shop'}</button>
-                  <button className={gStyles.btnDel} onClick={() => handleDelete(o.id)}>Elimina</button>
                 </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
 

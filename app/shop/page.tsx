@@ -24,7 +24,7 @@ export default function ShopPage() {
       .then(({ data }) => setShopAttivo(data?.valore === 'true'))
 
     supabase.from('opere').select('*')
-      .eq('visibile', true).eq('in_shop', true).not('immagine_url', 'is', null)
+      .eq('in_shop', true).not('immagine_url', 'is', null)
       .order('ordine')
       .then(({ data }) => {
         const p = data || []

@@ -12,7 +12,7 @@ type Ambientazione = {
   visibile: boolean
 }
 
-const emptyForm = { didascalia: '', ordine: 0, visibile: true, immagine_url: '' }
+const emptyForm = { didascalia: '', ordine: 0, visibile: false, immagine_url: '' }
 
 export default function AmbientazioniPage() {
   const [items, setItems] = useState<Ambientazione[]>([])
@@ -217,6 +217,12 @@ export default function AmbientazioniPage() {
                 <label htmlFor="vis" style={{ ...labelStyle, margin: 0 }}>Visibile al pubblico</label>
               </div>
             </div>
+
+            {!editing && (
+              <p style={{ fontFamily: 'Lora,serif', fontStyle: 'italic', fontSize: '12px', color: 'var(--text-pale)', marginTop: '-8px', marginBottom: '20px' }}>
+                La foto verrà salvata come bozza: spunta &quot;Visibile al pubblico&quot; quando vuoi pubblicarla.
+              </p>
+            )}
 
             <div style={{ display: 'flex', gap: '12px' }}>
               <button style={btnStyle} onClick={handleSave}>{editing ? 'Salva modifiche' : 'Aggiungi foto'}</button>

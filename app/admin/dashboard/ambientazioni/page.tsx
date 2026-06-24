@@ -251,7 +251,15 @@ export default function AmbientazioniPage() {
                   {item.didascalia || '—'}
                 </div>
                 <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                  <button style={{ ...btnOutStyle, padding: '6px 12px', fontSize: '7px' }} onClick={() => handleToggle(item)}>
+                  <button
+                    style={{
+                      ...btnOutStyle, padding: '6px 12px', fontSize: '7px',
+                      ...(item.visibile
+                        ? { background: 'rgba(160,104,56,0.85)', color: 'white', border: 'none' }
+                        : {})
+                    }}
+                    onClick={() => handleToggle(item)}
+                  >
                     {item.visibile ? 'Nascondi' : 'Pubblica'}
                   </button>
                   <button style={{ ...btnOutStyle, padding: '6px 12px', fontSize: '7px' }} onClick={() => handleEdit(item)}>Modifica</button>
